@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Section Scheduler</title>
+<title>Section Lagbe?</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -61,6 +61,9 @@ body{
   overflow-x:hidden;
   transition:background .3s,color .3s;
   line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-weight:450;
 }
 
 /* ── Mobile top bar hidden on desktop ── */
@@ -70,24 +73,27 @@ body{
 .sec-rows-wrap{margin-top:10px;display:none;border-top:1px solid var(--border);padding-top:10px}
 .sec-rows-wrap.open{display:block}
 .sec-row-item{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:var(--radius-sm);
+  display:flex;align-items:flex-start;gap:8px;
+  padding:9px 10px;border-radius:var(--radius-sm);
   background:var(--surface2);border:1px solid var(--border);
-  margin-bottom:6px;cursor:pointer;transition:all .18s;
+  margin-bottom:6px;transition:all .18s;
   position:relative;
 }
 .sec-row-item:last-child{margin-bottom:0}
 .sec-row-item:hover{border-color:var(--border2);background:var(--surface3)}
 .sec-row-item.sec-pinned{border-color:rgba(124,106,255,0.45);background:rgba(124,106,255,0.07)}
 .sec-row-item.sec-pinned::before{content:'📌';position:absolute;top:6px;right:8px;font-size:11px}
-.sri-sec{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--accent3);min-width:28px}
-.sri-info{flex:1;min-width:0}
-.sri-fac{font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3}
-.sri-sched{font-size:10px;color:var(--text2);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
-.sri-sched span{display:flex;align-items:center;gap:3px}
-.sri-pin-btn{font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.sri-sec{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--accent3);min-width:28px;flex-shrink:0;padding-top:2px}
+.sri-info{flex:1;min-width:0;overflow:hidden}
+.sri-fac{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;word-break:break-word;white-space:normal;padding-right:28px}
+.sri-sched{font-size:10px;color:var(--text2);margin-top:3px;display:flex;gap:5px;flex-wrap:wrap;min-width:0}
+.sri-sched span{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;background:var(--surface);border:1px solid var(--border);padding:1px 6px;border-radius:4px}
+.sri-pin-btn{font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--text3);cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:1px}
 .sri-pin-btn:hover{border-color:var(--accent);color:var(--accent3)}
 .sec-row-item.sec-pinned .sri-pin-btn{border-color:rgba(124,106,255,0.4);color:var(--accent3);background:rgba(124,106,255,0.1)}
+/* section filter note */
+.sec-filter-note{font-size:10px;color:var(--accent3);background:rgba(124,106,255,0.08);border:1px solid rgba(124,106,255,0.2);padding:3px 8px;border-radius:5px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.sec-filter-note.hidden{display:none}
 .sec-toggle-btn{
   display:flex;align-items:center;gap:5px;
   font-size:10.5px;font-weight:600;color:var(--text2);
@@ -328,8 +334,9 @@ body::before{
 .nav-group-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);padding:14px 10px 4px}
 .nav-item{
   display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:var(--radius-sm);
-  font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;
+  font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;
   transition:all .2s;border:1px solid transparent;user-select:none;position:relative;
+  letter-spacing:.1px;
 }
 .nav-item:hover{background:var(--surface2);color:var(--text)}
 .nav-item.active{
@@ -352,7 +359,7 @@ body::before{
 /* ── PAGE HEADER ── */
 .page-hd{margin-bottom:24px}
 .page-title{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--text);margin-bottom:24px;line-height:1.6}
-.page-sub{font-size:16px;color:var(--text2);line-height:1.9;margin-bottom:24px}
+.page-sub{font-size:15px;font-weight:450;color:var(--text2);line-height:1.7;margin-bottom:20px;letter-spacing:.1px}
 
 /* ── GLASS CARD ── */
 .card{
@@ -363,7 +370,7 @@ body::before{
 }
 .card:hover{border-color:var(--border2)}
 .card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.card-sub{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.4}
+.card-sub{font-size:12.5px;font-weight:450;color:var(--text2);margin-bottom:18px;line-height:1.5;letter-spacing:.1px}
 
 /* ── UPLOAD ── */
 .upload-zone{
@@ -400,7 +407,7 @@ body::before{
 .table-wrap{overflow-x:auto;border-radius:var(--radius-sm)}
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{padding:10px 12px;text-align:left;font-weight:700;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--surface2);white-space:nowrap}
-td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);line-height:1.4}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);line-height:1.4;font-weight:450}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--surface2)}
 td input,td select{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:4px 8px;font-size:11.5px;width:100%;font-family:'DM Sans',sans-serif;outline:none;transition:border .2s}
@@ -413,7 +420,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 
 /* ── SEARCH ── */
 .search-wrap{position:relative}
-.search-input{width:100%;padding:12px 16px 12px 44px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;font-size:13.5px;color:var(--text);outline:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.search-input{width:100%;padding:12px 16px 12px 44px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;font-size:13.5px;font-weight:500;color:var(--text);outline:none;transition:all .2s;font-family:'DM Sans',sans-serif}
 .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,106,255,0.12)}
 .search-input::placeholder{color:var(--text3)}
 .search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
@@ -464,7 +471,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .pref-card.active::after{opacity:1}
 .pref-emoji{font-size:22px;margin-bottom:6px;display:block}
 .pref-label{font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;color:var(--text);line-height:1.3}
-.pref-desc{font-size:10px;color:var(--text2);margin-top:3px;line-height:1.3}
+.pref-desc{font-size:10.5px;font-weight:500;color:var(--text2);margin-top:3px;line-height:1.3}
 
 /* ── SLOT TOGGLE ── */
 .slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
@@ -628,7 +635,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 <div class="mob-topbar" id="mob-topbar">
   <div class="mob-logo">
     <div class="mob-logo-mark">📅</div>
-    <div class="mob-logo-text">Section Scheduler</div>
+    <div class="mob-logo-text">Section Lagbe?</div>
   </div>
   <div class="mob-theme-btn" id="mob-theme-btn" onclick="toggleTheme()">🌙</div>
 </div>
@@ -654,7 +661,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   <div class="sidebar">
     <div class="logo-wrap">
       <div class="logo-mark">📅</div>
-      <div><div class="logo-text">Section Scheduler</div><div class="logo-sub">Smart routine planner</div></div>
+      <div><div class="logo-text">Section Lagbe?</div><div class="logo-sub">তোমার সেকশন খোঁজো</div></div>
     </div>
     <div class="nav-group-label">Workflow</div>
     <div class="nav-item active" id="nav-upload" onclick="go('upload')"><span class="nav-icon">📂</span><span>Upload Routine</span><span class="nav-check">✓</span></div>
@@ -1004,32 +1011,60 @@ function buildGrid(){
         '</div>'
       :'<div style="font-size:11px;color:var(--text3);margin-top:4px">Click to select</div>';
 
-    // Section rows HTML
-    var secRowsHtml='<div class="sec-rows-wrap'+(isExpanded?' open':'')+'" id="sec-rows-'+idx+'">';
-    c.rows.forEach(function(r){
-      var isPinned=pinnedSections[key].has(r.id);
-      secRowsHtml+=
-        '<div class="sec-row-item'+(isPinned?' sec-pinned':'')+'" data-rid="'+r.id+'" data-key="'+esc(key)+'">'+
-          '<div class="sri-sec">'+esc(r.section||'?')+'</div>'+
-          '<div class="sri-info">'+
-            '<div class="sri-fac">'+esc(r.faculty||'No faculty')+'</div>'+
-            '<div class="sri-sched">'+
-              '<span>📅 '+esc(r.day||'—')+'</span>'+
-              '<span>⏰ '+esc(r.time||'—')+'</span>'+
-              (r.room?'<span>🏫 '+esc(r.room)+'</span>':'')+
+    // ── Filter section rows by selected faculty ──
+    var facFilterActive=isSel&&selF.size>0;
+    var filteredRows=c.rows.slice();
+    if(facFilterActive){
+      filteredRows=c.rows.filter(function(r){return selF.has(r.faculty);});
+    }
+    // Always include pinned sections even if they don't match faculty filter
+    if(pinnedSections[key].size>0){
+      var seenIds=new Set(filteredRows.map(function(r){return r.id;}));
+      c.rows.forEach(function(r){
+        if(pinnedSections[key].has(r.id)&&!seenIds.has(r.id)){
+          filteredRows.push(r);seenIds.add(r.id);
+        }
+      });
+    }
+
+    // Filter note shown when faculty filter is active and expanded
+    var filterNoteHtml='';
+    if(facFilterActive&&isExpanded){
+      filterNoteHtml='<div class="sec-filter-note">🎯 '+filteredRows.length+' of '+c.rows.length+' sections match selected faculty</div>';
+    }
+
+    // Section rows HTML — use filteredRows
+    var secRowsHtml='<div class="sec-rows-wrap'+(isExpanded?' open':'')+'" id="sec-rows-'+idx+'">'+filterNoteHtml;
+    if(filteredRows.length===0){
+      secRowsHtml+='<div style="font-size:11px;color:var(--text3);padding:10px 0;text-align:center;font-style:italic;">No sections for selected faculty</div>';
+    }else{
+      filteredRows.forEach(function(r){
+        var isPinned=pinnedSections[key].has(r.id);
+        secRowsHtml+=
+          '<div class="sec-row-item'+(isPinned?' sec-pinned':'')+'" data-rid="'+r.id+'" data-key="'+esc(key)+'">'+
+            '<div class="sri-sec">'+esc(r.section||'?')+'</div>'+
+            '<div class="sri-info">'+
+              '<div class="sri-fac">'+esc(r.faculty||'No faculty assigned')+'</div>'+
+              '<div class="sri-sched">'+
+                '<span>📅 '+esc(r.day||'—')+'</span>'+
+                '<span>⏰ '+esc(r.time||'—')+'</span>'+
+                (r.room?'<span>🏫 '+esc(r.room)+'</span>':'')+
+              '</div>'+
             '</div>'+
-          '</div>'+
-          '<button class="sri-pin-btn" data-rid="'+r.id+'" data-key="'+esc(key)+'">'+
-            (isPinned?'📌 Pinned':'📌 Pin')+'</button>'+
-        '</div>';
-    });
+            '<button class="sri-pin-btn" data-rid="'+r.id+'" data-key="'+esc(key)+'">'+
+              (isPinned?'📌 Pinned':'📌 Pin')+'</button>'+
+          '</div>';
+      });
+    }
     secRowsHtml+='</div>';
 
-    // Toggle button
+    // Toggle button — show filtered count when faculty is selected
+    var toggleCount=facFilterActive?filteredRows.length:c.rows.length;
+    var toggleExtra=facFilterActive&&filteredRows.length<c.rows.length?' ('+c.rows.length+' total)':'';
     var toggleHtml='<button class="sec-toggle-btn'+(isExpanded?' open':'')+'" data-key="'+esc(key)+'" data-idx="'+idx+'">'+
       '<span class="stb-arrow">▾</span> '+
-      (isExpanded?'Hide':'Show')+' '+c.rows.length+' section'+(c.rows.length!==1?'s':'')+
-      '<span class="cc-sections-count">'+c.rows.length+'</span>'+
+      (isExpanded?'Hide':'Show')+' '+toggleCount+' section'+(toggleCount!==1?'s':'')+toggleExtra+
+      '<span class="cc-sections-count">'+toggleCount+'</span>'+
     '</button>';
 
     var div=document.createElement('div');
@@ -1097,14 +1132,15 @@ function buildGrid(){
         var rid=parseInt(this.dataset.rid);
         var k=this.dataset.key;
         if(!pinnedSections[k])pinnedSections[k]=new Set();
-        if(pinnedSections[k].has(rid)){pinnedSections[k].delete(rid);}
+        var wasPinned=pinnedSections[k].has(rid);
+        if(wasPinned){pinnedSections[k].delete(rid);}
         else{
           pinnedSections[k].add(rid);
           // auto-select course if not selected
           if(!selCourses[k])selCourses[k]={facs:new Set(),locked:new Set()};
         }
         buildGrid();updatePrefBtn();
-        toast(pinnedSections[k].has(rid)?'Section pinned!':'Section unpinned','info');
+        toast(wasPinned?'📌 Section unpinned':'📌 Section pinned!','info');
       });
     });
 
@@ -1191,17 +1227,10 @@ function updateSelPanel(){
 function updatePrefBtn(){var n=Object.keys(selCourses).length;var b=document.getElementById('to-prefs-btn');b.disabled=n===0;b.textContent=n?'Set Preferences ('+n+') →':'Set Preferences →';}
 
 // ══ PREFS ══════════════════════════════════════════════════════
-function setPref(type,el){
-  var gid=type==='time'?'time-pref-grid':type==='days'?'days-pref-grid':'sort-pref-grid';
-  document.querySelectorAll('#'+gid+' .pref-card').forEach(function(c){c.classList.remove('active');});
-  el.classList.add('active');
-  if(type==='time')P.time=el.dataset.val;
-  else if(type==='days')P.days=el.dataset.val;
-  else P.sort=el.dataset.val;
-}
 function chgLimit(t,d){
   if(t==='theory'){thLimV=Math.max(0,thLimV+d);document.getElementById('theory-lv').textContent=thLimV===0?'∞':thLimV;P.theoryLim=thLimV;}
   else{labLimV=Math.max(0,labLimV+d);document.getElementById('lab-lv').textContent=labLimV===0?'∞':labLimV;P.labLim=labLimV;}
+  if(Object.keys(selCourses).length)validatePrefs();
 }
 function toggleSlot(el){
   el.classList.toggle('blocked');
@@ -1574,7 +1603,7 @@ function dlPDF(idx){
     var pw=pdf.internal.pageSize.getWidth(),ph=pdf.internal.pageSize.getHeight();
     var ratio=Math.min((pw-20)/cv.width,(ph-28)/cv.height);
     pdf.setFontSize(11);pdf.setTextColor(130,120,200);
-    pdf.text('Section Scheduler — Combination #'+(idx+1),10,10);
+    pdf.text('Section Lagbe? — Combination #'+(idx+1),10,10);
     pdf.addImage(img,'PNG',10,16,cv.width*ratio,cv.height*ratio);
     pdf.save('routine-'+(idx+1)+'.pdf');toast('PDF downloaded!');
   }).catch(function(e){toast('Failed: '+e.message,'error');});
