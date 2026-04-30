@@ -412,675 +412,49 @@ td input:focus,td select:focus{border-color:var(--accent)}
   contain:layout style;
 }
 /* PERF: ::before removed from ht-block — gradient shimmer not worth GPU cost per block */
-.ht-block:hover{tran<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<meta name="description" content="Section Lagbe? — Smart course routine planner for university students"/>
-<meta name="theme-color" content="#0d1210"/>
-<title>Section Lagbe?</title>
-<!-- PERF: Fonts loaded async with font-display:swap via preconnect -->
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<!-- FIX #10: Removed DM Sans (redundant — Inter covers all body text). Saves ~4 font weights → faster FCP -->
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<!-- PERF: xlsx loaded on-demand in JS, not here eagerly -->
-<style>
-/* ── RESET ── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
-:root{
-  /* Dark theme — deep forest green accent */
-  --bg:#0d1210;
-  --bg2:#121a14;
-  --surface:#161f18;
-  --surface2:#1b2620;
-  --surface3:#202d24;
-  --border:#263028;
-  --border2:#2f3d32;
-  --text:#e6ede8;
-  --text2:#7d9c84;
-  --text3:#6b8f72; /* FIX #6: was #445948 — ~2.5:1 ratio (fail). Now ~4.6:1 (WCAG AA pass) */
-  --accent:#22c55e;
-  --accent2:#4ade80;
-  --accent3:#86efac;
-  --neon:#22c55e;
-  --neon-glow:rgba(34,197,94,0.2);
-  --neon2:#10b981;
-  --neon2-glow:rgba(16,185,129,0.2);
-  --neon3:#f472b6;
-  --neon3-glow:rgba(244,114,182,0.2);
-  --danger:#ef4444;
-  --warning:#f59e0b;
-  --success:#22c55e;
-  --blur:blur(10px);
-  --radius:12px;
-  --radius-sm:8px;
-  --radius-lg:16px;
-  --sidebar-w:228px;
-}
-[data-theme="light"]{
-  /* Light theme — Ora AI inspired: cream/white bg, fresh green accent */
-  --bg:#f5f7f2;
-  --bg2:#edf0e9;
-  --surface:#ffffff;
-  --surface2:#f0f3ed;
-  --surface3:#e8ece4;
-  --border:#dde3d8;
-  --border2:#cdd5c7;
-  --text:#1a2018;
-  --text2:#2e5235; /* FIX #7: was #4d6347 — ~3.8:1 (fail). Now ~6.2:1 (WCAG AA pass) */
-  --text3:#5a7a5e; /* FIX #7: was #8fa688 — too low contrast. Now ~4.8:1 (WCAG AA pass) */
-  --accent:#2e7d38; /* FIX #7: was #3d9e4a — borderline on white. Now ~5.5:1 (WCAG AA pass) */
-  --accent2:#3a9445;
-  --accent3:#2e7d38; /* FIX #7: kept consistent with accent */
-  --neon:#2e7d38;
-  --neon-glow:rgba(46,125,56,0.12);
-  --neon2:#047857;
-  --neon2-glow:rgba(4,120,87,0.1);
-  --neon3:#db2777;
-  --neon3-glow:rgba(219,39,119,0.1);
-  --danger:#dc2626;
-  --warning:#d97706;
-  --success:#2e7d38;
-  --blur:blur(8px);
-  --radius:12px;
-  --radius-sm:8px;
-  --radius-lg:16px;
-  --sidebar-w:228px;
-}
-
-body{
-  font-family:'Inter',sans-serif; /* FIX #10: DM Sans removed, Inter used throughout */
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-  line-height:1.5;
-}
-
-/* Subtle background tint — no heavy gradient overlay */
-body::before{display:none}
-
-/* ── LAYOUT ── */
-.shell{display:flex;height:100vh;position:relative;z-index:1;overflow:hidden}
-.sidebar{
-  width:var(--sidebar-w);flex-shrink:0;
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  display:flex;flex-direction:column;padding:18px 10px;gap:1px;
-  overflow-y:auto;
-}
-[data-theme="light"] .sidebar{background:#ffffff;border-right-color:#e8eaf2;}
-.main{flex:1;overflow-y:auto;padding:28px 32px;display:flex;flex-direction:column;gap:20px}
-
-/* ── LOGO ── */
-.logo-wrap{display:flex;align-items:center;gap:10px;padding:8px 8px 20px;border-bottom:1px solid var(--border);margin-bottom:8px}
-.logo-mark{
-  width:34px;height:34px;border-radius:9px;flex-shrink:0;
-  background:var(--accent);
-  display:flex;align-items:center;justify-content:center;font-size:16px;
-}
-.logo-text{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;line-height:1.2}
-.logo-sub{font-size:10px;color:var(--text3);margin-top:1px;font-weight:400}
-
-/* ── NAV ── */
-.nav-group-label{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text3);padding:12px 10px 4px;font-family:'Inter',sans-serif}
-.nav-item{
-  display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius-sm);
-  font-size:12.5px;font-weight:500;color:var(--text2);cursor:pointer;
-  transition:background .15s,color .15s;
-  border:none;user-select:none;position:relative;
-}
-.nav-item:hover{background:var(--surface2);color:var(--text)}
-.nav-item.active{
-  background:rgba(34,197,94,0.1);
-  color:var(--accent);font-weight:600;
-}
-[data-theme="light"] .nav-item.active{background:rgba(34,197,94,0.08);color:var(--accent)}
-.nav-item.done{color:var(--text2)}
-.nav-item.done .nav-check{opacity:1;transform:scale(1)}
-.nav-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;opacity:.8}
-.nav-item.active .nav-icon{opacity:1}
-.nav-check{margin-left:auto;font-size:10px;color:var(--success);opacity:0;transition:opacity .2s}
-.sidebar-footer{margin-top:auto;padding-top:16px;border-top:1px solid var(--border)}
-.theme-row{display:flex;align-items:center;justify-content:space-between;padding:6px 10px}
-.theme-label{font-size:11px;font-weight:600;color:var(--text2)}
-.tog{width:38px;height:20px;background:var(--border2);border-radius:999px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0;border:1px solid var(--border)}
-.tog.on{background:linear-gradient(135deg,var(--accent),var(--accent2))}
-.tog-k{position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:left .25s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.tog.on .tog-k{left:22px}
-
-/* ── PAGE HEADER ── */
-.page-hd{margin-bottom:20px}
-.page-title{font-family:'Inter',sans-serif;font-size:26px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.3;letter-spacing:-.3px}
-.page-sub{font-size:13.5px;color:var(--text2);line-height:1.6;margin-bottom:0}
-
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:20px;
-  transition:border-color .15s;
-}
-[data-theme="light"] .card{box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.card:hover{border-color:var(--border2)}
-.card-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;letter-spacing:-.1px}
-.card-sub{font-size:12px;color:var(--text2);margin-bottom:16px;line-height:1.5}
-
-/* ── UPLOAD ── */
-.upload-zone{
-  border:1.5px dashed var(--border2);border-radius:var(--radius);
-  padding:56px 24px;text-align:center;cursor:pointer;
-  background:var(--surface2);
-  transition:border-color .15s,background .15s;
-  position:relative;overflow:hidden;
-}
-.upload-zone::before{display:none}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(34,197,94,0.04)}
-.upload-emoji{font-size:44px;margin-bottom:14px;display:block}
-
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:9px 18px;border-radius:8px;
-  font-size:13px;font-weight:500;cursor:pointer;
-  transition:background .15s,border-color .15s;
-  border:1px solid transparent;font-family:'Inter',sans-serif;white-space:nowrap;letter-spacing:-.1px;
-}
-.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn-primary:hover{background:var(--accent2);border-color:var(--accent2)}
-[data-theme="light"] .btn-primary{background:#3d9e4a;color:#fff}
-[data-theme="light"] .btn-primary:hover{background:#2d7a38;border-color:#2d7a38}
-.btn-ghost{background:transparent;border-color:var(--border2);color:var(--text2)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(34,197,94,0.05)}
-.btn-danger{background:transparent;color:var(--danger);border-color:rgba(239,68,68,0.3)}
-.btn-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
-.btn-sm{padding:5px 12px;font-size:12px;border-radius:7px}
-.btn-lg{padding:12px 28px;font-size:14px;font-weight:600}
-.btn:disabled{opacity:.38;cursor:not-allowed}
-.btn-best{
-  background:var(--accent);
-  color:#fff;font-family:'Inter',sans-serif;font-weight:700;
-  font-size:14px;padding:12px 28px;letter-spacing:-.1px;
-  border-color:var(--accent);
-  transition:background .15s,opacity .15s;
-}
-.btn-best:hover{background:var(--accent2);border-color:var(--accent2)}
-
-/* ── TABLE ── */
-.table-wrap{overflow-x:auto;border-radius:var(--radius-sm);border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:12.5px}
-th{padding:11px 14px;text-align:left;font-weight:600;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--border);background:var(--surface2);white-space:nowrap;font-family:'Inter',sans-serif}
-td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);line-height:1.5}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface2)}
-td input,td select{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:5px 9px;font-size:12px;width:100%;font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
-td input:focus,td select:focus{border-color:var(--accent)}
-
-/* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600;font-family:'Inter',sans-serif}
-.badge-theory{background:rgba(34,197,94,0.1);color:var(--accent);border:1px solid rgba(34,197,94,0.2)}
-.badge-lab{background:rgba(16,185,129,0.1);color:var(--neon2);border:1px solid rgba(16,185,129,0.2)}
-
-/* ── SEARCH ── */
-.search-wrap{position:relative}
-.search-input{width:100%;padding:10px 16px 10px 42px;background:var(--surface);border:1px solid var(--border2);border-radius:9px;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;font-family:'Inter',sans-serif}
-.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(34,197,94,0.1)}
-.search-input::placeholder{color:var(--text3)}
-.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
-
-/* ── COURSE CARDS ── */
-.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
-.course-card{
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:16px;background:var(--surface);cursor:pointer;
-  transition:border-color .15s;
-  user-select:none;position:relative;overflow:hidden;
-  /* PERF: contain layout so browser limits repaint to this card */
-  contain:layout style;
-}
-/* PERF: ::before pseudo removed from course-card (saves per-card GPU layer) */
-.course-card:hover{border-color:rgba(34,197,94,0.3)}
-.course-card.selected{border-color:rgba(34,197,94,0.5);background:rgba(34,197,94,0.06)}
-.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
-.cc-code{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(34,197,94,0.12);color:var(--accent3);letter-spacing:.3px}
-.cc-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--text);line-height:1.4;flex:1}
-.check-ring{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:border-color .15s,color .15s;color:transparent}
-.course-card.selected .check-ring{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent);color:#fff}
-.faculty-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-/* Faculty chips */
-.faculty-chip{
-  padding:4px 11px;border-radius:999px;
-  font-size:10.5px;font-weight:600;
-  border:1.5px solid var(--border2);
-  color:var(--text2);cursor:pointer;
-  transition:border-color .15s,background .15s,color .15s,transform .1s;
-  background:var(--surface2);
-  user-select:none;
-  display:inline-flex;align-items:center;gap:4px;
-}
-.faculty-chip:hover{border-color:var(--accent);color:var(--accent);background:rgba(34,197,94,0.05)}
-/* SELECTED — green, clean */
-.faculty-chip.selected{
-  background:rgba(34,197,94,0.15);
-  border-color:rgba(34,197,94,0.6);
-  color:var(--accent);
-}
-/* LOCKED — amber/yellow, bold, clearly different shape */
-.faculty-chip.locked{
-  background:rgba(245,158,11,0.15);
-  border-color:rgba(245,158,11,0.7);
-  border-width:2px;
-  border-style:solid;
-  color:#d97706;
-  font-weight:700;
-  /* Slightly different shape to be visually distinct */
-  border-radius:6px;
-  padding:4px 10px 4px 8px;
-  box-shadow:0 0 0 2px rgba(245,158,11,0.12);
-}
-[data-theme="light"] .faculty-chip.locked{
-  color:#b45309;
-  background:rgba(245,158,11,0.12);
-  border-color:rgba(245,158,11,0.6);
-}
-.faculty-chip.locked:hover{
-  background:rgba(245,158,11,0.22);
-  border-color:rgba(245,158,11,0.9);
-}
-/* Tooltip shown on hover for locked chips — via CSS attr() */
-.faculty-chip.locked::after{
-  content:'Must have';
-  font-size:9px;font-weight:500;
-  background:rgba(245,158,11,0.2);
-  border:1px solid rgba(245,158,11,0.4);
-  border-radius:4px;
-  padding:1px 5px;
-  margin-left:4px;
-  color:#d97706;
-  letter-spacing:.2px;
-}
-[data-theme="light"] .faculty-chip.locked::after{color:#b45309}
-
-/* ── SELECTED PANEL ── */
-.selected-panel{display:flex;flex-direction:column;gap:8px}
-.sel-panel-wrap{width:250px;flex-shrink:0;position:sticky;top:0;align-self:flex-start}
-.sel-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);gap:8px;transition:border-color .15s}
-.sel-item:hover{border-color:var(--border2)}
-.si-info{flex:1;min-width:0}
-.si-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);font-weight:600}
-.si-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;line-height:1.3}
-.si-fac{font-size:10px;color:var(--text3);margin-top:2px}
-
-/* ── PREF CARDS ── */
-.pref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
-.pref-card{
-  border:1px solid var(--border);border-radius:var(--radius-sm);
-  padding:14px 10px;cursor:pointer;
-  transition:border-color .12s;
-  background:var(--surface);text-align:center;position:relative;overflow:hidden;
-  contain:layout style;
-}
-.pref-card:hover{border-color:rgba(34,197,94,0.3)}
-.pref-card.active{border-color:rgba(34,197,94,0.5);background:rgba(34,197,94,0.08)}
-.pref-emoji{font-size:22px;margin-bottom:6px;display:block}
-.pref-label{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3}
-.pref-desc{font-size:10px;color:var(--text2);margin-top:3px;line-height:1.3}
-
-/* ── SLOT TOGGLE ── */
-.slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.slot-chip{
-  padding:9px 10px;border-radius:var(--radius-sm);font-size:11px;font-weight:500;
-  border:1px solid var(--border);color:var(--text2);cursor:pointer;
-  transition:border-color .12s,background .12s;background:var(--surface);text-align:center;
-  font-family:'JetBrains Mono',monospace;line-height:1.3;
-}
-.slot-chip:hover{border-color:rgba(239,68,68,0.4);color:var(--danger)}
-.slot-chip.blocked{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.35);color:var(--danger)}
-
-/* ── STEPPER ── */
-.stepper{display:flex;align-items:center;gap:10px}
-.stepper-btn{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s,color .15s;font-weight:700}
-.stepper-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.stepper-val{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;color:var(--text);min-width:32px;text-align:center}
-
-/* ── COMBO CARD ── PERF: removed ::before pseudo + heavy box-shadow on hover */
-.combo-card{
-  background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;
-  transition:border-color .15s;
-  margin-bottom:20px;
-  position:relative;
-  /* NOTE: contain:layout style removed — was clipping course-summary-list on mobile */
-}
-.combo-card:hover{border-color:rgba(34,197,94,0.25)}
-.combo-card.best-pick{border-color:rgba(255,209,102,0.35)}
-.combo-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;gap:10px}
-.combo-num{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;color:var(--text)}
-.best-crown{background:linear-gradient(135deg,#ffd166,#ff6b9d);color:#fff;padding:3px 12px;border-radius:999px;font-size:11px;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:.3px}
-.combo-badges{display:flex;gap:6px;flex-wrap:wrap}
-.cbadge{padding:2px 9px;border-radius:6px;font-size:10px;font-weight:500;font-family:'Inter',sans-serif}
-.cb-v{background:rgba(34,197,94,0.1);color:var(--accent)}
-.cb-g{background:rgba(16,185,129,0.1);color:var(--neon2)}
-.cb-w{background:rgba(245,158,11,0.1);color:var(--warning)}
-.cb-m{background:rgba(244,114,182,0.1);color:var(--neon3)}
-.analytics-row{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
-.analytic{flex:1;padding:14px 16px;text-align:center;border-right:1px solid var(--border);min-width:90px}
-.analytic:last-child{border-right:none}
-.analytic-val{font-family:'Inter',sans-serif;font-size:17px;font-weight:700;color:var(--accent);margin-bottom:2px}
-.analytic-label{font-size:9px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.6px;font-family:'Inter',sans-serif}
-.combo-actions{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);flex-wrap:wrap}
-
-/* ══ PREMIUM TIMETABLE ══ */
-.tt-wrap{padding:20px 24px;overflow-x:auto}
-.ht-grid{
-  position:relative;min-width:720px;
-  background:rgba(0,0,0,0.2);
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-  overflow:hidden;
-}
-[data-theme="light"] .ht-grid{background:rgba(255,255,255,0.3)}
-.ht-header-wrap{
-  display:flex;align-items:center;
-  background:rgba(34,197,94,0.06);
-  border-bottom:1px solid var(--border2);
-  position:sticky;top:0;z-index:5;
-}
-.ht-corner{width:108px;flex-shrink:0;padding:10px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3)}
-.ht-time-header{flex:1;position:relative;height:36px}
-.ht-tick{
-  position:absolute;top:50%;transform:translate(-50%,-50%);
-  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;
-  color:var(--text3);white-space:nowrap;
-}
-.ht-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border);min-height:64px}
-.ht-row:last-child{border-bottom:none}
-.ht-day{
-  width:108px;flex-shrink:0;
-  font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;
-  color:var(--text2);display:flex;align-items:center;
-  padding:6px 12px;border-right:1px solid var(--border2);
-  background:rgba(34,197,94,0.03);
-}
-.ht-day.has-class{color:var(--text)}
-.ht-timeline{flex:1;position:relative;min-height:64px}
-.ht-gl{position:absolute;top:0;bottom:0;width:1px;background:var(--border);opacity:.6}
-.ht-gl.hour{opacity:.4}
-/* PERF: ht-block uses contain:layout to scope paint, removed filter on hover */
-/* FIX #9: timetable block text always readable - enforced via JS color selection */
-.ht-block{
-  position:absolute;top:6px;bottom:6px;
-  border-radius:10px;
-  padding:8px 12px;
-  font-size:11px;line-height:1.5;
-  cursor:pointer;overflow:hidden;
-  /* PERF: specific transitions only */
-  transition:transform .15s,opacity .15s;
-  display:flex;flex-direction:column;justify-content:center;
-  border:1px solid rgba(255,255,255,0.15);
-  contain:layout style;
-}
-/* PERF: ::before removed from ht-block — gradient shimmer not worth GPU cost per block */
-.ht-block:hover{tran.card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
-.card-sub{font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.4}
-
-/* ── UPLOAD ── */
-.upload-zone{
-  border:2px dashed var(--border2);border-radius:var(--radius);
-  padding:70px 24px;text-align:center;cursor:pointer;
-  background:var(--surface);
-  transition:background .3s,border-color .3s;
-  position:relative;overflow:hidden;
-}
-.upload-zone::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(124,106,255,0.06) 0%,transparent 70%);pointer-events:none}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:rgba(124,106,255,0.06)}
-.upload-emoji{font-size:52px;margin-bottom:16px;display:block}
-
-/* ── BUTTONS ── */
-.btn{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:10px 22px;border-radius:999px;
-  font-size:13px;font-weight:600;cursor:pointer;
-  /* PERF: specific transitions */
-  transition:transform .2s,box-shadow .2s;
-  border:none;font-family:'DM Sans',sans-serif;white-space:nowrap;letter-spacing:.2px
-}
-.btn-primary{background:linear-gradient(135deg,#7c6aff,#a78bfa);color:#fff;box-shadow:0 0 20px rgba(124,106,255,0.35)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(124,106,255,0.35)}
-.btn-ghost{background:var(--surface2);border:1px solid var(--border2);color:var(--text2)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent3);background:rgba(124,106,255,0.08)}
-.btn-danger{background:rgba(255,77,109,0.1);color:var(--danger);border:1px solid rgba(255,77,109,0.2)}
-.btn-danger:hover{background:var(--danger);color:#fff}
-.btn-sm{padding:6px 14px;font-size:11.5px}
-.btn-lg{padding:14px 30px;font-size:14px;font-weight:700}
-.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-.btn-best{
-  background:linear-gradient(135deg,#7c6aff 0%,#ff6b9d 50%,#ffd166 100%);
-  background-size:200%;
-  background-position:0%;
-  color:#fff;font-family:'Syne',sans-serif;font-weight:800;
-  box-shadow:0 2px 12px rgba(124,106,255,0.2);
-  font-size:14px;padding:14px 32px;letter-spacing:.5px;
-  transition:background-position .6s ease,transform .2s,box-shadow .2s;
-}
-.btn-best:hover{
-  background-position:100%;
-  transform:translateY(-2px);
-  box-shadow:0 0 30px rgba(124,106,255,0.5);
-}
-@keyframes gradShift{0%,100%{background-position:0%}50%{background-position:100%}}
-
-/* ── TABLE ── */
-.table-wrap{overflow-x:auto;border-radius:var(--radius-sm)}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{padding:10px 12px;text-align:left;font-weight:700;color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.8px;border-bottom:1px solid var(--border);background:var(--surface2);white-space:nowrap}
-td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text);line-height:1.4}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface2)}
-td input,td select{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:4px 8px;font-size:11.5px;width:100%;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s}
-td input:focus,td select:focus{border-color:var(--accent)}
-
-/* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:700}
-.badge-theory{background:rgba(124,106,255,0.15);color:var(--accent3)}
-.badge-lab{background:rgba(6,214,160,0.15);color:var(--neon2)}
-
-/* ── SEARCH ── */
-.search-wrap{position:relative}
-.search-input{width:100%;padding:12px 16px 12px 44px;background:var(--surface2);border:1px solid var(--border);border-radius:999px;font-size:13.5px;color:var(--text);outline:none;transition:border-color .15s;font-family:'DM Sans',sans-serif}
-.search-input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,106,255,0.15)}
-.search-input::placeholder{color:var(--text3)}
-.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
-
-/* ── COURSE CARDS ── */
-.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
-.course-card{
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:16px;background:var(--surface);cursor:pointer;
-  transition:border-color .15s;
-  user-select:none;position:relative;overflow:hidden;
-  /* PERF: contain layout so browser limits repaint to this card */
-  contain:layout style;
-}
-/* PERF: ::before pseudo removed from course-card (saves per-card GPU layer) */
-.course-card:hover{border-color:rgba(124,106,255,0.3)}
-.course-card.selected{border-color:rgba(124,106,255,0.5);background:rgba(124,106,255,0.06)}
-.cc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
-.cc-code{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:rgba(124,106,255,0.12);color:var(--accent3);letter-spacing:.3px}
-.cc-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);line-height:1.4;flex:1}
-.check-ring{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;transition:border-color .15s,color .15s;color:transparent}
-.course-card.selected .check-ring{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent);color:#fff}
-.faculty-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
-.faculty-chip{padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:600;border:1px solid var(--border2);color:var(--text2);cursor:pointer;transition:border-color .15s;background:var(--surface2)}
-.faculty-chip:hover{border-color:var(--accent);color:var(--accent3)}
-.faculty-chip.selected{background:rgba(124,106,255,0.2);border-color:rgba(124,106,255,0.5);color:var(--accent3)}
-.faculty-chip.locked{background:rgba(255,209,102,0.12);border-color:rgba(255,209,102,0.4);color:var(--warning)}
-
-/* ── SELECTED PANEL ── */
-.selected-panel{display:flex;flex-direction:column;gap:8px}
-.sel-panel-wrap{width:250px;flex-shrink:0;position:sticky;top:0;align-self:flex-start}
-.sel-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);gap:8px;transition:border-color .15s}
-.sel-item:hover{border-color:var(--border2)}
-.si-info{flex:1;min-width:0}
-.si-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);font-weight:600}
-.si-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;line-height:1.3}
-.si-fac{font-size:10px;color:var(--text3);margin-top:2px}
-
-/* ── PREF CARDS ── */
-.pref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
-.pref-card{
-  border:1.5px solid var(--border);border-radius:var(--radius-sm);
-  padding:14px 10px;cursor:pointer;
-  transition:border-color .15s;
-  background:var(--surface);text-align:center;position:relative;overflow:hidden;
-}
-.pref-card:hover{border-color:rgba(124,106,255,0.3)}
-.pref-card.active{border-color:rgba(124,106,255,0.5);background:rgba(124,106,255,0.08)}
-.pref-emoji{font-size:22px;margin-bottom:6px;display:block}
-.pref-label{font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;color:var(--text);line-height:1.3}
-.pref-desc{font-size:10px;color:var(--text2);margin-top:3px;line-height:1.3}
-
-/* ── SLOT TOGGLE ── */
-.slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.slot-chip{
-  padding:10px 12px;border-radius:var(--radius-sm);font-size:11.5px;font-weight:600;
-  border:1.5px solid var(--border2);color:var(--text2);cursor:pointer;
-  transition:border-color .15s;background:var(--surface);text-align:center;
-  font-family:'JetBrains Mono',monospace;line-height:1.3;
-}
-.slot-chip:hover{border-color:rgba(255,77,109,0.4);color:var(--danger)}
-.slot-chip.blocked{background:rgba(255,77,109,0.1);border-color:rgba(255,77,109,0.4);color:var(--danger)}
-
-/* ── STEPPER ── */
-.stepper{display:flex;align-items:center;gap:10px}
-.stepper-btn{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s,color .15s;font-weight:700}
-.stepper-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-.stepper-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--text);min-width:32px;text-align:center}
-
-/* ── COMBO CARD ── PERF: removed ::before pseudo + heavy box-shadow on hover */
-.combo-card{
-  background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--radius-lg);
-  overflow:hidden;
-  transition:border-color .15s;
-  margin-bottom:20px;
-  position:relative;
-  /* PERF: paint containment for timetable-heavy cards */
-  contain:layout style;
-}
-.combo-card:hover{border-color:rgba(124,106,255,0.25)}
-.combo-card.best-pick{border-color:rgba(255,209,102,0.35)}
-.combo-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;gap:10px}
-.combo-num{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text)}
-.best-crown{background:linear-gradient(135deg,#ffd166,#ff6b9d);color:#fff;padding:3px 12px;border-radius:999px;font-size:11px;font-weight:800;font-family:'Syne',sans-serif;letter-spacing:.3px}
-.combo-badges{display:flex;gap:6px;flex-wrap:wrap}
-.cbadge{padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:700}
-.cb-v{background:rgba(124,106,255,0.12);color:var(--accent3)}
-.cb-g{background:rgba(6,214,160,0.12);color:var(--neon2)}
-.cb-w{background:rgba(255,209,102,0.12);color:var(--warning)}
-.cb-m{background:rgba(255,107,157,0.12);color:var(--neon3)}
-.analytics-row{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
-.analytic{flex:1;padding:14px 16px;text-align:center;border-right:1px solid var(--border);min-width:90px}
-.analytic:last-child{border-right:none}
-.analytic-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent3);margin-bottom:3px}
-.analytic-label{font-size:9.5px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
-.combo-actions{display:flex;gap:8px;padding:14px 20px;border-top:1px solid var(--border);flex-wrap:wrap}
-
-/* ══ PREMIUM TIMETABLE ══ */
-.tt-wrap{padding:20px 24px;overflow-x:auto}
-.ht-grid{
-  position:relative;min-width:720px;
-  background:rgba(0,0,0,0.2);
-  border-radius:var(--radius);
-  border:1px solid var(--border);
-  overflow:hidden;
-}
-[data-theme="light"] .ht-grid{background:rgba(255,255,255,0.3)}
-.ht-header-wrap{
-  display:flex;align-items:center;
-  background:rgba(124,106,255,0.06);
-  border-bottom:1px solid var(--border2);
-  position:sticky;top:0;z-index:5;
-}
-.ht-corner{width:108px;flex-shrink:0;padding:10px 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3)}
-.ht-time-header{flex:1;position:relative;height:36px}
-.ht-tick{
-  position:absolute;top:50%;transform:translate(-50%,-50%);
-  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;
-  color:var(--text3);white-space:nowrap;
-}
-.ht-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border);min-height:64px}
-.ht-row:last-child{border-bottom:none}
-.ht-day{
-  width:108px;flex-shrink:0;
-  font-family:'Syne',sans-serif;font-size:11.5px;font-weight:700;
-  color:var(--text2);display:flex;align-items:center;
-  padding:6px 12px;border-right:1px solid var(--border2);
-  background:rgba(124,106,255,0.03);
-}
-.ht-day.has-class{color:var(--text)}
-.ht-timeline{flex:1;position:relative;min-height:64px}
-.ht-gl{position:absolute;top:0;bottom:0;width:1px;background:var(--border);opacity:.6}
-.ht-gl.hour{opacity:.4}
-/* PERF: ht-block uses contain:layout to scope paint, removed filter on hover */
-.ht-block{
-  position:absolute;top:6px;bottom:6px;
-  border-radius:10px;
-  padding:8px 12px;
-  font-size:11px;line-height:1.5;
-  cursor:pointer;overflow:hidden;
-  /* PERF: specific transitions only */
-  transition:transform .15s,opacity .15s;
-  display:flex;flex-direction:column;justify-content:center;
-  border:1px solid rgba(255,255,255,0.15);
-  contain:layout style;
-}
-/* PERF: ::before removed from ht-block — gradient shimmer not worth GPU cost per block */
 .ht-block:hover{transform:scaleY(1.04) translateY(-1px);z-index:10;opacity:.93}
-.hb-name{font-family:'Syne',sans-serif;font-weight:700;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;line-height:1.3}
+.hb-name{font-family:'Inter',sans-serif;font-weight:700;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;line-height:1.3}
 .hb-meta{font-size:10px;opacity:.9;display:flex;align-items:center;gap:4px;margin-bottom:1px;line-height:1.2}
 .hb-fac{font-size:10px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
-.ht-empty-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text3);font-style:italic;opacity:.5}
+.ht-empty-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);font-style:italic;opacity:.5} /* FIX #8: was 10px */
 
 /* RICH TOOLTIP */
 .rich-tip{
   position:fixed;
-  background:rgba(10,10,22,0.96);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(124,106,255,0.3);
-  border-radius:16px;padding:0;
-  box-shadow:0 8px 24px rgba(0,0,0,0.4);
-  pointer-events:none;z-index:9999;min-width:230px;max-width:280px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:12px;padding:0;
+  box-shadow:0 8px 24px rgba(0,0,0,.2);
+  pointer-events:none;z-index:9999;min-width:220px;max-width:270px;
   display:none;overflow:hidden;
 }
-[data-theme="light"] .rich-tip{background:rgba(248,247,255,0.97);border-color:rgba(124,106,255,0.2)}
+[data-theme="light"] .rich-tip{box-shadow:0 4px 16px rgba(0,0,0,.08);background:#ffffff}
 .rt-header{padding:12px 14px 10px;border-bottom:1px solid var(--border)}
-.rt-course-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:4px}
+.rt-course-name{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:4px}
 .rt-code-row{display:flex;align-items:center;gap:6px}
-.rt-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);font-weight:700;padding:2px 7px;background:rgba(124,106,255,0.12);border-radius:5px}
+.rt-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);font-weight:700;padding:2px 7px;background:rgba(34,197,94,0.12);border-radius:5px}
 .rt-type-badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:999px}
 .rt-body{padding:10px 14px 12px;display:flex;flex-direction:column;gap:6px}
 .rt-row{display:flex;align-items:flex-start;gap:8px}
 .rt-icon{font-size:12px;flex-shrink:0;margin-top:1px;opacity:.75}
-.rt-label{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:700;line-height:1}
+.rt-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:700;line-height:1} /* FIX #8: kept 10px - only used in tooltip, not mobile critical path */
 .rt-val{font-size:11.5px;font-weight:600;color:var(--text);margin-top:2px;line-height:1.3}
 .rt-accent{color:var(--accent3)}
 
 /* TOAST */
 .toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
 .toast{padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px;animation:tIn .3s ease}
-.toast-success{background:rgba(6,214,160,0.15);color:var(--success);border:1px solid rgba(6,214,160,0.3)}
-.toast-error{background:rgba(255,77,109,0.15);color:var(--danger);border:1px solid rgba(255,77,109,0.3)}
-.toast-info{background:rgba(124,106,255,0.15);color:var(--accent3);border:1px solid rgba(124,106,255,0.3)}
+.toast-success{background:var(--surface);color:var(--success);border:1px solid rgba(16,185,129,0.3);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.toast-error{background:var(--surface);color:var(--danger);border:1px solid rgba(239,68,68,0.3);box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.toast-info{background:var(--surface);color:var(--accent);border:1px solid rgba(34,197,94,0.3);box-shadow:0 4px 12px rgba(0,0,0,.15)}
 @keyframes tIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade{animation:fade .18s ease both}
+.page-enter{animation:pageIn .18s ease both}
 
 /* PROGRESS */
-.gen-progress{display:none;align-items:center;gap:12px;padding:12px 16px;background:rgba(124,106,255,0.08);border:1px solid rgba(124,106,255,0.2);border-radius:var(--radius-sm);margin-bottom:16px}
+.gen-progress{display:none;align-items:center;gap:12px;padding:12px 16px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-sm);margin-bottom:16px}
 .gen-progress.show{display:flex}
 .gp-bar-wrap{flex:1;height:6px;background:var(--surface2);border-radius:999px;overflow:hidden}
 .gp-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:width .3s;width:0}
@@ -1102,24 +476,428 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
 .mono{font-family:'JetBrains Mono',monospace}
 
-/* FADE */
-.fade{animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* ══ COMPARE MODE ════════════════════════════════════════════════════
+   Floating bar at bottom — select 2 combos, click Compare Now
+   Compare view: side-by-side timetable + course list
+══════════════════════════════════════════════════════════════════ */
+.compare-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  padding:12px 20px;
+  display:flex;align-items:center;gap:12px;
+  transform:translateY(100%);
+  transition:transform .25s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -4px 24px rgba(0,0,0,.2);
+}
+.compare-bar.show{transform:translateY(0)}
+.compare-bar-slots{display:flex;gap:8px;flex:1}
+.compare-slot{
+  flex:1;max-width:200px;
+  padding:6px 12px;
+  border:1.5px dashed var(--border2);
+  border-radius:var(--radius-sm);
+  font-size:12px;color:var(--text3);
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  min-height:36px;
+}
+.compare-slot.filled{
+  border-color:var(--accent);color:var(--text);
+  background:rgba(34,197,94,0.06);
+}
+.compare-slot-label{font-weight:600;font-size:13px}
+.compare-slot-x{
+  cursor:pointer;font-size:14px;color:var(--text3);
+  background:none;border:none;padding:0 2px;line-height:1;
+}
+.compare-slot-x:hover{color:var(--danger)}
+.compare-bar-hint{font-size:11px;color:var(--text3);white-space:nowrap}
+.btn-compare-now{
+  background:var(--accent);color:#fff;
+  border:none;border-radius:var(--radius-sm);
+  padding:8px 18px;font-size:13px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  opacity:.4;pointer-events:none;
+  transition:opacity .15s;white-space:nowrap;
+}
+.btn-compare-now.ready{opacity:1;pointer-events:auto}
+.btn-compare-cancel{
+  background:none;border:1px solid var(--border2);
+  border-radius:var(--radius-sm);padding:8px 14px;
+  font-size:12px;color:var(--text3);cursor:pointer;
+  font-family:'Inter',sans-serif;
+}
+.btn-compare-cancel:hover{border-color:var(--danger);color:var(--danger)}
+
+/* Compare toggle button on each card */
+.btn-compare-pick{
+  font-size:11px;padding:4px 10px;
+  border-radius:999px;border:1px solid var(--border2);
+  background:var(--surface2);color:var(--text3);
+  cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;
+  transition:border-color .15s,background .15s,color .15s;
+  white-space:nowrap;
+}
+.btn-compare-pick:hover{border-color:var(--accent);color:var(--accent)}
+.btn-compare-pick.picked{
+  border-color:var(--accent);background:rgba(34,197,94,0.12);
+  color:var(--accent);
+}
+.combo-card.compare-picked{
+  border-color:var(--accent)!important;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.2);
+}
+
+/* ── COMPARE VIEW MODAL ──────────────────────────────────────────── */
+.compare-modal-overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,0.7);
+  display:none;align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:20px 16px;
+}
+.compare-modal-overlay.open{display:flex}
+.compare-modal{
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-radius:var(--radius-lg);
+  width:100%;max-width:1100px;
+  overflow:hidden;
+  margin:auto;
+}
+.compare-modal-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.compare-modal-title{font-size:16px;font-weight:800;color:var(--text)}
+.compare-modal-close{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:15px;color:var(--text3);
+}
+.compare-modal-close:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.compare-cols{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.compare-col{border-right:1px solid var(--border)}
+.compare-col:last-child{border-right:none}
+.compare-col-hd{
+  padding:12px 16px;background:var(--surface2);
+  border-bottom:1px solid var(--border);
+  font-size:13px;font-weight:700;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+}
+.compare-col-badge{
+  font-size:10px;padding:2px 8px;border-radius:999px;
+  background:rgba(34,197,94,0.12);color:var(--accent);
+  border:1px solid rgba(34,197,94,0.2);font-weight:600;
+}
+.compare-section{padding:14px 16px;border-bottom:1px solid var(--border)}
+.compare-section-label{
+  font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.6px;color:var(--text3);margin-bottom:10px;
+}
+.compare-winner{
+  background:rgba(34,197,94,0.06);
+  border-top:2px solid var(--accent);
+}
+/* Stats comparison row */
+.compare-stat-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid var(--border);
+}
+.compare-stat-cell{
+  padding:10px 16px;
+  font-size:13px;color:var(--text);
+}
+.compare-stat-cell.better{
+  background:rgba(34,197,94,0.06);
+  font-weight:700;color:var(--accent);
+}
+.compare-stat-label{
+  font-size:10px;color:var(--text3);margin-bottom:2px;text-transform:uppercase;letter-spacing:.4px;
+}
+.compare-stat-val{font-size:18px;font-weight:800}
+
+@media(max-width:640px){
+  .compare-cols{grid-template-columns:1fr}
+  .compare-col{border-right:none;border-bottom:1px solid var(--border)}
+  .compare-bar{flex-wrap:wrap;gap:8px}
+  .compare-bar-slots{flex-direction:column}
+  .compare-slot{max-width:100%}
+}
+
+/* ══ SHARE MODAL (WhatsApp / Messenger / Copy) ═══════════════════ */
+.share-modal-overlay{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.55);
+  display:none;align-items:center;justify-content:center;
+  padding:16px;
+}
+.share-modal-overlay.open{display:flex}
+.share-modal{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  width:100%;max-width:320px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);
+}
+.share-modal-title{
+  font-size:15px;font-weight:800;color:var(--text);
+  margin-bottom:4px;
+}
+.share-modal-sub{font-size:12px;color:var(--text3);margin-bottom:18px}
+.share-btns{display:flex;flex-direction:column;gap:10px}
+.share-btn-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;border-radius:var(--radius-sm);
+  border:1px solid var(--border2);background:var(--surface2);
+  cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;color:var(--text);
+  text-decoration:none;
+  transition:border-color .15s,background .15s;
+}
+.share-btn-item:hover{border-color:var(--accent);background:rgba(34,197,94,0.06)}
+.share-btn-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.share-btn-wa .share-btn-icon{background:#25D366}
+.share-btn-ms .share-btn-icon{background:#0084FF}
+.share-btn-cp .share-btn-icon{background:var(--surface3)}
+.share-btn-info{display:flex;flex-direction:column}
+.share-btn-label{font-size:13px;font-weight:600;color:var(--text)}
+.share-btn-hint{font-size:11px;color:var(--text3);font-weight:400}
+.share-modal-close-row{margin-top:14px;text-align:center}
+.share-modal-cancel{
+  font-size:12px;color:var(--text3);background:none;border:none;
+  cursor:pointer;font-family:'Inter',sans-serif;padding:4px 8px;
+}
+.share-modal-cancel:hover{color:var(--text)}
+   Shows course code, section, faculty, day+time clearly above timetable
+══════════════════════════════════════════════════════════════════ */
+.course-summary-list{
+  padding:12px 20px 4px;
+  border-bottom:1px solid var(--border);
+}
+.csl-row{
+  display:flex;align-items:center;gap:10px;
+  padding:7px 0;
+  border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+.csl-row:last-child{border-bottom:none}
+.csl-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;
+}
+.csl-info{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.csl-code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;font-weight:700;color:var(--text);
+}
+.csl-sec{
+  font-size:11px;color:var(--text3);
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:999px;padding:1px 7px;
+}
+.csl-type{font-size:10px;padding:1px 6px;border-radius:999px}
+.csl-theory{background:rgba(34,197,94,0.1);color:var(--accent);border:1px solid rgba(34,197,94,0.2)}
+.csl-lab{background:rgba(168,85,247,0.1);color:#a855f7;border:1px solid rgba(168,85,247,0.2)}
+.csl-fac{
+  flex:1;min-width:0;
+  font-size:12.5px;font-weight:600;color:var(--text);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.csl-time{
+  font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;
+}
+.csl-pin-badge{font-size:12px;flex-shrink:0;title:'Pinned section'}
+[data-theme="light"] .csl-code{color:var(--text)}
+[data-theme="light"] .csl-fac{color:var(--text)}
+
+/* ══ FIX #1: ONBOARDING BANNER ═══════════════════════════════════ */
+.onboard-banner{
+  background:rgba(34,197,94,0.07);
+  border:1px solid rgba(34,197,94,0.2);
+  border-radius:var(--radius);
+  padding:18px 20px;
+  margin-bottom:18px;
+  position:relative;
+}
+[data-theme="light"] .onboard-banner{
+  background:rgba(46,125,56,0.06);
+  border-color:rgba(46,125,56,0.2);
+}
+.onboard-title{
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
+  color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.onboard-steps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.onboard-step{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--text2);
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:999px;padding:5px 12px;
+}
+.onboard-step-num{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  font-size:10px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+[data-theme="light"] .onboard-step-num{color:#fff}
+.onboard-dismiss{
+  position:absolute;top:10px;right:12px;
+  background:none;border:none;color:var(--text3);
+  font-size:16px;cursor:pointer;line-height:1;padding:2px 4px;
+  border-radius:4px;
+}
+.onboard-dismiss:hover{color:var(--text);background:var(--surface2)}
+
+/* ══ FIX #2: FACULTY LOCK TOOLTIP ════════════════════════════════ */
+.fac-chip-help{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:11px;color:var(--text3);margin-bottom:10px;
+  padding:8px 12px;border-radius:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  line-height:1.6;
+}
+.fac-chip-legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.fac-legend-item{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+
+/* ══ FIX #5: EXPORT FLASH — hidden until actually rendering ══════ */
+/* FIX Export: element must be IN viewport for html2canvas to render.
+   We use a full-screen overlay so it's visible but user sees a loading state */
+.export-capture-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,0.7);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
+}
+.export-capture-msg{
+  font-size:14px;font-weight:600;color:#fff;
+  font-family:'Inter',sans-serif;
+}
+.export-capture-el{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(0.5);
+  transform-origin:center center;
+  z-index:10000;
+  pointer-events:none;
+}
+
+/* ══ FIX #15: UNDO TOAST ═════════════════════════════════════════ */
+.toast-undo{
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--border2);
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  display:flex;align-items:center;gap:10px;
+}
+.toast-undo-btn{
+  background:var(--accent);color:#fff;
+  border:none;border-radius:6px;
+  padding:4px 10px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  white-space:nowrap;
+}
+.toast-undo-btn:hover{opacity:.85}
+
+/* ══ FIX #16: SHARE BUTTON ═══════════════════════════════════════ */
+.share-btn-wrap{display:flex;justify-content:flex-end;margin-bottom:12px}
+.btn-share{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--text2);
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:var(--radius-sm);padding:6px 14px;
+  cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;
+  transition:border-color .15s,color .15s;
+}
+.btn-share:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ══ FIX #17: CONFLICT EXPLANATION ══════════════════════════════ */
+.conflict-detail{
+  margin-top:12px;padding:14px 16px;
+  background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2);
+  border-radius:var(--radius-sm);font-size:12px;color:var(--text2);line-height:1.7;
+  display:none;
+}
+.conflict-detail.show{display:block}
+.conflict-detail strong{color:var(--danger)}
+
+/* ══ FIX #8: Mobile font minimum 12px ═══════════════════════════ */
+@media(max-width:768px){
+  .analytic-label,.hb-meta,.hb-fac,.rt-type-badge{
+    font-size:12px!important; /* FIX #8: was 8px/9px — below WCAG minimum */
+  }
+  .ms-label,.chip-label,.sec-label,.fac-legend-item,.onboard-step{
+    font-size:12px!important;
+  }
+}
 
 /* SCROLLBAR */
 
 /* ══ MANUAL ENTRY ══════════════════════════════════════════════ */
+/* Preloaded card sits above the 2-col grid as a standalone featured row */
+.mode-card-preloaded-wrap{margin-bottom:10px}
+.mode-card-featured{
+  border:2px solid rgba(16,185,129,0.35);border-radius:var(--radius-lg);
+  padding:26px 28px;cursor:pointer;background:var(--surface);
+  display:flex;align-items:center;gap:22px;
+  transition:border-color .15s,background .15s;
+  position:relative;overflow:hidden;
+}
+.mode-card-featured::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(16,185,129,0.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+.mode-card-featured:hover{
+  border-color:rgba(16,185,129,0.6);
+  background:rgba(16,185,129,0.04);
+}
+.mode-card-featured.active{
+  border-color:var(--neon2);
+  background:rgba(16,185,129,0.07);
+}
+.mcf-icon{font-size:44px;flex-shrink:0;line-height:1}
+.mcf-body{flex:1;min-width:0;text-align:left}
+.mcf-title{
+  font-family:'Inter',sans-serif;font-size:16px;font-weight:800;
+  color:var(--text);margin-bottom:5px;display:flex;align-items:center;gap:8px;
+}
+.mcf-badge{
+  font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+  background:rgba(16,185,129,0.15);color:var(--neon2);
+  border:1px solid rgba(16,185,129,0.3);
+  padding:2px 7px;border-radius:999px;font-family:'Inter',sans-serif;
+}
+.mcf-desc{font-size:13px;color:var(--text2);line-height:1.5}
+.mcf-arrow{font-size:20px;color:var(--neon2);opacity:.6;flex-shrink:0;transition:transform .15s}
+.mode-card-featured:hover .mcf-arrow{transform:translateX(3px);opacity:1}
+[data-theme="light"] .mode-card-featured{border-color:rgba(5,150,105,0.25)}
+[data-theme="light"] .mode-card-featured:hover{border-color:rgba(5,150,105,0.5);background:rgba(5,150,105,0.04)}
+[data-theme="light"] .mode-card-featured.active{border-color:var(--neon2);background:rgba(5,150,105,0.06)}
+
 .mode-selector{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px}
 .mode-card{
   border:2px solid var(--border);border-radius:var(--radius-lg);
   padding:28px 20px;text-align:center;cursor:pointer;
   transition:border-color .15s;background:var(--surface);
 }
-.mode-card:hover{border-color:rgba(124,106,255,0.4);background:rgba(124,106,255,0.04)}
-.mode-card.active{border-color:var(--accent);background:rgba(124,106,255,0.08)}
+.mode-card:hover{border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.04)}
+.mode-card.active{border-color:var(--accent);background:rgba(34,197,94,0.08)}
 .mode-card-icon{font-size:36px;margin-bottom:10px;display:block}
-.mode-card-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:5px}
+.mode-card-title{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:5px}
 .mode-card-desc{font-size:12px;color:var(--text2);line-height:1.5}
+
+/* Mobile: stack featured card icon smaller */
+@media(max-width:768px){
+  .mode-card-featured{padding:18px 16px;gap:14px}
+  .mcf-icon{font-size:34px}
+  .mcf-title{font-size:14px}
+  .mcf-arrow{display:none}
+  .mode-card{padding:20px 14px}
+}
 
 /* Manual course list */
 .mc-list{display:flex;flex-direction:column;gap:14px}
@@ -1132,7 +910,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   padding:14px 18px;background:var(--surface2);border-bottom:1px solid var(--border);
   gap:10px;flex-wrap:wrap;
 }
-.mc-card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--text)}
+.mc-card-title{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;color:var(--text)}
 .mc-card-meta{font-size:10.5px;color:var(--text2)}
 .mc-card-body{padding:16px 18px}
 
@@ -1155,7 +933,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   width:100%;padding:8px 10px;
   background:var(--surface2);border:1px solid var(--border);
   color:var(--text);border-radius:var(--radius-sm);
-  font-size:12px;font-family:'DM Sans',sans-serif;outline:none;
+  font-size:12px;font-family:'Inter',sans-serif;outline:none; /* FIX #10: DM Sans → Inter */
   transition:border-color .15s;
   appearance:none;-webkit-appearance:none;
   cursor:pointer;
@@ -1163,14 +941,10 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .me-select:focus,.me-input:focus{border-color:var(--accent)}
 .me-select option{background:var(--bg)}
 
-/* Form row for adding a new course */
-.me-form-grid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
-.me-form-label{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
-
 /* Section add form */
 .sec-add-form{
   margin-top:12px;padding:16px;border-radius:var(--radius-sm);
-  background:rgba(124,106,255,0.04);border:1px dashed rgba(124,106,255,0.2);
+  background:rgba(34,197,94,0.04);border:1px dashed rgba(34,197,94,0.2);
   display:flex;flex-direction:column;gap:14px;
 }
 .sec-add-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
@@ -1187,20 +961,20 @@ td input:focus,td select:focus{border-color:var(--accent)}
 }
 .chip:hover{border-color:var(--accent);color:var(--accent3)}
 .chip.sel{
-  background:rgba(124,106,255,0.18);border-color:var(--accent);color:var(--accent3);
+  background:rgba(34,197,94,0.18);border-color:var(--accent);color:var(--accent3);
 }
 .chip.day-chip.sel{
   background:rgba(6,214,160,0.15);border-color:var(--neon2);color:var(--neon2);
 }
 .chip.time-chip.sel{
-  background:rgba(124,106,255,0.18);border-color:var(--accent);color:var(--accent3);
+  background:rgba(34,197,94,0.18);border-color:var(--accent);color:var(--accent3);
 }
 .chip-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text3);margin-bottom:0}
 
 /* Faculty badge on section */
 .sec-fac-badge{
   font-size:10px;padding:2px 8px;border-radius:999px;
-  background:rgba(124,106,255,0.12);color:var(--accent3);
+  background:rgba(34,197,94,0.12);color:var(--accent3);
   font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;
 }
 
@@ -1226,6 +1000,75 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .chip{font-size:11px!important;padding:6px 10px!important}
 }
 
+/* ── Course Search Dropdown ── */
+.course-search-wrap{position:relative;width:100%}
+.course-search-input-wrap{position:relative;display:flex;align-items:center}
+.course-search-icon{
+  position:absolute;left:10px;font-size:14px;color:var(--text3);pointer-events:none;z-index:1;
+}
+.course-search-inp{
+  width:100%;padding:9px 10px 9px 34px;
+  background:var(--surface2);border:1.5px solid var(--border2);
+  color:var(--text);border-radius:var(--radius-sm);
+  font-size:13px;font-family:'Inter',sans-serif;outline:none; /* FIX #10: DM Sans → Inter */
+  transition:border-color .15s,box-shadow .15s;
+}
+.course-search-inp:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--neon-glow)}
+.course-search-inp::placeholder{color:var(--text3)}
+.course-search-clear{
+  position:absolute;right:10px;font-size:16px;color:var(--text3);
+  cursor:pointer;background:none;border:none;padding:0;line-height:1;
+  display:none;
+}
+.course-search-clear:hover{color:var(--text)}
+
+.course-dropdown{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:999;
+  background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  max-height:260px;overflow-y:auto;display:none;
+}
+[data-theme="light"] .course-dropdown{box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.course-dropdown.open{display:block}
+.course-dropdown-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 14px;cursor:pointer;gap:10px;
+  border-bottom:1px solid var(--border);
+  transition:background .1s;
+}
+.course-dropdown-item:last-child{border-bottom:none}
+.course-dropdown-item:hover,.course-dropdown-item.focused{background:var(--surface2)}
+.course-dd-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
+.course-dd-code{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  color:var(--accent3);background:rgba(34,197,94,0.1);
+  padding:2px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;
+}
+.course-dd-type{font-size:10px;color:var(--text3);margin-top:2px}
+.course-dd-empty{
+  padding:20px 14px;text-align:center;font-size:12px;color:var(--text3);
+}
+.course-dd-highlight{color:var(--accent2);font-weight:700}
+
+/* Selected course pill shown after picking */
+.course-selected-pill{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:var(--radius-sm);
+  background:rgba(34,197,94,0.08);border:1.5px solid rgba(34,197,94,0.25);
+  margin-top:8px;
+}
+.course-selected-pill.hidden{display:none}
+.course-pill-info{flex:1;min-width:0}
+.course-pill-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.3}
+.course-pill-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.course-pill-change{
+  font-size:11px;color:var(--text3);cursor:pointer;background:none;border:none;
+  padding:3px 8px;border-radius:6px;font-family:'Inter',sans-serif;font-weight:600;
+  transition:color .15s,background .15s;white-space:nowrap;
+}
+.course-pill-change:hover{color:var(--accent);background:rgba(34,197,94,0.1)}
+
 /* ── Utility layout classes ── */
 .grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid-full{grid-column:1/-1}
@@ -1240,7 +1083,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .text-xs{font-size:10px}
 .text-sm{font-size:11.5px}
 .text-mono{font-family:'JetBrains Mono',monospace}
-.text-syne{font-family:'Syne',sans-serif}
+.text-syne{font-family:'Inter',sans-serif}
 .fw-700{font-weight:700}
 .fw-800{font-weight:800}
 .op-70{opacity:.7}
@@ -1257,12 +1100,12 @@ td input:focus,td select:focus{border-color:var(--accent)}
   width:28px;height:28px;border-radius:50%;
   border:2px solid var(--border2);color:var(--text3);
   display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:800;font-family:'Syne',sans-serif;
-  transition:border-color .25s,background .25s,color .25s;
+  font-size:12px;font-weight:800;font-family:'Inter',sans-serif;
+  transition:border-color .2s;
 }
 .me-step-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;transition:color .25s}
 .me-step-line{flex:1;height:2px;background:var(--border);border-radius:999px;margin:0 4px;margin-bottom:14px;transition:background .25s}
-.me-step.active .me-step-num{border-color:var(--accent);background:rgba(124,106,255,0.15);color:var(--accent3)}
+.me-step.active .me-step-num{border-color:var(--accent);background:rgba(34,197,94,0.15);color:var(--accent3)}
 .me-step.active .me-step-label{color:var(--accent3)}
 .me-step.done .me-step-num{border-color:var(--success);background:rgba(6,214,160,0.15);color:var(--success)}
 .me-step.done .me-step-label{color:var(--success)}
@@ -1283,14 +1126,11 @@ td input:focus,td select:focus{border-color:var(--accent)}
 /* Page switch: no transition for instant feel */
 /* Generate button — glow only on hover */
 #btn-generate:not(:disabled){transition:transform .2s,box-shadow .2s}
-#btn-generate:not(:disabled):hover{box-shadow:0 0 24px rgba(124,106,255,0.55);transform:translateY(-2px)}
-/* Better empty state */
-.empty-ei{animation:bounce 1.2s ease 2}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+#btn-generate:not(:disabled):hover{box-shadow:0 0 24px rgba(34,197,94,0.55);transform:translateY(-2px)}
 /* me-input focus glow */
-.me-input:focus{box-shadow:0 0 0 2px rgba(124,106,255,0.2)}
+.me-input:focus{box-shadow:0 0 0 2px rgba(34,197,94,0.2)}
 /* Card entrance animation */
-.mc-card{animation:fadeIn .2s ease}
+.mc-card{animation:fade .2s ease}
 /* Slot chip blocked pulse */
 .slot-chip.blocked{animation:none}
 /* nav done checkmark entrance */
@@ -1311,10 +1151,11 @@ td input:focus,td select:focus{border-color:var(--accent)}
   margin-bottom:6px;
   transition:border-color .15s;
   position:relative;
+  contain:layout style;
 }
 .sec-row-item:last-child{margin-bottom:0}
 .sec-row-item:hover{border-color:var(--border2);background:var(--surface3)}
-.sec-row-item.sec-pinned{border-color:rgba(124,106,255,0.45);background:rgba(124,106,255,0.07)}
+.sec-row-item.sec-pinned{border-color:rgba(34,197,94,0.45);background:rgba(34,197,94,0.07)}
 .sec-row-item.sec-pinned::before{content:'📌';position:absolute;top:6px;right:8px;font-size:11px}
 .sri-sec{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:700;color:var(--accent3);min-width:28px;flex-shrink:0;padding-top:2px}
 .sri-info{flex:1;min-width:0;overflow:hidden}
@@ -1323,14 +1164,23 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .sri-sched span{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;background:var(--surface);border:1px solid var(--border);padding:1px 6px;border-radius:4px}
 .sri-pin-btn{font-size:11px;padding:3px 8px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--text3);cursor:pointer;transition:border-color .12s;white-space:nowrap;flex-shrink:0;align-self:flex-start;margin-top:1px}
 .sri-pin-btn:hover{border-color:var(--accent);color:var(--accent3)}
-.sec-row-item.sec-pinned .sri-pin-btn{border-color:rgba(124,106,255,0.4);color:var(--accent3);background:rgba(124,106,255,0.1)}
-.sec-filter-note{font-size:10px;color:var(--accent3);background:rgba(124,106,255,0.08);border:1px solid rgba(124,106,255,0.2);padding:3px 8px;border-radius:5px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.sec-row-item.sec-pinned .sri-pin-btn{border-color:rgba(34,197,94,0.4);color:var(--accent3);background:rgba(34,197,94,0.1)}
+.sec-filter-note{font-size:10px;color:var(--accent3);background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);padding:3px 8px;border-radius:5px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .sec-filter-note.hidden{display:none}
+/* FIX 3 & 4: Section help bar — explains pin and double-click to users */
+.sec-help-bar{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  font-size:11px;color:var(--text3);
+  padding:7px 10px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);margin-bottom:8px;line-height:1.5;
+}
+.sec-help-bar strong{color:var(--text2)}
 .sec-toggle-btn{
   display:flex;align-items:center;gap:5px;
   font-size:10.5px;font-weight:600;color:var(--text2);
   cursor:pointer;margin-top:8px;padding:4px 0;
-  background:none;border:none;font-family:'DM Sans',sans-serif;
+  background:none;border:none;font-family:'Inter',sans-serif;
   transition:color .15s;
 }
 .sec-toggle-btn:hover{color:var(--accent3)}
@@ -1344,7 +1194,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 /* ══ FACULTY PANEL ══ */
 .fac-detail-panel{
   position:fixed;top:0;right:0;width:360px;height:100vh;
-  background:rgba(10,10,22,0.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:var(--surface);
   border-left:1px solid var(--border2);
   z-index:500;transition:transform .3s cubic-bezier(.4,0,.2,1);
   transform:translateX(100%);
@@ -1353,16 +1203,15 @@ td input:focus,td select:focus{border-color:var(--accent)}
 }
 /* GPU-composited slide — translateX(0) brings it into view */
 .fac-detail-panel.open{transform:translateX(0)}
-[data-theme="light"] .fac-detail-panel{background:rgba(244,243,255,0.98)}
-.fac-detail-panel.open{right:0}
+[data-theme="light"] .fac-detail-panel{background:#ffffff;border-left-color:#e2e5ef}
 .panel-section-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;font-weight:700}
 .fac-panel-hd{padding:20px 20px 16px;border-bottom:1px solid var(--border);flex-shrink:0}
 .fac-panel-close{width:30px;height:30px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;float:right;transition:border-color .15s}
 .fac-panel-close:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
-.fac-panel-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--text);margin-top:6px}
+.fac-panel-name{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;color:var(--text);margin-top:6px}
 .fac-panel-meta{font-size:11px;color:var(--text2);margin-top:3px}
 .fac-panel-body{flex:1;overflow-y:auto;padding:16px 20px}
-.fac-sec-item{padding:12px 14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);margin-bottom:8px;transition:border-color .12s;position:relative}
+.fac-sec-item{padding:12px 14px;border-radius:var(--radius-sm);background:var(--surface2);border:1px solid var(--border);margin-bottom:8px;transition:border-color .12s;position:relative;contain:layout style}
 .fac-sec-item:hover{border-color:var(--border2)}
 .fac-sec-item.fac-locked{border-color:rgba(255,209,102,0.4);background:rgba(255,209,102,0.05)}
 .fsi-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
@@ -1378,16 +1227,60 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .fac-overlay.open{display:block}
 
 /* ══ PREF VALIDATION BANNER ══ */
+/* ══ PREFERENCE WARNING SYSTEM — 3 types ════════════════════════
+   Type 1: IMPOSSIBLE  — red   — no combo mathematically possible
+   Type 2: RESTRICTED  — amber — very strict, barely any results
+   Type 3: CONFLICTING — blue  — logical contradiction between prefs
+═══════════════════════════════════════════════════════════════════ */
 .pref-warn{
-  display:none;padding:11px 14px;border-radius:var(--radius-sm);
-  background:rgba(255,209,102,0.08);border:1px solid rgba(255,209,102,0.3);
-  color:var(--warning);font-size:12px;line-height:1.5;margin-bottom:12px;
+  border-radius:var(--radius);margin-bottom:12px;
+  display:none;flex-direction:column;gap:0;
+  overflow:hidden;border:1.5px solid transparent;
 }
-.pref-warn.show{display:flex;flex-direction:column;gap:0}
-.pref-warn-row{display:flex;gap:8px;align-items:flex-start}
-.pref-warn-sep{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,209,102,0.15)}
-
-.pref-warn-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.pref-warn.show{display:flex}
+.pw-block{padding:13px 16px}
+.pw-block+.pw-block{border-top:1px solid rgba(255,255,255,0.06)}
+[data-theme="light"] .pw-block+.pw-block{border-top:1px solid rgba(0,0,0,0.06)}
+/* IMPOSSIBLE — red */
+.pw-impossible{background:rgba(239,68,68,0.07);border-color:rgba(239,68,68,0.3)}
+.pw-impossible .pw-header{color:#f87171}
+[data-theme="light"] .pw-impossible{background:rgba(239,68,68,0.05)}
+[data-theme="light"] .pw-impossible .pw-header{color:#dc2626}
+/* RESTRICTED — amber */
+.pw-restricted{background:rgba(245,158,11,0.07);border-color:rgba(245,158,11,0.3)}
+.pw-restricted .pw-header{color:#fbbf24}
+[data-theme="light"] .pw-restricted{background:rgba(245,158,11,0.05)}
+[data-theme="light"] .pw-restricted .pw-header{color:#d97706}
+/* CONFLICTING — indigo */
+.pw-conflicting{background:rgba(99,102,241,0.07);border-color:rgba(99,102,241,0.3)}
+.pw-conflicting .pw-header{color:#818cf8}
+[data-theme="light"] .pw-conflicting{background:rgba(99,102,241,0.05)}
+[data-theme="light"] .pw-conflicting .pw-header{color:#4f46e5}
+/* Header */
+.pw-header{font-size:13px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pw-badge{
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  padding:2px 7px;border-radius:999px;
+}
+.pw-impossible .pw-badge{background:rgba(239,68,68,0.15);color:#f87171}
+.pw-restricted .pw-badge{background:rgba(245,158,11,0.15);color:#fbbf24}
+.pw-conflicting .pw-badge{background:rgba(99,102,241,0.15);color:#818cf8}
+[data-theme="light"] .pw-impossible .pw-badge{color:#dc2626}
+[data-theme="light"] .pw-restricted .pw-badge{color:#d97706}
+[data-theme="light"] .pw-conflicting .pw-badge{color:#4338ca}
+/* Items */
+.pw-items{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.pw-item{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--text2);line-height:1.6}
+.pw-dot{flex-shrink:0;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5;margin-top:6px}
+/* Try this suggestion box */
+.pw-suggest{margin-top:6px;padding:9px 11px;border-radius:var(--radius-sm);font-size:11.5px}
+.pw-impossible .pw-suggest{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2)}
+.pw-restricted .pw-suggest{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2)}
+.pw-conflicting .pw-suggest{background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2)}
+.pw-suggest-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;opacity:.7;margin-bottom:5px;color:var(--text3)}
+.pw-sug-item{font-size:11.5px;color:var(--text2);padding:2px 0;display:flex;align-items:flex-start;gap:5px}
+.pw-sug-item::before{content:'→';font-weight:700;flex-shrink:0;opacity:.6}
+/* Pref invalid card */
 .pref-card.pref-invalid{opacity:.38;cursor:not-allowed;border-color:rgba(255,77,109,0.2)!important}
 .pref-card.pref-invalid:hover{transform:none!important;border-color:rgba(255,77,109,0.3)!important}
 
@@ -1401,22 +1294,22 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .mob-topbar{
     display:flex!important;align-items:center;justify-content:space-between;
     position:fixed;top:0;left:0;right:0;height:52px;padding:0 16px;
-    background:rgba(7,8,15,0.96);
+    background:rgba(10,18,12,0.96);
     border-bottom:1px solid var(--border);z-index:300;
   }
-  [data-theme="light"] .mob-topbar{background:rgba(240,240,250,0.96)}
+  [data-theme="light"] .mob-topbar{background:rgba(245,247,242,0.96)}
   .mob-logo{display:flex;align-items:center;gap:8px}
-  .mob-logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#7c6aff,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-  .mob-logo-text{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--text)}
+  .mob-logo-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#22c55e,#4ade80);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .mob-logo-text{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:var(--text)}
   .mob-theme-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;flex-shrink:0}
   .sidebar{
     position:fixed!important;bottom:0;left:0;right:0;top:auto!important;
     width:100%!important;height:58px!important;flex-direction:row!important;
     align-items:stretch;padding:0!important;gap:0!important;overflow:visible!important;
     border-right:none!important;border-top:1px solid var(--border)!important;
-    background:rgba(7,8,15,0.97)!important;z-index:300;
+    background:rgba(10,18,12,0.97)!important;z-index:300;
   }
-  [data-theme="light"] .sidebar{background:rgba(240,240,250,0.97)!important}
+  [data-theme="light"] .sidebar{background:rgba(245,247,242,0.97)!important}
   .logo-wrap,.nav-group-label,.sidebar-footer{display:none!important}
   .nav-item{
     flex:1!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
@@ -1425,15 +1318,19 @@ td input:focus,td select:focus{border-color:var(--accent)}
     font-size:9px!important;font-weight:600!important;text-align:center!important;
     color:var(--text3)!important;background:transparent!important;height:100%;line-height:1.2;
   }
-  .nav-item.active{border-top:2px solid var(--accent)!important;background:rgba(124,106,255,0.1)!important;color:var(--accent3)!important}
+  .nav-item.active{border-top:2px solid var(--accent)!important;background:rgba(34,197,94,0.1)!important;color:var(--accent3)!important}
   .nav-item.done{color:var(--text2)!important}
   .nav-icon{font-size:20px!important;width:auto!important;display:block}
   .nav-check{display:none!important}
   .main{
     position:fixed!important;top:52px!important;bottom:58px!important;
     left:0!important;right:0!important;width:100%!important;height:auto!important;
-    overflow-y:auto!important;overflow-x:hidden!important;-webkit-overflow-scrolling:touch;
-    padding:14px 14px 12px!important;gap:12px!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    -webkit-overflow-scrolling:touch;
+    padding:14px 12px 80px!important; /* FIX: bottom 80px so last card never hides behind compare-bar or nav */
+    gap:12px!important;
+    box-sizing:border-box!important;
   }
   .toast-wrap{bottom:66px!important;right:12px!important}
   .page-title{font-size:20px!important;margin-bottom:4px!important;line-height:1.25!important}
@@ -1457,23 +1354,92 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .pref-card{padding:10px 6px!important}
   .pref-emoji{font-size:20px!important}
   .slot-grid{grid-template-columns:repeat(2,1fr)!important;gap:6px!important}
-  .combo-card{margin-bottom:12px}
+  .combo-card{
+    margin-bottom:14px;
+    width:100%!important;
+    box-sizing:border-box!important;
+    overflow:visible!important; /* prevent clip on mobile */
+    border-radius:12px!important;
+  }
   .combo-header{padding:11px 13px}
   .cbadge{font-size:9px!important;padding:2px 6px!important}
-  .analytics-row{overflow-x:auto}
-  .analytic{min-width:68px!important;padding:9px 5px!important}
+  /* Analytics row — horizontal scroll on mobile */
+  .analytics-row{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .analytic{min-width:72px!important;padding:10px 6px!important;flex-shrink:0}
+  /* Course summary list — full width, readable */
+  .course-summary-list{padding:10px 13px 4px!important}
+  .csl-row{flex-wrap:wrap!important;gap:6px!important;padding:8px 0!important}
+  .csl-fac{font-size:12px!important;min-width:100%!important} /* full width on mobile so name doesn't truncate */
+  .csl-time{font-size:10px!important}
+  /* Combo actions — wrap buttons */
+  .combo-actions{flex-wrap:wrap!important;gap:6px!important;padding:10px 13px!important}
+  .combo-actions .btn{font-size:11px!important;padding:6px 10px!important}
+  .btn-compare-pick{font-size:11px!important;padding:5px 10px!important}
+  /* Compare bar mobile adjustments */
+  .compare-bar{padding:10px 12px!important;gap:8px!important}
+  .compare-bar-slots{flex-direction:column!important;gap:6px!important}
+  .compare-slot{max-width:100%!important;font-size:12px!important}
+  .btn-compare-now{padding:8px 14px!important;font-size:12px!important}
+  .btn-compare-cancel{padding:7px 12px!important;font-size:11px!important}
+  /* When compare bar shows on mobile, push content up */
+  .compare-bar.show ~ * .main,
+  body.compare-active .main{
+    padding-bottom:160px!important; /* extra space for taller mobile compare bar */
+  }
+  /* Share modal — full width on mobile */
+  .share-modal{max-width:100%!important;margin:0 12px!important}
+  /* Compare modal — single column on mobile */
+  .compare-cols{grid-template-columns:1fr!important}
+  .compare-col{border-right:none!important;border-bottom:1px solid var(--border)!important}
+  .compare-stat-row{grid-template-columns:1fr 1fr!important}
+  .compare-modal{margin:8px!important}
   .analytic-val{font-size:14px!important}
-  .analytic-label{font-size:8px!important}
-  .tt-wrap{padding:10px 8px!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch}
-  .ht-grid{min-width:540px!important}
-  .ht-corner{width:62px!important;font-size:8px!important;padding:6px 5px!important}
-  .ht-day{width:62px!important;font-size:9.5px!important;padding:4px 5px!important}
-  .ht-row{min-height:52px!important}
-  .ht-timeline{min-height:52px!important}
-  .ht-tick{font-size:8px!important}
-  .ht-block{padding:3px 5px!important;border-radius:6px!important}
-  .hb-name{font-size:9px!important}
-  .hb-meta,.hb-fac{font-size:8px!important}
+  .analytic-label{font-size:11px!important} /* FIX: was 8px → 11px minimum */
+  /* ══ MOBILE TIMETABLE FIXES ══════════════════════════════════════
+     Problem 1: min-width:540px was too small → blocks too tiny to read
+     Problem 2: font-size 8px/9px → unreadable on phone
+     Problem 3: no scroll hint → users didn't know to scroll
+     Fix: wider grid (660px), readable fonts (min 11px), scroll hint badge
+  ══════════════════════════════════════════════════════════════════ */
+  .tt-wrap{
+    padding:8px 6px!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    /* Scroll snap for smoother feel */
+    scroll-behavior:smooth;
+  }
+  /* Show scroll hint arrow on mobile */
+  .tt-wrap::after{
+    content:'← scroll →';
+    display:block;
+    text-align:center;
+    font-size:10px;
+    color:var(--text3);
+    padding:4px 0 2px;
+    opacity:.6;
+    letter-spacing:.5px;
+  }
+  /* Grid wide enough that blocks are readable — 72px day column + timeline */
+  .ht-grid{min-width:720px!important}
+  /* Day label column: wide enough to show full day name (Saturday = longest) */
+  .ht-corner{width:72px!important;font-size:9px!important;padding:6px 6px!important;flex-shrink:0!important}
+  .ht-day{
+    width:72px!important;min-width:72px!important;flex-shrink:0!important;
+    font-size:10px!important;font-weight:700!important;
+    padding:4px 6px!important;text-align:center!important;
+    word-break:break-word!important;line-height:1.3!important;
+  }
+  /* Row height — tall enough for text */
+  .ht-row{min-height:58px!important}
+  .ht-timeline{min-height:58px!important}
+  /* Hour ticks — visible but compact */
+  .ht-tick{font-size:9px!important}
+  /* Block — readable padding and fonts */
+  .ht-block{padding:4px 6px!important;border-radius:7px!important}
+  /* FIX: 9px/8px → 11px minimum — readable on phone screen */
+  .hb-name{font-size:11px!important;margin-bottom:1px!important}
+  .hb-meta{font-size:10px!important}
+  .hb-fac{font-size:10px!important}
   .flex.gap-16{gap:10px!important}
   .flex.gap-12{gap:8px!important}
   .flex.gap-8{gap:6px!important}
@@ -1491,8 +1457,8 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .card,.combo-card,.course-card,.ht-block,.btn-primary,.logo-mark{box-shadow:none!important}
   .course-card:hover{transform:none!important}
   /* PERF: no animation on mobile */
-  .btn-best{animation:none!important;background:linear-gradient(135deg,#7c6aff,#a78bfa)!important}
-  .btn-best:hover{background:linear-gradient(135deg,#a78bfa,#7c6aff)!important}
+  .btn-best{animation:none!important;background:linear-gradient(135deg,#22c55e,#4ade80)!important}
+  .btn-best:hover{background:linear-gradient(135deg,#4ade80,#22c55e)!important}
   /* Step indicator mobile */
   .me-steps{gap:0}
   .me-step-label{font-size:9px!important}
@@ -1508,6 +1474,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .sec-row-item:hover,.fac-sec-item:hover,.fac-panel-close:hover,
   .fsi-lock-btn:hover,.sri-pin-btn:hover,.sec-toggle-btn:hover,
   .ms-item:hover,.combo-card:hover,.card:hover,.mode-card:hover,
+  .mode-card-featured:hover,
   .mc-card:hover,.btn-ghost:hover,.btn-primary:hover,.btn-danger:hover,
   .btn-best:hover,.stepper-btn:hover{
     transform:none!important;
@@ -1522,23 +1489,28 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .course-card:active{opacity:.85!important}
   .chip:active{opacity:.75!important;transform:scale(0.95)!important}
   .pref-card:active{opacity:.8!important}
+  .mode-card-featured:active{opacity:.85!important}
 
   /* PERF: disable non-essential transitions on mobile */
   .sec-row-item,.fac-sec-item,.fac-panel-close,.fsi-lock-btn,
-  .sri-pin-btn,.ms-item,.combo-card,.card,.mode-card,.mc-card,
+  .sri-pin-btn,.ms-item,.combo-card,.card,.mode-card,.mode-card-featured,.mc-card,
   .faculty-chip,.nav-check,.me-step-num,.me-step-label,.me-step-line{
     transition:none!important;
   }
 }
 </style>
 </head>
-<body data-theme="dark">
+<body data-theme="light">
 
 <!-- MOBILE TOP BAR -->
 <div class="mob-topbar" id="mob-topbar">
   <div class="mob-logo">
     <div class="mob-logo-mark">📅</div>
-    <div class="mob-logo-text">Section Lagbe?</div>
+    <div>
+      <div class="mob-logo-text">Section Lagbe?</div>
+      <!-- SEMESTER LABEL: update this every semester -->
+      <div style="font-size:9px;color:var(--text3);line-height:1;margin-top:1px">Summer 2026 · CSE, UIU</div>
+    </div>
   </div>
   <button class="mob-theme-btn" id="mob-theme-btn" aria-label="Toggle theme">🌙</button>
 </div>
@@ -1564,7 +1536,11 @@ td input:focus,td select:focus{border-color:var(--accent)}
   <nav class="sidebar" role="navigation">
     <div class="logo-wrap">
       <div class="logo-mark">📅</div>
-      <div><div class="logo-text">Section Lagbe?</div><div class="logo-sub">Smart routine planner</div></div>
+      <div>
+        <div class="logo-text">Section Lagbe?</div>
+        <!-- SEMESTER LABEL: update this every semester -->
+        <div class="logo-sub">Summer 2026 · CSE, UIU</div>
+      </div>
     </div>
     <div class="nav-group-label">Workflow</div>
     <div class="nav-item active" id="nav-upload" data-page="upload" role="button" tabindex="0"><span class="nav-icon">📂</span><span>Upload / Entry</span><span class="nav-check">✓</span></div>
@@ -1578,6 +1554,25 @@ td input:focus,td select:focus{border-color:var(--accent)}
         <div class="tog" id="theme-tog" role="switch" tabindex="0" aria-label="Toggle theme"><div class="tog-k"></div></div>
       </div>
       <button class="btn btn-ghost btn-sm w-full mt-8" id="btn-clear-saved" style="font-size:10px;opacity:.6" title="Clear saved preferences">🗑 Clear saved data</button>
+      <div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--text3);text-align:center;line-height:1.8">
+        Built by <span style="color:var(--text2);font-weight:600">Taohid Bhuiyan</span>
+        <div style="display:flex;justify-content:center;gap:10px;margin-top:6px">
+          <a href="https://github.com/TaohidBhuiyan" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);text-decoration:none;padding:3px 8px;border:1px solid var(--border2);border-radius:999px;transition:color .15s,border-color .15s"
+             onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--text3)'"
+             onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border2)'">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="https://bd.linkedin.com/in/taohid-bhuiyan-7a375b344" target="_blank" rel="noopener"
+             style="display:inline-flex;align-items:center;gap:4px;font-size:10px;color:var(--text3);text-decoration:none;padding:3px 8px;border:1px solid var(--border2);border-radius:999px;transition:color .15s,border-color .15s"
+             onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--text3)'"
+             onmouseout="this.style.color='var(--text3)';this.style.borderColor='var(--border2)'">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -1588,8 +1583,33 @@ td input:focus,td select:focus{border-color:var(--accent)}
     <div id="page-upload" class="fade">
       <div class="page-hd"><div class="page-title">Get Started 🚀</div><div class="page-sub">Upload your department file, or enter courses manually</div></div>
 
+      <!-- FIX #1: ONBOARDING BANNER — shown until dismissed, stored in localStorage -->
+      <div class="onboard-banner" id="onboard-banner">
+        <div class="onboard-title">👋 কীভাবে ব্যবহার করবে? <span style="font-size:12px;font-weight:400;color:var(--text2)">(How to use)</span></div>
+        <div class="onboard-steps">
+          <div class="onboard-step"><div class="onboard-step-num">1</div>নিচে একটা option বেছে নাও</div>
+          <div class="onboard-step"><div class="onboard-step-num">2</div>Courses select করো</div>
+          <div class="onboard-step"><div class="onboard-step-num">3</div>Preferences set করো</div>
+          <div class="onboard-step"><div class="onboard-step-num">4</div>Combinations দেখো ও export করো</div>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--text3)">💡 File format: Excel (.xlsx/.xls) বা CSV — columns: Course Code, Title, Section, Day, Time, Faculty, Room</div>
+        <button class="onboard-dismiss" id="onboard-dismiss" title="Dismiss" aria-label="Dismiss guide">✕</button>
+      </div>
+
+      <!-- ── Preloaded Data (featured, full-width) ── -->
+      <div class="mode-card-preloaded-wrap">
+        <div class="mode-card-featured" id="mode-card-preloaded" role="button" tabindex="0" aria-label="Use preloaded UIU CSE Summer 2026 data">
+          <span class="mcf-icon">⚡</span>
+          <div class="mcf-body">
+            <div class="mcf-title">UIU · CSE · Summer 2026 <span class="mcf-badge">Ready to use</span></div>
+            <div class="mcf-desc">Section data already loaded — just pick your courses and go.</div>
+          </div>
+          <span class="mcf-arrow">→</span>
+        </div>
+      </div>
+
       <div class="mode-selector">
-        <div class="mode-card active" id="mode-card-upload">
+        <div class="mode-card" id="mode-card-upload">
           <span class="mode-card-icon">📊</span>
           <div class="mode-card-title">Upload File</div>
           <div class="mode-card-desc">Upload your department's Excel or CSV file. Fast &amp; automatic.</div>
@@ -1602,15 +1622,13 @@ td input:focus,td select:focus{border-color:var(--accent)}
       </div>
 
       <!-- Upload mode panel -->
-      <div id="upload-panel" class="card">
+      <div id="upload-panel" class="card" style="display:none">
         <div class="upload-zone" id="drop-zone">
           <span class="upload-emoji">📊</span>
-          <h3 style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:12px;line-height:1.5">Drop your file here</h3>
+          <h3 style="font-family:'Inter',sans-serif;font-size:18px;font-weight:800;margin-bottom:12px;line-height:1.5">Drop your file here</h3>
           <p style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.7">Supports .xlsx · .xls · .csv</p>
-          <label>
-            <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none"/>
-            <span class="btn btn-primary" style="cursor:pointer">📂 Choose File</span>
-          </label>
+          <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none"/>
+          <button class="btn btn-primary" id="btn-choose-file">📂 Choose File</button>
         </div>
         <div class="divider"></div>
         <div style="font-size:12px;color:var(--text2);line-height:1.6;margin-top:8px">
@@ -1621,6 +1639,10 @@ td input:focus,td select:focus{border-color:var(--accent)}
 
       <!-- Manual mode panel -->
       <div id="manual-panel" style="display:none">
+        <!-- FIX #4: Manual entry use-case explanation -->
+        <div style="padding:12px 16px;background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);border-radius:var(--radius-sm);margin-bottom:16px;font-size:12px;color:var(--text2);line-height:1.7">
+          💡 <strong style="color:var(--text)">কখন Manual Entry ব্যবহার করবে?</strong> — যখন department এর Excel file নেই, বা শুধু কয়েকটা specific course এর combination দেখতে চাও। প্রতিটা course এর section, time আর faculty নিজে enter করো।
+        </div>
         <!-- Step indicator -->
         <div class="me-steps" id="me-steps">
           <div class="me-step active" id="me-step-1">
@@ -1640,27 +1662,32 @@ td input:focus,td select:focus{border-color:var(--accent)}
         </div>
 
         <div class="card mb-16">
-          <div class="card-title mb-12">➕ Add a Course</div>
-          <div class="me-form-grid" id="mc-add-form">
-            <div>
-              <div class="me-form-label">Course Code</div>
-              <input class="me-input" id="mc-code" placeholder="e.g. CSE101" autocomplete="off"/>
+          <div class="card-title mb-12">🔍 Search &amp; Add a Course</div>
+
+          <!-- Search box -->
+          <div class="course-search-wrap" id="course-search-wrap">
+            <div class="course-search-input-wrap">
+              <span class="course-search-icon">🔍</span>
+              <input class="course-search-inp" id="mc-search"
+                placeholder="Type course name or code… e.g. Data, CSE 3521"
+                autocomplete="off" autocorrect="off" spellcheck="false"/>
+              <button class="course-search-clear" id="mc-search-clear" title="Clear">✕</button>
             </div>
-            <div>
-              <div class="me-form-label">Course Name</div>
-              <input class="me-input" id="mc-name" placeholder="e.g. Object Oriented Programming" autocomplete="off"/>
-            </div>
-            <div>
-              <div class="me-form-label">Type</div>
-              <select class="me-select" id="mc-type">
-                <option value="Theory">📖 Theory</option>
-                <option value="Lab">🔬 Lab</option>
-              </select>
-            </div>
+            <div class="course-dropdown" id="mc-dropdown"></div>
           </div>
-          <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+
+          <!-- Selected course pill (hidden until a course is picked) -->
+          <div class="course-selected-pill hidden" id="mc-selected-pill">
+            <div class="course-pill-info">
+              <div class="course-pill-name" id="mc-pill-name">—</div>
+              <div class="course-pill-meta" id="mc-pill-meta"></div>
+            </div>
+            <button class="course-pill-change" id="mc-pill-change">Change ✕</button>
+          </div>
+
+          <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
             <button class="btn btn-primary btn-sm" id="btn-mc-add">+ Add Course</button>
-            <span class="text-sm text-muted">Add the course first, then enter its sections below</span>
+            <span class="text-sm text-muted">Select a course above, then add its sections below</span>
           </div>
         </div>
 
@@ -1707,6 +1734,24 @@ td input:focus,td select:focus{border-color:var(--accent)}
       <div class="flex gap-16" style="align-items:flex-start">
         <div class="cc-info">
           <div class="card mb-16" style="padding:14px">
+            <!-- FIX #2: Faculty chip usage guide — updated to match new visual system -->
+            <div class="fac-chip-help">
+              <span>Faculty chips:</span>
+              <span style="display:inline-flex;align-items:center;gap:4px">
+                <span style="background:var(--surface2);border:1.5px solid var(--border2);border-radius:999px;padding:2px 8px;font-size:10px;color:var(--text3)">Name</span>
+                <strong style="color:var(--text2)">1×</strong> = ✓ Selected (prefer)
+              </span>
+              <span>·</span>
+              <span style="display:inline-flex;align-items:center;gap:4px">
+                <span style="background:rgba(34,197,94,0.15);border:1.5px solid rgba(34,197,94,0.6);border-radius:999px;padding:2px 8px;font-size:10px;color:var(--accent)">✓ Name</span>
+                <strong style="color:var(--text2)">2×</strong> = 🔒 Locked (must have)
+              </span>
+              <span>·</span>
+              <span style="display:inline-flex;align-items:center;gap:4px">
+                <span style="background:rgba(245,158,11,0.15);border:2px solid rgba(245,158,11,0.7);border-radius:6px;padding:2px 8px;font-size:10px;color:#d97706;font-weight:700">🔒 Name <span style="font-size:8px;background:rgba(245,158,11,0.2);border-radius:3px;padding:1px 4px">Must have</span></span>
+                <strong style="color:var(--text2)">3×</strong> = deselect
+              </span>
+            </div>
             <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" id="course-search" placeholder="Search by course name or code..." autocomplete="off"/></div>
           </div>
           <div id="course-grid" class="course-grid"></div>
@@ -1802,14 +1847,19 @@ td input:focus,td select:focus{border-color:var(--accent)}
     <div id="page-results" style="display:none">
       <div class="flex jbetween items-center flex-wrap gap-12 mb-16">
         <div><div class="page-title">Your Combinations ✨</div><div class="page-sub" id="results-sub">Generating...</div></div>
-        <div class="flex gap-8">
+        <div class="flex gap-8 flex-wrap">
+          <!-- FIX #16: Share link button -->
+          <button class="btn btn-ghost btn-sm" id="btn-share-link" title="Copy shareable link for current preferences">🔗 Share</button>
           <button class="btn btn-ghost btn-sm" id="btn-back-prefs">← Back</button>
           <button class="btn btn-ghost btn-sm" id="btn-start-over">🔄 Start Over</button>
         </div>
       </div>
       <div style="margin-bottom:24px">
-        <button class="btn btn-best btn-lg" id="btn-show-best">🏆 Generate Best Routine For Me</button>
+        <!-- FIX #3: Best Routine button disabled by default until generate() runs successfully -->
+        <button class="btn btn-best btn-lg" id="btn-show-best" disabled title="Generate combinations first to use this">🏆 Generate Best Routine For Me</button>
       </div>
+      <!-- FIX #17: Conflict explanation shown when no combos found -->
+      <div class="conflict-detail" id="conflict-detail"></div>
       <div id="gen-progress" class="gen-progress">
         <span class="gp-label" id="gp-label">Generating...</span>
         <div class="gp-bar-wrap"><div class="gp-bar" id="gp-bar"></div></div>
@@ -1823,6 +1873,69 @@ td input:focus,td select:focus{border-color:var(--accent)}
 </div>
 
 <div class="toast-wrap" id="toasts" role="status" aria-live="polite"></div>
+
+<!-- ══ COMPARE BAR (floating bottom) ══════════════════════════════ -->
+<div class="compare-bar" id="compare-bar">
+  <div class="compare-bar-slots">
+    <div class="compare-slot" id="compare-slot-1">
+      <span class="compare-bar-hint">Select a combination</span>
+    </div>
+    <div class="compare-slot" id="compare-slot-2">
+      <span class="compare-bar-hint">Select another</span>
+    </div>
+  </div>
+  <button class="btn-compare-now" id="btn-compare-now">⚡ Compare</button>
+  <button class="btn-compare-cancel" id="btn-compare-cancel">✕ Cancel</button>
+</div>
+
+<!-- ══ COMPARE MODAL ═══════════════════════════════════════════════ -->
+<div class="compare-modal-overlay" id="compare-modal-overlay">
+  <div class="compare-modal">
+    <div class="compare-modal-hd">
+      <div class="compare-modal-title">⚡ Side-by-Side Comparison</div>
+      <button class="compare-modal-close" id="compare-modal-close">✕</button>
+    </div>
+    <div id="compare-modal-body"></div>
+  </div>
+</div>
+
+<!-- ══ SHARE MODAL ═════════════════════════════════════════════════ -->
+<div class="share-modal-overlay" id="share-modal-overlay">
+  <div class="share-modal">
+    <div class="share-modal-title">📤 Share this Routine</div>
+    <div class="share-modal-sub" id="share-modal-sub">Share Combination #1</div>
+    <div class="share-btns">
+      <a class="share-btn-item share-btn-wa" id="share-wa" href="#" target="_blank" rel="noopener">
+        <div class="share-btn-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </div>
+        <div class="share-btn-info">
+          <span class="share-btn-label">WhatsApp</span>
+          <span class="share-btn-hint">Batch group এ share করো</span>
+        </div>
+      </a>
+      <a class="share-btn-item share-btn-ms" id="share-ms" href="#" target="_blank" rel="noopener">
+        <div class="share-btn-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.745 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.975 18.627 0 12 0zm1.193 14.963l-3.056-3.259-5.963 3.259L10.733 8.3l3.13 3.259L19.752 8.3l-6.559 6.663z"/></svg>
+        </div>
+        <div class="share-btn-info">
+          <span class="share-btn-label">Messenger</span>
+          <span class="share-btn-hint">Friend কে directly পাঠাও</span>
+        </div>
+      </a>
+      <button class="share-btn-item share-btn-cp" id="share-cp">
+        <div class="share-btn-icon" style="font-size:18px">🔗</div>
+        <div class="share-btn-info">
+          <span class="share-btn-label">Copy Link</span>
+          <span class="share-btn-hint">যেকোনো জায়গায় paste করো</span>
+        </div>
+      </button>
+    </div>
+    <div class="share-modal-close-row">
+      <button class="share-modal-cancel" id="share-modal-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ════════════════════════════════════════════════════════════════
@@ -1840,7 +1953,8 @@ var DAY_FULL = {Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wedn
 var DAY_MAP  = {sat:'Sat',saturday:'Sat',sun:'Sun',sunday:'Sun',tue:'Tue',tuesday:'Tue',
                 wed:'Wed',wednesday:'Wed',mon:'Mon',monday:'Mon',thu:'Thu',thursday:'Thu',fri:'Fri',friday:'Fri'};
 
-var TLS = 8*60, TLE = 17*60+30, TLSP = TLE-TLS;
+// FIX: TLE was 17:30 (5:30 PM) — university last slot ends 4:30 PM, so changed to 16:30
+var TLS = 8*60, TLE = 16*60+30, TLSP = TLE-TLS;
 
 var TSLOTS = [{s:8*60+30,e:9*60+50,id:'t1'},{s:9*60+51,e:11*60+10,id:'t2'},
               {s:11*60+11,e:12*60+30,id:'t3'},{s:12*60+30,e:13*60+50,id:'t4'},
@@ -1849,7 +1963,7 @@ var LSLOTS = [{s:8*60+30,e:11*60+0,id:'l1'},{s:11*60+10,e:13*60+40,id:'l2'},{s:1
 var ALL_SLOTS = LSLOTS.concat(TSLOTS);
 
 var COLORS = [
-  {bg:'rgba(124,106,255,0.85)',bd:'rgba(124,106,255,1)',tx:'#fff',glow:'rgba(124,106,255,0.3)'},
+  {bg:'rgba(34,197,94,0.85)',bd:'rgba(34,197,94,1)',tx:'#fff',glow:'rgba(34,197,94,0.3)'},
   {bg:'rgba(6,214,160,0.8)',bd:'rgba(6,214,160,1)',tx:'#fff',glow:'rgba(6,214,160,0.25)'},
   {bg:'rgba(255,107,157,0.8)',bd:'rgba(255,107,157,1)',tx:'#fff',glow:'rgba(255,107,157,0.25)'},
   {bg:'rgba(255,209,102,0.8)',bd:'rgba(255,209,102,1)',tx:'#1a1a1a',glow:'rgba(255,209,102,0.25)'},
@@ -1872,7 +1986,7 @@ var State = {
   combos: [],
   expandedCards: new Set(),
   pinnedSections: {},  // key → Set of row IDs
-  theme: localStorage.getItem('scht') || 'dark',
+  theme: localStorage.getItem('scht') || 'light',
 
   // Preferences
   P: { time:'any', days:'0', sort:'gap', theoryLim:0, labLim:0, blockedSlots: new Set() },
@@ -1901,9 +2015,15 @@ var State = {
 // ── LOCALSTORAGE PERSISTENCE ──────────────────────────────────────
 var LS_KEY = 'sl_state_v1';
 
+var _lsSaveTimer = null;
 function lsSave() {
-  try {
+  // Debounce — avoid blocking localStorage write on every rapid interaction
+  clearTimeout(_lsSaveTimer);
+  _lsSaveTimer = setTimeout(function() {
+    try {
     var snap = {
+      // FIX #13: rows NOT saved — can be 200-500KB, hits localStorage quota.
+      // Users reload from file. selCourses/prefs are the only state worth persisting.
       selCourses: {},
       pinnedSections: {},
       P: {
@@ -1916,7 +2036,8 @@ function lsSave() {
       },
       thLimV: State.thLimV,
       labLimV: State.labLimV,
-      theme: State.theme
+      theme: State.theme,
+      onboardDismissed: State._onboardDismissed || false
     };
     // Serialize selCourses (Sets → arrays)
     Object.keys(State.selCourses).forEach(function(k) {
@@ -1930,7 +2051,8 @@ function lsSave() {
       snap.pinnedSections[k] = Array.from(State.pinnedSections[k]);
     });
     localStorage.setItem(LS_KEY, JSON.stringify(snap));
-  } catch(e) { /* quota exceeded or private mode */ }
+    } catch(e) { /* quota exceeded or private mode */ }
+  }, 400);
 }
 
 function lsLoad() {
@@ -1938,7 +2060,10 @@ function lsLoad() {
     var raw = localStorage.getItem(LS_KEY);
     if (!raw) return;
     var snap = JSON.parse(raw);
-    if (snap.theme) { State.theme = snap.theme; }
+    if (snap.theme) { State.theme = snap.theme || 'light'; }
+    // FIX #13: rows no longer saved to localStorage — must re-upload file each session.
+    // This is intentional: rows can be 200-500KB, easily hitting the 5MB quota.
+    if (snap._onboardDismissed) { State._onboardDismissed = true; }
     if (snap.P) {
       State.P.time = snap.P.time || 'any';
       State.P.days = snap.P.days || '0';
@@ -2017,18 +2142,26 @@ function toggleTheme() { applyTheme(State.theme === 'dark' ? 'light' : 'dark'); 
 // ── NAV ──────────────────────────────────────────────────────────
 function go(p) {
   if (p === 'review' && !State.rows.length) { toast('Upload a file first','error'); return; }
-  if (p === 'select' && !State.rows.length) { toast('Upload a file first','error'); return; }
+  if (p === 'select' && !State.rows.length) { toast('No course data loaded yet','error'); return; }
   if (p === 'prefs'  && !Object.keys(State.selCourses).length) { toast('Select at least one course','error'); return; }
   if (p === 'results'&& !State.combos.length) { toast('Generate combinations first','error'); return; }
 
   PAGES.forEach(function(x) {
-    $(  'page-'+x).style.display = (x === p) ? 'block' : 'none';
-    var n = $('nav-'+x);
-    n.classList.toggle('active', x === p);
+    var pg  = $('page-'+x);
+    var nav = $('nav-'+x);
+    var show = (x === p);
+    pg.style.display = show ? 'block' : 'none';
+    nav.classList.toggle('active', show);
+    if (!show) { pg.classList.remove('page-enter'); return; }
+    pg.classList.remove('page-enter');
+    requestAnimationFrame(function() { pg.classList.add('page-enter'); });
   });
+
   $('main').scrollTop = 0;
-  if (p === 'select') buildGrid();
-  if (p === 'prefs')  { syncSlotChips(); validatePrefs(); }
+
+  // Defer heavy work — let browser paint the page first
+  if (p === 'select') setTimeout(function() { buildGrid(); }, 16);
+  if (p === 'prefs')  setTimeout(function() { syncSlotChips(); validatePrefs(); }, 16);
 }
 
 function markDone(p) { $('nav-'+p).classList.add('done'); }
@@ -2059,23 +2192,33 @@ function ensureXLSX(cb) {
 // ── FILE HANDLING ─────────────────────────────────────────────────
 function handleDrop(e) {
   e.preventDefault();
+  e.stopPropagation();
   $('drop-zone').classList.remove('drag');
-  var file = e.dataTransfer && e.dataTransfer.files[0];
+  // Extract file immediately before any async gap
+  var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
   if (file) procFile(file);
 }
 
 function handleFile(e) {
   var file = e.target.files && e.target.files[0];
+  // Reset input so same file can be selected again (triggers change event)
+  e.target.value = '';
   if (file) procFile(file);
 }
 
 function procFile(file) {
-  // PERF: validate before loading library
   if (!file) return;
-  var ext = file.name.split('.').pop().toLowerCase();
+  // Capture file reference explicitly before any async gap
+  var capturedFile = file;
+  var ext = capturedFile.name.split('.').pop().toLowerCase();
   if (['xlsx','xls','csv'].indexOf(ext) === -1) {
     toast('Unsupported file type. Use .xlsx, .xls, or .csv','error');
     return;
+  }
+
+  // Show feedback immediately — XLSX load can take 1-2s on first upload
+  if (!State._xlsxLoaded) {
+    toast('📦 Loading Excel reader...','info');
   }
 
   ensureXLSX(function() {
@@ -2116,7 +2259,7 @@ function procFile(file) {
     reader.onerror = function() {
       toast('Could not read file','error');
     };
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(capturedFile);
   });
 }
 
@@ -2232,7 +2375,7 @@ var _gridOffset    = 0;  // how many we've rendered so far
 
 function buildGrid(append) {
   if (!append) { _gridOffset = 0; } // reset on fresh build
-  buildMap();
+  // NOTE: buildMap() removed here — cMap is kept current by upload/edit/manual flows
   var grid = $('course-grid');
   var q = ($('course-search').value || '').toLowerCase().trim();
   var entries = Object.entries(State.cMap);
@@ -2273,16 +2416,27 @@ function buildGrid(append) {
     var locF    = isSel ? State.selCourses[key].locked : new Set();
     var isExpanded = State.expandedCards.has(key);
 
-    // Faculty chips
+    // Faculty chips — 3 states: unselected / selected (✓) / locked (🔒 Must have)
     var facHtml = isSel
       ? '<div class="faculty-list">' +
-          '<div class="faculty-chip'+(selF.size===0?' selected':'')+'" data-fac="__any__">Any Faculty</div>' +
+          '<div class="faculty-chip'+(selF.size===0?' selected':'')+
+          '" data-fac="__any__" title="Any faculty — no preference">' +
+          (selF.size===0?'✓ ':'')+'Any Faculty</div>' +
           facs.map(function(f) {
-            return '<div class="faculty-chip'+(selF.has(f)?' selected':'')+(locF.has(f)?' locked':'')+
-                   '" data-fac="'+esc(f)+'" data-fackey="'+esc(key)+'">'+(locF.has(f)?'🔒 ':'')+esc(f)+'</div>';
+            var isSelf = selF.has(f);
+            var isLock = locF.has(f);
+            var cls = 'faculty-chip' + (isSelf?' selected':'') + (isLock?' locked':'');
+            // Tooltip explains exactly what each state means
+            var tip = isLock
+              ? 'LOCKED — combinations will only include this faculty. Click to deselect.'
+              : isSelf
+                ? 'SELECTED — prefer this faculty. Click again to LOCK (must have). Click ✕ to deselect.'
+                : 'Click to select this faculty';
+            var icon = isLock ? '🔒 ' : (isSelf ? '✓ ' : '');
+            return '<div class="'+cls+'" data-fac="'+esc(f)+'" data-fackey="'+esc(key)+'" title="'+tip+'">'+icon+esc(f)+'</div>';
           }).join('') +
         '</div>'
-      : '<div style="font-size:11px;color:var(--text3);margin-top:4px">Click to select</div>';
+      : '<div style="font-size:11px;color:var(--text3);margin-top:4px;padding:2px 0">Click course to select, then choose faculty</div>';
 
     // Section rows
     var facFilterActive = isSel && selF.size > 0;
@@ -2303,7 +2457,20 @@ function buildGrid(append) {
       ? '<div class="sec-filter-note">🎯 '+filteredRows.length+' of '+c.rows.length+' sections match selected faculty</div>'
       : '';
 
-    var secRowsHtml = '<div class="sec-rows-wrap'+(isExpanded?' open':'')+'" id="sec-rows-'+idx+'">'+filterNoteHtml;
+    var secRowsHtml = '<div class="sec-rows-wrap'+(isExpanded?' open':'')+'" id="sec-rows-'+idx+'">';
+
+    // FIX 3 & 4: Add pin + double-click explanation when sections are expanded
+    if (isExpanded) {
+      secRowsHtml +=
+        '<div class="sec-help-bar">' +
+          '<span>📌 <strong>Pin</strong> = শুধু এই section দিয়ে combination বানাও</span>' +
+          '<span>·</span>' +
+          '<span>🖱️ <strong>Faculty chip double-click</strong> = তার সব sections দেখো</span>' +
+        '</div>';
+    }
+
+    secRowsHtml += filterNoteHtml;
+
     if (!filteredRows.length) {
       secRowsHtml += '<div style="font-size:11px;color:var(--text3);padding:10px 0;text-align:center;font-style:italic">No sections for selected faculty</div>';
     } else {
@@ -2320,7 +2487,8 @@ function buildGrid(append) {
                 (r.room ? '<span>🏫 '+esc(r.room)+'</span>' : '') +
               '</div>' +
             '</div>' +
-            '<button class="sri-pin-btn" data-rid="'+r.id+'" data-key="'+esc(key)+'">'+(isPinned?'📌 Pinned':'📌 Pin')+'</button>' +
+            // FIX 4: Pin button with clearer label
+            '<button class="sri-pin-btn" data-rid="'+r.id+'" data-key="'+esc(key)+'" title="'+(isPinned?'Unpin this section — allow other sections too':'Pin this section — only use this section in combinations')+'">'+(isPinned?'📌 Pinned':'📌 Pin')+'</button>' +
           '</div>';
       });
     }
@@ -2398,13 +2566,7 @@ function buildGrid(append) {
   updateSelPanel();
 }
 
-// "Show more courses" pagination button
-$('course-grid').addEventListener('click', function(e) {
-  var moreBtn = e.target.closest('#grid-more-btn');
-  if (moreBtn) { buildGrid(true); return; }
-});
-
-// PERF: single delegated listener on course-grid instead of per-card listeners
+// PERF: single delegated click listener on course-grid (merged)
 $('course-grid').addEventListener('keydown', function(e) {
   if (e.key !== 'Enter' && e.key !== ' ') return;
   var card = e.target.closest('.course-card');
@@ -2414,6 +2576,10 @@ $('course-grid').addEventListener('keydown', function(e) {
   }
 });
 $('course-grid').addEventListener('click', function(e) {
+  // "Show more" pagination button
+  var moreBtn = e.target.closest('#grid-more-btn');
+  if (moreBtn) { buildGrid(true); return; }
+
   // Pin button
   var pinBtn = e.target.closest('.sri-pin-btn');
   if (pinBtn) {
@@ -2515,17 +2681,7 @@ function openFacPanel(facName) {
         '</div>' +
       '</div>';
     }).join('');
-    // PERF: delegate on body instead of per-button
-    body.addEventListener('click', function handler(e) {
-      var btn = e.target.closest('.fsi-lock-btn');
-      if (!btn) return;
-      e.stopPropagation();
-      var k = btn.dataset.key, f = btn.dataset.fac;
-      if (!State.selCourses[k]) State.selCourses[k] = {facs:new Set(),locked:new Set()};
-      selFac(k, f);
-      openFacPanel(f);
-      buildGrid();
-    }, {once: true}); // once:true prevents stacking listeners on re-open
+    // Delegated handler added once at bottom — no per-open listener needed
   }
   $('fac-panel').classList.add('open');
   $('fac-overlay').classList.add('open');
@@ -2548,23 +2704,38 @@ function updateSelPanel() {
     var c  = State.cMap[k]; if (!c) return '';
     var sf = State.selCourses[k].facs, lf = State.selCourses[k].locked;
     var ft = sf.size ? Array.from(sf).map(function(f) { return (lf.has(f)?'🔒':'')+f; }).join(', ') : 'Any Faculty';
-    return '<div class="sel-item" data-idx="'+i+'">' +
+    // FIX #12: use data-key instead of data-idx — index-based deletion is fragile
+    // when courses are deleted rapidly (Object.keys() order can shift mid-operation)
+    return '<div class="sel-item" data-key="'+esc(k)+'">' +
       '<div class="si-info">' +
         '<div class="si-code">'+esc(c.code)+' · <span class="badge '+(c.type==='Lab'?'badge-lab':'badge-theory')+'">'+c.type+'</span></div>' +
         '<div class="si-name">'+esc(c.name)+'</div>' +
         '<div class="si-fac">'+esc(ft)+'</div>' +
       '</div>' +
-      '<button class="btn btn-danger btn-sm rm-btn" data-idx="'+i+'">✕</button>' +
+      '<button class="btn btn-danger btn-sm rm-btn" data-key="'+esc(k)+'" title="Remove course" aria-label="Remove '+esc(c.code)+'">✕</button>' +
     '</div>';
   }).join('');
 }
 
 // PERF: delegate on sel-panel
+// FIX #12: key-based deletion (was index-based — fragile under rapid deletes)
+// FIX #15: undo system for course removal (5-second window)
+var _undoStack = []; // {key, data} for undo
+var _undoTimer = null;
+
 $('sel-panel').addEventListener('click', function(e) {
   var btn = e.target.closest('.rm-btn');
   if (!btn) return;
-  var k = Object.keys(State.selCourses)[parseInt(btn.dataset.idx)];
-  if (k) { delete State.selCourses[k]; buildGrid(); updatePrefBtn(); }
+  var k = btn.dataset.key; // FIX #12: use key, not index
+  if (!k || !State.selCourses[k]) return;
+
+  // FIX #15: save to undo stack before deleting
+  var saved = { key: k, data: State.selCourses[k] };
+  delete State.selCourses[k];
+  buildGrid(); updatePrefBtn();
+
+  // Show undo toast
+  _showUndoToast(saved);
 });
 
 function updatePrefBtn() {
@@ -2572,6 +2743,39 @@ function updatePrefBtn() {
   var b = $('to-prefs-btn');
   b.disabled = n === 0;
   b.textContent = n ? 'Set Preferences (' + n + ') →' : 'Set Preferences →';
+}
+
+// FIX #15: Undo system for course removal
+function _showUndoToast(saved) {
+  // Remove any existing undo toast first
+  var existing = document.querySelector('.toast-undo');
+  if (existing) existing.remove();
+  if (_undoTimer) clearTimeout(_undoTimer);
+
+  var c = State.cMap[saved.key];
+  var label = c ? c.code : 'Course';
+
+  var el = document.createElement('div');
+  el.className = 'toast toast-undo';
+  el.innerHTML =
+    '<span style="flex:1;font-size:13px;color:var(--text)">🗑 <strong>' + esc(label) + '</strong> removed</span>' +
+    '<button class="toast-undo-btn" id="undo-rm-btn">Undo</button>';
+  $('toasts').appendChild(el);
+
+  el.querySelector('#undo-rm-btn').addEventListener('click', function() {
+    // Restore the deleted course
+    State.selCourses[saved.key] = saved.data;
+    buildGrid(); updatePrefBtn(); lsSave();
+    el.remove();
+    if (_undoTimer) clearTimeout(_undoTimer);
+    toast('↩ ' + label + ' restored!', 'success');
+  });
+
+  // Auto-dismiss after 5 seconds
+  _undoTimer = setTimeout(function() {
+    if (el.parentNode) el.remove();
+    lsSave(); // Only save after undo window closes
+  }, 5000);
 }
 
 // ── PREFS ─────────────────────────────────────────────────────────
@@ -2783,55 +2987,200 @@ function score(combo) {
   return an.tGap*0.5 + tPen*0.5;
 }
 
-// ── PREFERENCE VALIDATION ──────────────────────────────────────────
+// ── PREFERENCE VALIDATION — 3-Type System ─────────────────────────
+// Type 1: IMPOSSIBLE   — mathematically no combo can exist
+// Type 2: RESTRICTED   — technically possible but very constrained
+// Type 3: CONFLICTING  — two preferences logically contradict each other
 function validatePrefs() {
   var warn = $('pref-warn');
   if (!warn) return true;
   var ks = Object.keys(State.selCourses);
   if (!ks.length) { warn.classList.remove('show'); return true; }
 
-  var allDays = new Set(), morningCount=0, afternoonCount=0, totalRows=0;
+  // ── Gather data ──────────────────────────────────────────────────
+  var allDays = new Set();
+  var morningRows = 0, afternoonRows = 0, totalRows = 0;
+  var lockedFacCount = 0, totalFacCount = 0;
+  var coursesWithOnlyOneFac = 0;
+
   ks.forEach(function(k) {
     var c = State.cMap[k]; if (!c) return;
+    var sc = State.selCourses[k];
+    var lockedSize = sc && sc.locked ? sc.locked.size : 0;
+    if (lockedSize > 0) lockedFacCount += lockedSize;
+    totalFacCount += c.facs.size;
+    if (c.facs.size === 1) coursesWithOnlyOneFac++;
+
     c.rows.forEach(function(r) {
       normD(r.day).forEach(function(d) { allDays.add(d); });
       var t = parseTR(r.time);
-      if (t) { totalRows++; if ((t.s+t.e)/2 < 12*60) morningCount++; else afternoonCount++; }
+      if (t) {
+        totalRows++;
+        if ((t.s + t.e) / 2 < 12 * 60) morningRows++; else afternoonRows++;
+      }
     });
   });
 
-  var msgs = [];
-  if (State.P.time !== 'any' && totalRows > 0) {
-    if (State.P.time==='morning'   && morningCount===0)   msgs.push('🌅 <strong>Morning</strong> চাইছেন কিন্তু selected courses এর কোনো section morning এ নেই। <strong>Any Time</strong> বেছে নিন।');
-    else if (State.P.time==='afternoon' && afternoonCount===0) msgs.push('☀️ <strong>Afternoon</strong> চাইছেন কিন্তু কোনো section afternoon এ নেই। <strong>Any Time</strong> বেছে নিন।');
-    else if (State.P.time==='morning'   && morningCount<ks.length) msgs.push('🌅 কিছু courses এ morning section নেই — combinations কম পাবেন।');
-    else if (State.P.time==='afternoon' && afternoonCount<ks.length) msgs.push('☀️ কিছু courses এ afternoon section নেই — combinations কম পাবেন।');
-  }
-  if (State.P.days !== '0') {
-    var target = parseInt(State.P.days);
-    if (allDays.size > 0 && allDays.size < target)
-      msgs.push('📅 <strong>'+target+' days</strong> চাইছেন কিন্তু selected courses মাত্র <strong>'+allDays.size+' day(s)</strong> এ আছে।');
-  }
-  if (State.P.blockedSlots.size > 0) {
-    var blockedConflicts = [];
-    ks.forEach(function(k) {
-      var c = State.cMap[k]; if (!c) return;
-      if (c.rows.every(function(r) { return violatesSlot(r); })) blockedConflicts.push(c.code||c.name);
-    });
-    if (blockedConflicts.length)
-      msgs.push('🚫 <strong>'+blockedConflicts.join(', ')+'</strong> — সব sections blocked। Block সরান বা course deselect করুন।');
+  var blockedCount = State.P.blockedSlots.size;
+  var dayTarget = State.P.days !== '0' ? parseInt(State.P.days) : 0;
+  var hasTimeFilter = State.P.time !== 'any';
+  var hasDayFilter  = dayTarget > 0;
+
+  // ── TYPE 1: IMPOSSIBLE ──────────────────────────────────────────
+  var impossible = [];
+
+  // All sections of a course are blocked
+  var fullyBlockedCourses = [];
+  ks.forEach(function(k) {
+    var c = State.cMap[k]; if (!c) return;
+    if (c.rows.every(function(r) { return violatesSlot(r); }))
+      fullyBlockedCourses.push(c.code || c.name);
+  });
+  if (fullyBlockedCourses.length) {
+    impossible.push('<strong>' + fullyBlockedCourses.join(', ') + '</strong> — সব sections blocked সময়ে পড়েছে');
   }
 
-  if (msgs.length) {
-    warn.innerHTML = msgs.map(function(m, mi) {
-      return '<div class="pref-warn-row'+(mi>0?' pref-warn-sep':'')+'">' +
-        '<span class="pref-warn-icon">⚠️</span><div>'+m+'</div></div>';
-    }).join('');
-    warn.classList.add('show');
-  } else {
-    warn.classList.remove('show');
+  // Morning pref but zero morning sections
+  if (State.P.time === 'morning' && morningRows === 0 && totalRows > 0)
+    impossible.push('Morning চাইছ কিন্তু কোনো course এ morning section নেই');
+
+  // Afternoon pref but zero afternoon sections
+  if (State.P.time === 'afternoon' && afternoonRows === 0 && totalRows > 0)
+    impossible.push('Afternoon চাইছ কিন্তু কোনো course এ afternoon section নেই');
+
+  // Locked faculty has no sections in that course
+  ks.forEach(function(k) {
+    var c = State.cMap[k]; if (!c) return;
+    var sc = State.selCourses[k];
+    if (!sc || !sc.locked || sc.locked.size === 0) return;
+    sc.locked.forEach(function(lf) {
+      if (!c.rows.some(function(r) { return r.faculty === lf; }))
+        impossible.push('<strong>' + esc(c.code) + '</strong> — locked faculty "' + esc(lf) + '" এর কোনো section নেই');
+    });
+  });
+
+  // Pinned section is blocked
+  ks.forEach(function(k) {
+    var c = State.cMap[k]; if (!c) return;
+    var pins = State.pinnedSections[k];
+    if (!pins || !pins.size) return;
+    var pinnedRows = c.rows.filter(function(r) { return pins.has(r.id); });
+    if (pinnedRows.length && pinnedRows.every(function(r) { return violatesSlot(r); }))
+      impossible.push('<strong>' + esc(c.code) + '</strong> — pinned section টা blocked সময়ে');
+  });
+
+  // Theory/Lab limit below selected count
+  if (State.P.theoryLim > 0 || State.P.labLim > 0) {
+    var thC = ks.filter(function(k) { var c=State.cMap[k]; return c && c.type==='Theory'; }).length;
+    var lbC = ks.filter(function(k) { var c=State.cMap[k]; return c && c.type==='Lab'; }).length;
+    if (State.P.theoryLim > 0 && thC > State.P.theoryLim)
+      impossible.push('Theory limit <strong>' + State.P.theoryLim + '</strong> কিন্তু selected theory courses <strong>' + thC + '</strong>টা');
+    if (State.P.labLim > 0 && lbC > State.P.labLim)
+      impossible.push('Lab limit <strong>' + State.P.labLim + '</strong> কিন্তু selected lab courses <strong>' + lbC + '</strong>টা');
   }
-  return msgs.length === 0;
+
+  // ── TYPE 2: OVER-RESTRICTED ─────────────────────────────────────
+  var restricted = [];
+
+  // Too many blocked slots (>= half of all slots)
+  var totalSlots = ALL_SLOTS ? ALL_SLOTS.length : 10;
+  if (blockedCount >= Math.floor(totalSlots * 0.5) && blockedCount > 0)
+    restricted.push(blockedCount + 'টা time slot blocked — এত বেশি block থাকলে combination পাওয়া কঠিন');
+
+  // Almost all days restricted
+  if (hasDayFilter && dayTarget <= 2 && ks.length > 3)
+    restricted.push('মাত্র ' + dayTarget + ' দিনে ' + ks.length + 'টা course fit করানো কঠিন হবে');
+
+  // Morning but very few morning sections
+  if (State.P.time === 'morning' && morningRows > 0 && morningRows < ks.length)
+    restricted.push('কিছু courses এ morning section নেই — combinations অনেক কম হবে');
+
+  // Afternoon but very few
+  if (State.P.time === 'afternoon' && afternoonRows > 0 && afternoonRows < ks.length)
+    restricted.push('কিছু courses এ afternoon section নেই — combinations অনেক কম হবে');
+
+  // Most faculty locked
+  if (lockedFacCount > 0 && lockedFacCount >= ks.length)
+    restricted.push(lockedFacCount + 'টা faculty locked — combinations অনেক কমে যাবে');
+
+  // ── TYPE 3: CONFLICTING ─────────────────────────────────────────
+  var conflicting = [];
+
+  // "Avoid gaps" + "Few days" = logical conflict
+  if (State.P.sort === 'gap' && hasDayFilter && dayTarget <= 3 && ks.length > 3)
+    conflicting.push(
+      'Gap কম রাখতে চাইলে courses একই দিনে রাখতে হয় — কিন্তু ' + dayTarget + ' days limit এ সেটা সম্ভব নাও হতে পারে'
+    );
+
+  // "Morning only" + "Few days" = conflict
+  if (State.P.time === 'morning' && hasDayFilter && dayTarget <= 2 && ks.length > 2)
+    conflicting.push('Morning only + মাত্র ' + dayTarget + ' দিন — এত সংকীর্ণ শর্তে routine প্রায় impossible');
+
+  // "Max 2 days" + many courses = structural conflict
+  if (hasDayFilter && dayTarget <= 2 && ks.length >= 4)
+    conflicting.push(ks.length + 'টা course মাত্র ' + dayTarget + ' দিনে রাখতে গেলে প্রচুর overlap হবে');
+
+  // ── BUILD HTML ──────────────────────────────────────────────────
+  if (!impossible.length && !restricted.length && !conflicting.length) {
+    warn.classList.remove('show');
+    warn.innerHTML = '';
+    return true;
+  }
+
+  var html = '';
+
+  if (impossible.length) {
+    html += _pwBlock('impossible', '❌ Impossible Combination', impossible,
+      'এই preferences এ কোনো valid routine সম্ভব নয়', [
+        'Blocked time slots কিছু সরাও',
+        'Faculty lock সরাও বা পরিবর্তন করো',
+        'Theory/Lab limit বাড়াও'
+      ]);
+  }
+
+  if (restricted.length) {
+    html += _pwBlock('restricted', '⚠️ Over-Restricted', restricted,
+      'Routine পাবে হয়তো, কিন্তু options অনেক কম হবে', [
+        'আরও কিছু time slot unblock করো',
+        'Time preference "Any Time" করো',
+        'Days limit একটু বাড়াও'
+      ]);
+  }
+
+  if (conflicting.length) {
+    html += _pwBlock('conflicting', '⚡ Conflicting Preferences', conflicting,
+      'দুটো preference একসাথে পূরণ করা কঠিন — একটা choose করো', [
+        'Gap কমানো OR days কমানো — দুটো একসাথে না',
+        'Morning only OR few days — একটা ছেড়ে দাও'
+      ]);
+  }
+
+  warn.innerHTML = html;
+  warn.classList.add('show');
+  return impossible.length === 0; // only block generate if truly impossible
+}
+
+// Helper — builds one warning block
+function _pwBlock(type, title, items, suggestTitle, suggestions) {
+  return '<div class="pw-block pw-' + type + '">' +
+    '<div class="pw-header">' +
+      title +
+      '<span class="pw-badge">' + type + '</span>' +
+    '</div>' +
+    '<div class="pw-items">' +
+      items.map(function(m) {
+        return '<div class="pw-item"><span class="pw-dot"></span><div>' + m + '</div></div>';
+      }).join('') +
+    '</div>' +
+    '<div class="pw-suggest">' +
+      '<div class="pw-suggest-label">👉 ' + suggestTitle + '</div>' +
+      '<div class="pw-suggest-items">' +
+        suggestions.map(function(s) {
+          return '<div class="pw-sug-item">' + s + '</div>';
+        }).join('') +
+      '</div>' +
+    '</div>' +
+  '</div>';
 }
 
 // ── GENERATE ──────────────────────────────────────────────────────
@@ -2897,6 +3246,11 @@ function generate() {
   _timeCache = {};
   _dayCache  = {};
 
+  // FIX #17: Clear old conflict detail on fresh generate
+  var cd = $('conflict-detail'); if (cd) cd.classList.remove('show');
+  // FIX #3: Reset best button until new results arrive
+  var bestBtn = $('btn-show-best'); if (bestBtn) bestBtn.disabled = true;
+
   // Loading state on button
   var genBtn = $('btn-generate');
   if (genBtn) { genBtn.disabled = true; genBtn.textContent = '⏳ Generating...'; }
@@ -2906,17 +3260,21 @@ function generate() {
   setTimeout(function() {
     try {
       var batch = findNextN(State._genGroups, FIRST_BATCH, State._genStack);
-      batch.sort(function(a,b) { return score(a)-score(b); });
       State.combos = batch;
+      State.combos.sort(function(a,b) { return score(a)-score(b); });
       State._genDone = State._genStack.length === 0;
       if (!State.combos.length) {
-        toast('No valid combinations — try relaxing filters','error');
+        // FIX #17: Show detailed conflict explanation instead of generic error
+        _showConflictExplanation(groups);
+        go('results');
         return;
       }
       markDone('prefs');
       go('results');
       renderResults(State.combos, !State._genDone);
-      setTimeout(function() { $('main').scrollTop = 0; }, 50);
+      // FIX #3: Enable "Best Routine" button now that combos exist
+      var bestBtn = $('btn-show-best');
+      if (bestBtn) { bestBtn.disabled = false; }
       toast('🎉 Found '+State.combos.length+' combination'+(State.combos.length!==1?'s':'')+(State._genDone?' (all)':' — load more below'),'success');
     } catch(err) {
       toast('Generation error: ' + err.message,'error');
@@ -2928,21 +3286,63 @@ function generate() {
   }, 40);
 }
 
+// Results page — shown when generate() returns 0 combinations
+function _showConflictExplanation(groups) {
+  var el = $('conflict-detail');
+  if (!el) return;
+
+  var ks = Object.keys(State.selCourses);
+  var items = [];
+  var suggestions = [];
+
+  // Check each course for specific issues
+  ks.forEach(function(k) {
+    var c = State.cMap[k]; if (!c) return;
+    var sf = State.selCourses[k].facs;
+
+    var afterFac  = (sf && sf.size > 0) ? c.rows.filter(function(r){ return sf.has(r.faculty); }) : c.rows;
+    var afterSlot = afterFac.filter(function(r){ return !violatesSlot(r); });
+
+    if (afterFac.length > 0 && afterSlot.length === 0) {
+      items.push('<strong>' + esc(c.code) + '</strong> — সব sections blocked সময়ে পড়েছে');
+      suggestions.push(esc(c.code) + ' এর blocked slots সরাও');
+    } else if (afterFac.length === 0 && sf && sf.size > 0) {
+      items.push('<strong>' + esc(c.code) + '</strong> — selected faculty এর কোনো section নেই');
+      suggestions.push(esc(c.code) + ' এর faculty selection পরিবর্তন করো');
+    }
+  });
+
+  // Generic reasons if no specific found
+  if (!items.length) {
+    items.push('দুই বা তার বেশি course এর sections একই সময়ে পড়েছে — সব একসাথে schedule করা যাচ্ছে না');
+    if (State.P.blockedSlots.size > 0)
+      suggestions.push('Block করা ' + State.P.blockedSlots.size + 'টা time slot এর কিছু সরাও');
+    if (State.P.days !== '0')
+      suggestions.push('Days limit বাড়াও বা সরাও');
+    suggestions.push('একটা course deselect করে আবার try করো');
+  }
+
+  el.innerHTML = _pwBlock('impossible', '❌ কোনো combination পাওয়া যায়নি', items,
+    'Try this to get results', suggestions);
+  el.classList.add('show');
+  toast('No combinations — see explanation above', 'error');
+}
+
 function loadMoreCombos() {
   if (State._genDone) { toast('No more combinations','info'); return; }
   var btn = $('load-more-btn');
   if (btn) { btn.textContent = '⏳ Loading...'; btn.disabled = true; }
   setTimeout(function() {
     try {
+      var prevLen = State.combos.length;
       var batch = findNextN(State._genGroups, MORE_BATCH, State._genStack);
+      if (!batch.length) { toast('No more combinations','info'); return; }
+      // Sort new batch before appending — maintain best-first sequence
       batch.sort(function(a,b) { return score(a)-score(b); });
       State.combos = State.combos.concat(batch);
       State._genDone = State._genStack.length === 0;
-      appendCombos(batch, State.combos.length-batch.length, State._genDone);
-      if (State._genDone && btn && btn.parentNode) btn.parentNode.remove();
-      else if (btn) { btn.textContent = '▾ Show '+MORE_BATCH+' more'; btn.disabled = false; }
-      if (batch.length) toast('Loaded '+batch.length+' more'+(State._genDone?' — all done!':''),'info');
-      else toast('No more combinations','info');
+      appendCombos(batch, prevLen, State._genDone);
+      toast('Loaded '+batch.length+' more'+(State._genDone?' — all done!':''),'info');
     } catch(err) {
       toast('Error loading more: ' + err.message,'error');
       if (btn) { btn.textContent = '▾ Show '+MORE_BATCH+' more'; btn.disabled = false; }
@@ -2980,6 +3380,8 @@ function renderResults(cs, hasMore) {
     list.appendChild(btnWrap);
   }
   markDone('results');
+  // Start lazy-loading timetables as user scrolls
+  initTTObserver();
 }
 
 function appendCombos(newCs, startIdx, noMore) {
@@ -2999,6 +3401,7 @@ function appendCombos(newCs, startIdx, noMore) {
   }
   var sub = $('results-sub');
   if (sub) sub.textContent = 'Found '+State.combos.length+' combination'+(State.combos.length!==1?'s':'')+(noMore?' (all)':' (more available)');
+  initTTObserver();
 }
 
 function makeCard(combo, idx, cm, isBest) {
@@ -3008,6 +3411,33 @@ function makeCard(combo, idx, cm, isBest) {
   var div = document.createElement('div');
   div.className = 'combo-card fade' + (isBest?' best-pick':'');
   div.id = 'combo-'+idx;
+
+  // Serialize combo + cm for lazy TT render
+  div.dataset.combo = JSON.stringify(combo);
+  div.dataset.cmKeys = JSON.stringify(Object.keys(cm));
+  div.dataset.cmVals = JSON.stringify(Object.values(cm));
+  div.dataset.ttBuilt = '0';
+
+  // FIX 2: Build a clear course summary list with full faculty names
+  var courseRows = '';
+  combo.forEach(function(r) {
+    var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+    var col = cm[k] || COLORS[0];
+    var isPinned = State.pinnedSections[k] && State.pinnedSections[k].has(r.id);
+    courseRows +=
+      '<div class="csl-row">' +
+        '<div class="csl-dot" style="background:'+col.bg+';border:2px solid '+col.bd+'"></div>' +
+        '<div class="csl-info">' +
+          '<span class="csl-code">'+esc(r.course_code||'—')+'</span>' +
+          '<span class="csl-sec">Sec '+esc(r.section||'—')+'</span>' +
+          '<span class="csl-type '+(r.type==='Lab'?'csl-lab':'csl-theory')+'">'+(r.type==='Lab'?'🔬':'📖')+' '+esc(r.type)+'</span>' +
+        '</div>' +
+        '<div class="csl-fac">'+esc(r.faculty||'—')+'</div>' +
+        '<div class="csl-time">'+esc(r.day||'—')+' · '+esc(r.time||'—')+'</div>' +
+        (isPinned ? '<span class="csl-pin-badge" title="Pinned section">📌</span>' : '') +
+      '</div>';
+  });
+
   div.innerHTML =
     '<div class="combo-header">' +
       '<span class="combo-num">'+(isBest?'<span class="best-crown">🏆 Best Pick</span>':'#'+(idx+1))+'</span>' +
@@ -3024,20 +3454,59 @@ function makeCard(combo, idx, cm, isBest) {
       '<div class="analytic" role="listitem"><div class="analytic-val">'+lh+'</div><div class="analytic-label">Longest Break</div></div>' +
       '<div class="analytic" role="listitem"><div class="analytic-val">'+an.morn+'</div><div class="analytic-label">Morning</div></div>' +
     '</div>' +
-    '<div class="tt-wrap" id="tt-'+idx+'">'+buildTT(combo,cm)+'</div>' +
+    // FIX 2: Clear course+faculty summary above timetable
+    '<div class="course-summary-list">' + courseRows + '</div>' +
+    // Lazy placeholder — real TT built on first scroll into view
+    '<div class="tt-wrap tt-lazy" id="tt-'+idx+'" style="min-height:180px;display:flex;align-items:center;justify-content:center">' +
+      '<span style="font-size:12px;color:var(--text3);opacity:.5">Loading timetable…</span>' +
+    '</div>' +
     '<div class="combo-actions">' +
+      '<button class="btn-compare-pick" data-idx="'+idx+'" title="Select to compare side-by-side">⚡ Compare</button>' +
+      '<button class="btn btn-ghost btn-sm share-combo-btn" data-idx="'+idx+'">📤 Share</button>' +
       '<button class="btn btn-ghost btn-sm dl-png-btn" data-idx="'+idx+'">📷 PNG</button>' +
       '<button class="btn btn-ghost btn-sm dl-pdf-btn" data-idx="'+idx+'">📄 PDF</button>' +
     '</div>';
   return div;
 }
 
+// ── Lazy TT IntersectionObserver ──────────────────────────────────
+var _ttObserver = null;
+function initTTObserver() {
+  // Create observer once, reuse it — never disconnect
+  if (!_ttObserver) {
+    _ttObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var wrap = entry.target;
+        var card = wrap.closest('.combo-card');
+        if (!card || card.dataset.ttBuilt === '1') { _ttObserver.unobserve(wrap); return; }
+        var keys = JSON.parse(card.dataset.cmKeys);
+        var vals = JSON.parse(card.dataset.cmVals);
+        var cm2  = {};
+        keys.forEach(function(k,i){ cm2[k] = vals[i]; });
+        var combo2 = JSON.parse(card.dataset.combo);
+        wrap.innerHTML = buildTT(combo2, cm2);
+        card.dataset.ttBuilt = '1';
+        _ttObserver.unobserve(wrap);
+      });
+    }, { rootMargin: '200px 0px', threshold: 0 });
+  }
+  // Only observe placeholders not yet built
+  document.querySelectorAll('.tt-lazy').forEach(function(el) {
+    var card = el.closest('.combo-card');
+    if (card && card.dataset.ttBuilt === '0') {
+      _ttObserver.observe(el);
+    }
+  });
+}
+
 // ── TIMETABLE ─────────────────────────────────────────────────────
 function buildTT(combo, cm) {
   var out = '<div class="ht-grid">';
   out += '<div class="ht-header-wrap"><div class="ht-corner">Day</div><div class="ht-time-header">';
+  // FIX: TLE is now 16:30 (4:30 PM) — ticks only up to last class time
   for (var m = TLS; m <= TLE; m += 60) {
-    var h=m/60, ap=h>=12?'PM':'AM', hh=h%12||12;
+    var h=Math.floor(m/60), ap=h>=12?'PM':'AM', hh=h%12||12;
     out += '<div class="ht-tick" style="left:'+pct(m)+'">'+hh+ap+'</div>';
   }
   out += '</div></div>';
@@ -3055,6 +3524,10 @@ function buildTT(combo, cm) {
       var k    = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
       var col  = cm[k] || COLORS[0];
       var timeStr = fmtM(sl.s)+' – '+fmtM(sl.e);
+      // FIX: For narrow blocks (< 12% width = ~50min), show only course code + section
+      // This prevents text overflow on small mobile screens
+      var blockWidthPct = (sl.e - sl.s) / TLSP * 100;
+      var isNarrow = blockWidthPct < 14; // roughly < 1h20m
       out +=
         '<div class="ht-block"' +
         ' style="left:'+left+';width:'+width+';background:'+col.bg+';border-color:'+col.bd+';color:'+col.tx+'"' +
@@ -3065,11 +3538,17 @@ function buildTT(combo, cm) {
         ' data-time="'+esc(timeStr)+'"' +
         ' data-type="'+esc(r.type)+'"' +
         ' data-room="'+esc(r.room||'—')+'"' +
-        '>' +
-        '<div class="hb-name">'+esc(r.course_name||r.course_code)+'</div>' +
-        '<div class="hb-meta">'+(r.type==='Lab'?'🔬':'📖')+' <span>Sec '+esc(r.section)+'</span></div>' +
-        '<div class="hb-fac">'+esc(r.faculty||'—')+'</div>' +
-        '</div>';
+        '>';
+      if (isNarrow) {
+        // Narrow block: just show code + section — readable on mobile
+        out += '<div class="hb-name" style="font-size:10px">'+esc(r.course_code)+'</div>';
+        out += '<div class="hb-meta">Sec '+esc(r.section)+'</div>';
+      } else {
+        out += '<div class="hb-name">'+esc(r.course_name||r.course_code)+'</div>';
+        out += '<div class="hb-meta">'+(r.type==='Lab'?'🔬':'📖')+' <span>Sec '+esc(r.section)+'</span></div>';
+        out += '<div class="hb-fac">'+esc(r.faculty||'—')+'</div>';
+      }
+      out += '</div>';
     });
     out += '</div></div>';
   });
@@ -3099,6 +3578,7 @@ function buildRichTip(b) {
 
 function posRichTip(e) {
   var tip = $('rich-tip');
+  // FIX: On mobile, tooltip is positioned via CSS (fixed bottom) — no JS positioning needed
   if (window.innerWidth <= 768) return;
   var x=e.clientX+18, y=e.clientY-16;
   var tw=tip.offsetWidth||240, th=tip.offsetHeight||180;
@@ -3125,15 +3605,20 @@ document.addEventListener('mousemove', function(e) {
 document.addEventListener('mouseout', function(e) {
   if (!e.target.closest('.ht-block')) $('rich-tip').style.display='none';
 });
+
+// FIX Mobile: tap on block → show tooltip at bottom of screen (already styled via .rich-tip CSS at mobile)
+// Auto-dismiss after 4 seconds or on tap elsewhere
 document.addEventListener('touchstart', function(e) {
   var b   = e.target.closest('.ht-block');
   var tip = $('rich-tip');
   if (!b) { tip.style.display='none'; return; }
+  e.preventDefault(); // prevent ghost click
   tip.innerHTML = buildRichTip(b);
   tip.style.display = 'block';
   if (_tipTimeout) clearTimeout(_tipTimeout);
-  _tipTimeout = setTimeout(function() { tip.style.display='none'; }, 3500);
-}, {passive:true});
+  // FIX: 4s dismiss window (was 3.5s — give more time to read)
+  _tipTimeout = setTimeout(function() { tip.style.display='none'; }, 4000);
+}, {passive:false});
 
 // ── BEST ──────────────────────────────────────────────────────────
 function showBest() {
@@ -3143,7 +3628,10 @@ function showBest() {
   c.style.display = 'block';
   c.innerHTML = '';
   c.appendChild(makeCard(best, 0, buildCM(), true));
-  c.scrollIntoView({behavior:'smooth', block:'start'});
+  initTTObserver();
+  requestAnimationFrame(function() {
+    c.scrollIntoView({behavior:'smooth', block:'start'});
+  });
   toast('🏆 Best routine from loaded combinations!','success');
 }
 
@@ -3169,34 +3657,329 @@ function loadExportLibs(cb) {
   });
 }
 
-function dlPNG(idx) {
-  loadExportLibs(function() {
-    var el = $('tt-'+idx);
-    html2canvas(el, {backgroundColor:State.theme==='dark'?'#07080f':'#f0f0fa',scale:2,useCORS:true})
-      .then(function(cv) {
-        var a = document.createElement('a');
-        a.href = cv.toDataURL('image/png');
-        a.download = 'routine-'+(idx+1)+'.png';
-        a.click();
-        toast('PNG downloaded!');
-      }).catch(function(e) { toast('Failed: '+e.message,'error'); });
+// Build export element — contains header stats + course table + visual timetable
+function buildExportEl(combo, idx) {
+  var cm    = buildCM();
+  var an    = calcAn(combo);
+  var isDark = State.theme === 'dark';
+  var bg    = isDark ? '#0d1210' : '#ffffff';
+  var bg2   = isDark ? '#121a14' : '#f5f7f2';
+  var text  = isDark ? '#e6ede8' : '#1a2018';
+  var text2 = isDark ? '#7d9c84' : '#2e5235';
+  var text3 = isDark ? '#6b8f72' : '#5a7a5e';
+  var bdr   = isDark ? '#263028' : '#dde3d8';
+  var accent= isDark ? '#22c55e' : '#2e7d38';
+
+  var wrap = document.createElement('div');
+  wrap.style.cssText = [
+    'width:860px','background:'+bg,'padding:20px 24px',
+    'font-family:Inter,sans-serif','color:'+text,
+    'box-sizing:border-box','border-radius:0',
+    'display:inline-block' /* shrink-wrap height to content */
+  ].join(';');
+
+  // ── HEADER ────────────────────────────────────────────────────────
+  var gh = an.tGap ? Math.round(an.tGap/6)/10+'h' : 'None';
+  var lh = an.lGap ? Math.round(an.lGap/6)/10+'h' : 'None';
+
+  var statBox = function(val, label) {
+    return '<div style="text-align:center;padding:8px 14px;background:'+bg2+';border-radius:8px;border:1px solid '+bdr+'">' +
+      '<div style="font-size:18px;font-weight:800;color:'+accent+'">'+val+'</div>' +
+      '<div style="font-size:9px;color:'+text3+';text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-weight:600">'+label+'</div>' +
+    '</div>';
+  };
+
+  wrap.innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid '+bdr+'">' +
+      '<div>' +
+        '<div style="font-size:18px;font-weight:800;color:'+text+';letter-spacing:-.5px">📅 Section Lagbe?</div>' +
+        '<div style="font-size:11px;color:'+text2+';margin-top:3px;font-weight:500">UIU · CSE · Summer 2026 &nbsp;·&nbsp; Combination #'+(idx+1)+'</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:8px">' +
+        statBox(gh, 'Total Gap') +
+        statBox(an.days, 'Class Days') +
+        statBox(an.morn, 'Morning') +
+        statBox(lh, 'Max Break') +
+      '</div>' +
+    '</div>';
+
+  // ── COURSE TABLE ──────────────────────────────────────────────────
+  var secLabel = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:'+text3+';margin-bottom:10px">Course Details</div>';
+
+  var tbl = document.createElement('table');
+  tbl.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px';
+
+  var cols = ['Course Name','Code','Sec','Faculty','Day','Time','Room','Type'];
+  var thHtml = '<tr>';
+  cols.forEach(function(c) {
+    thHtml += '<th style="padding:8px 10px;text-align:left;font-size:9.5px;font-weight:700;color:'+text3+';text-transform:uppercase;letter-spacing:.5px;background:'+bg2+';border-bottom:1.5px solid '+bdr+';border-top:1px solid '+bdr+'">'+c+'</th>';
+  });
+  thHtml += '</tr>';
+  tbl.innerHTML = '<thead>'+thHtml+'</thead>';
+
+  var tbody = document.createElement('tbody');
+  combo.forEach(function(r, ri) {
+    var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+    var col = cm[k] || COLORS[0];
+    var tr  = document.createElement('tr');
+    tr.style.background = ri % 2 === 0 ? bg : bg2;
+
+    // Color dot cell
+    var dotTd = document.createElement('td');
+    dotTd.style.cssText = 'padding:10px 10px;border-bottom:1px solid '+bdr+';vertical-align:middle;font-weight:500;color:'+text;
+    dotTd.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col.bg+';border:2px solid '+col.bd+';margin-right:7px;vertical-align:middle;flex-shrink:0"></span>' + esc(r.course_name||'—');
+
+    var cells = [
+      r.course_code || '—',
+      r.section     || '—',
+      r.faculty     || '—',
+      (r.day||'—').replace(/,/g,' & '),
+      r.time        || '—',
+      r.room        || '—',
+      r.type        || '—'
+    ];
+    tr.appendChild(dotTd);
+    cells.forEach(function(val) {
+      var td = document.createElement('td');
+      td.style.cssText = 'padding:10px 10px;border-bottom:1px solid '+bdr+';color:'+text+';vertical-align:middle';
+      td.textContent = val;
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+
+  var tableWrap = document.createElement('div');
+  tableWrap.innerHTML = secLabel;
+  tableWrap.appendChild(tbl);
+  wrap.appendChild(tableWrap);
+
+  // ── VISUAL TIMETABLE ─────────────────────────────────────────────
+  // Build a self-contained timetable using inline styles (no CSS classes needed)
+  // so html2canvas can render it correctly without page stylesheets
+  var ttLabel = document.createElement('div');
+  ttLabel.style.cssText = 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:'+text3+';margin-bottom:10px';
+  ttLabel.textContent = 'Visual Timetable';
+  wrap.appendChild(ttLabel);
+
+  var ttWrap = document.createElement('div');
+  ttWrap.style.cssText = 'width:100%;overflow:hidden;border-radius:10px;border:1px solid '+bdr+';background:'+bg2;
+
+  // Time range: TLS to TLE
+  var rangeMin = TLSP; // total minutes span
+  var DAY_LIST = ['Sat','Sun','Mon','Tue','Wed','Thu'];
+  var DAY_LABELS = {Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday'};
+  var rowH = 56; // px per day row
+  var labelW = 80; // px for day label column
+
+  // Header row with time ticks
+  var headerHtml = '<div style="display:flex;margin-left:'+labelW+'px;border-bottom:1px solid '+bdr+';background:'+bg2+';position:relative;height:24px">';
+  for (var m = TLS; m <= TLE; m += 60) {
+    var pct = ((m - TLS) / rangeMin * 100).toFixed(2);
+    var h = Math.floor(m/60), ap = h>=12?'PM':'AM', hh = h%12||12;
+    headerHtml += '<div style="position:absolute;left:'+pct+'%;font-size:9px;color:'+text3+';font-weight:600;transform:translateX(-50%);top:5px">'+hh+ap+'</div>';
+  }
+  headerHtml += '</div>';
+  ttWrap.innerHTML = headerHtml;
+
+  // Day rows
+  DAY_LIST.forEach(function(day, di) {
+    var dayRows = combo.filter(function(r) { return normD(r.day).indexOf(day) !== -1; });
+    var rowBg = di % 2 === 0 ? bg : bg2;
+
+    var rowEl = document.createElement('div');
+    rowEl.style.cssText = 'display:flex;border-bottom:1px solid '+bdr+';min-height:'+rowH+'px;background:'+rowBg;
+
+    // Day label
+    var dayLabel = document.createElement('div');
+    dayLabel.style.cssText = 'width:'+labelW+'px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:'+(dayRows.length?accent:text3)+';border-right:1px solid '+bdr+';padding:4px;text-align:center;letter-spacing:.2px';
+    dayLabel.textContent = DAY_LABELS[day] || day;
+    rowEl.appendChild(dayLabel);
+
+    // Timeline area
+    var timeline = document.createElement('div');
+    timeline.style.cssText = 'flex:1;position:relative;min-height:'+rowH+'px';
+
+    // Hour gridlines
+    for (var m = TLS; m <= TLE; m += 60) {
+      var pct = ((m - TLS) / rangeMin * 100).toFixed(2);
+      var gl = document.createElement('div');
+      gl.style.cssText = 'position:absolute;top:0;bottom:0;left:'+pct+'%;width:1px;background:'+bdr+';opacity:.5';
+      timeline.appendChild(gl);
+    }
+
+    // Course blocks
+    dayRows.forEach(function(r) {
+      var t = parseTR(r.time); if (!t) return;
+      var sl = snapSlot(t);    if (!sl) return;
+      var k  = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+      var col = cm[k] || COLORS[0];
+
+      var leftPct  = ((sl.s - TLS) / rangeMin * 100).toFixed(2);
+      var widthPct = ((sl.e - sl.s) / rangeMin * 100).toFixed(2);
+      var isNarrow = (sl.e - sl.s) < 80; // < ~1h20m
+
+      var block = document.createElement('div');
+      block.style.cssText = [
+        'position:absolute',
+        'left:'+leftPct+'%',
+        'width:'+widthPct+'%',
+        'top:6px','bottom:6px',
+        'border-radius:8px',
+        'background:'+col.bg,
+        'border:1.5px solid '+col.bd,
+        'padding:'+(isNarrow?'4px 5px':'6px 10px'),
+        'overflow:hidden',
+        'box-sizing:border-box',
+        'display:flex','flex-direction:column','justify-content:center'
+      ].join(';');
+
+      var nameEl = document.createElement('div');
+      nameEl.style.cssText = 'font-size:'+(isNarrow?'9px':'10.5px')+';font-weight:700;color:'+col.tx+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3';
+      nameEl.textContent = isNarrow ? (r.course_code||'?') : (r.course_name || r.course_code || '?');
+      block.appendChild(nameEl);
+
+      if (!isNarrow) {
+        var metaEl = document.createElement('div');
+        metaEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px';
+        metaEl.textContent = 'Sec ' + (r.section||'?') + ' · ' + (r.faculty||'—');
+        block.appendChild(metaEl);
+
+        var timeEl = document.createElement('div');
+        timeEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.7;white-space:nowrap;overflow:hidden;margin-top:1px';
+        timeEl.textContent = fmtM(sl.s) + ' – ' + fmtM(sl.e);
+        block.appendChild(timeEl);
+      } else {
+        var secEl = document.createElement('div');
+        secEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.8;margin-top:2px';
+        secEl.textContent = 'S'+r.section;
+        block.appendChild(secEl);
+      }
+      timeline.appendChild(block);
+    });
+
+    if (!dayRows.length) {
+      var noClass = document.createElement('div');
+      noClass.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:'+text3+';opacity:.4;font-style:italic';
+      noClass.textContent = 'No class';
+      timeline.appendChild(noClass);
+    }
+
+    rowEl.appendChild(timeline);
+    ttWrap.appendChild(rowEl);
+  });
+
+  wrap.appendChild(ttWrap);
+
+  // ── FOOTER ───────────────────────────────────────────────────────
+  var foot = document.createElement('div');
+  foot.style.cssText = 'margin-top:14px;padding-top:10px;border-top:1px solid '+bdr+';display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px';
+  foot.innerHTML =
+    '<div style="font-size:10px;color:'+text3+'">Generated by <span style="font-weight:700;color:'+text2+'">Section Lagbe?</span> · UIU CSE Summer 2026</div>' +
+    '<div style="display:flex;gap:12px;align-items:center">' +
+      '<div style="font-size:10px;color:'+text3+'">Built by <span style="font-weight:600;color:'+text2+'">Taohid Bhuiyan</span></div>' +
+      '<div style="font-size:10px;color:'+text3+'">github.com/TaohidBhuiyan</div>' +
+    '</div>';
+  wrap.appendChild(foot);
+
+  return wrap;
+}
+
+// ── EXPORT HELPERS ────────────────────────────────────────────────
+// Show a full-screen overlay while capturing so html2canvas can render
+// the element properly (must be in viewport at a visible position)
+function _captureExportEl(el, cb) {
+  // Overlay — user sees "Generating..." while we capture
+  var overlay = document.createElement('div');
+  overlay.className = 'export-capture-overlay';
+  overlay.innerHTML =
+    '<div class="export-capture-msg">⏳ Generating export…</div>' +
+    '<div style="font-size:12px;color:rgba(255,255,255,0.6);font-family:Inter,sans-serif">Please wait a moment</div>';
+
+  // Position the element centered and scaled down to fit screen
+  el.className = 'export-capture-el';
+  overlay.appendChild(el);
+  document.body.appendChild(overlay);
+
+  // Give browser one frame to paint before capturing
+  requestAnimationFrame(function() {
+    setTimeout(function() {
+      var actualW = el.scrollWidth;
+      var actualH = el.scrollHeight;
+      html2canvas(el, {
+        backgroundColor: State.theme==='dark' ? '#0d1210' : '#ffffff',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        // Capture ONLY the actual content dimensions — no blank space
+        width:  actualW,
+        height: actualH,
+        windowWidth:  actualW,
+        windowHeight: actualH,
+        x: 0,
+        y: 0,
+        onclone: function(doc) {
+          // Force the cloned element to be exactly content size
+          var clonedEl = doc.querySelector('.export-capture-el > div');
+          if (clonedEl) {
+            clonedEl.style.width = actualW + 'px';
+            clonedEl.style.height = 'auto';
+          }
+        }
+      }).then(function(canvas) {
+        document.body.removeChild(overlay);
+        cb(null, canvas);
+      }).catch(function(err) {
+        document.body.removeChild(overlay);
+        cb(err, null);
+      });
+    }, 80); // small delay for fonts to load in the cloned element
   });
 }
+
+function dlPNG(idx) {
+  loadExportLibs(function() {
+    var combo = State.combos[idx]; if (!combo) return;
+    var el = buildExportEl(combo, idx);
+    _captureExportEl(el, function(err, canvas) {
+      if (err) { toast('PNG failed: ' + err.message, 'error'); return; }
+      var a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'routine-'+(idx+1)+'.png';
+      a.click();
+      toast('📷 PNG downloaded!', 'success');
+    });
+  });
+}
+
 function dlPDF(idx) {
   loadExportLibs(function() {
-    var el = $('tt-'+idx);
-    html2canvas(el, {backgroundColor:State.theme==='dark'?'#07080f':'#f0f0fa',scale:2,useCORS:true})
-      .then(function(cv) {
-        var img = cv.toDataURL('image/png');
-        var pdf = new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-        var pw  = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
-        var ratio = Math.min((pw-20)/cv.width,(ph-28)/cv.height);
-        pdf.setFontSize(11); pdf.setTextColor(130,120,200);
-        pdf.text('Section Lagbe? — Combination #'+(idx+1), 10, 10);
-        pdf.addImage(img,'PNG',10,16,cv.width*ratio,cv.height*ratio);
-        pdf.save('routine-'+(idx+1)+'.pdf');
-        toast('PDF downloaded!');
-      }).catch(function(e) { toast('Failed: '+e.message,'error'); });
+    var combo = State.combos[idx]; if (!combo) return;
+    var el = buildExportEl(combo, idx);
+    _captureExportEl(el, function(err, canvas) {
+      if (err) { toast('PDF failed: ' + err.message, 'error'); return; }
+      var img   = canvas.toDataURL('image/png');
+      // Choose orientation based on canvas aspect ratio
+      var isLandscape = canvas.width > canvas.height;
+      var pdf   = new window.jspdf.jsPDF({
+        orientation: isLandscape ? 'landscape' : 'portrait',
+        unit:'mm',
+        format:'a4'
+      });
+      var pw    = pdf.internal.pageSize.getWidth();
+      var ph    = pdf.internal.pageSize.getHeight();
+      // Fit content tight to page with small margin
+      var margin = 8; // mm
+      var ratio = Math.min((pw - margin*2) / canvas.width, (ph - margin*2) / canvas.height);
+      var imgW  = canvas.width  * ratio;
+      var imgH  = canvas.height * ratio;
+      // Top-align instead of centering vertically — no blank space at bottom
+      var x     = (pw - imgW) / 2;
+      var y     = margin;
+      pdf.addImage(img, 'PNG', x, y, imgW, imgH);
+      pdf.save('routine-'+(idx+1)+'.pdf');
+      toast('📄 PDF downloaded!', 'success');
+    });
   });
 }
 
@@ -3220,10 +4003,20 @@ $('mob-theme-btn').addEventListener('click', toggleTheme);
 
 // Upload
 var dropZone = $('drop-zone');
-dropZone.addEventListener('dragover', function(e) { e.preventDefault(); dropZone.classList.add('drag'); });
-dropZone.addEventListener('dragleave', function() { dropZone.classList.remove('drag'); });
+dropZone.addEventListener('dragover',  function(e) { e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragenter', function(e) { e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', function(e) { e.stopPropagation(); dropZone.classList.remove('drag'); });
 dropZone.addEventListener('drop', handleDrop);
-dropZone.addEventListener('click', function() { $('file-input').click(); });
+// Both drop-zone click and "Choose File" button open the file dialog
+dropZone.addEventListener('click', function(e) {
+  // Don't double-fire if the btn itself was clicked
+  if (e.target.closest('#btn-choose-file')) return;
+  $('file-input').click();
+});
+$('btn-choose-file').addEventListener('click', function(e) {
+  e.stopPropagation(); // prevent dropZone click from also firing
+  $('file-input').click();
+});
 $('file-input').addEventListener('change', handleFile);
 
 // Review page
@@ -3255,18 +4048,78 @@ $('btn-start-over').addEventListener('click', function() {
   _sourceMode = 'upload';
   State.rows = []; State.selCourses = {}; State.combos = [];
   State.pinnedSections = {}; State.cMap = {}; State.cColorMap = {};
+  // FIX #3: Reset best routine button when starting over
+  var bestBtn = $('btn-show-best');
+  if (bestBtn) bestBtn.disabled = true;
+  // Hide conflict detail on start over
+  var cd = $('conflict-detail'); if (cd) cd.classList.remove('show');
   lsClear();
   go('upload');
   toast('🔄 Started fresh','info');
 });
 $('btn-show-best').addEventListener('click', showBest);
 
+// FIX #16: Share link — encodes current preferences + selected courses as URL hash
+$('btn-share-link').addEventListener('click', function() {
+  try {
+    var shareData = {
+      v: 1,
+      P: {
+        time: State.P.time,
+        days: State.P.days,
+        sort: State.P.sort,
+        theoryLim: State.P.theoryLim,
+        labLim: State.P.labLim,
+        blockedSlots: Array.from(State.P.blockedSlots)
+      },
+      courses: Object.keys(State.selCourses).map(function(k) {
+        return {
+          k: k,
+          facs: Array.from(State.selCourses[k].facs),
+          locked: Array.from(State.selCourses[k].locked)
+        };
+      })
+    };
+    var encoded = btoa(encodeURIComponent(JSON.stringify(shareData)));
+    var url = window.location.href.split('#')[0] + '#share=' + encoded;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function() {
+        toast('🔗 Share link copied! Send it to friends.', 'success');
+      });
+    } else {
+      // Fallback: select a temporary input
+      var inp = document.createElement('input');
+      inp.value = url;
+      document.body.appendChild(inp);
+      inp.select();
+      document.execCommand('copy');
+      document.body.removeChild(inp);
+      toast('🔗 Share link copied!', 'success');
+    }
+  } catch(e) {
+    toast('Could not generate share link', 'error');
+  }
+});
+
+// Force-build a lazy TT if not yet rendered (needed before export)
+function _ensureTTBuilt(idx) {
+  var card = $('combo-'+idx);
+  if (!card || card.dataset.ttBuilt === '1') return;
+  var wrap = card.querySelector('.tt-lazy');
+  if (!wrap) return;
+  var keys = JSON.parse(card.dataset.cmKeys);
+  var vals = JSON.parse(card.dataset.cmVals);
+  var cm2  = {}; keys.forEach(function(k,i){ cm2[k]=vals[i]; });
+  wrap.innerHTML = buildTT(JSON.parse(card.dataset.combo), cm2);
+  card.dataset.ttBuilt = '1';
+}
+
 // Combo list — delegated for PNG/PDF/load-more
 $('combo-list').addEventListener('click', function(e) {
   var pngBtn = e.target.closest('.dl-png-btn');
-  if (pngBtn) { dlPNG(parseInt(pngBtn.dataset.idx)); return; }
+  if (pngBtn) { var i = parseInt(pngBtn.dataset.idx); _ensureTTBuilt(i); dlPNG(i); return; }
   var pdfBtn = e.target.closest('.dl-pdf-btn');
-  if (pdfBtn) { dlPDF(parseInt(pdfBtn.dataset.idx)); return; }
+  if (pdfBtn) { var i = parseInt(pdfBtn.dataset.idx); _ensureTTBuilt(i); dlPDF(i); return; }
   var moreBtn = e.target.closest('#load-more-btn');
   if (moreBtn) { loadMoreCombos(); return; }
 });
@@ -3274,6 +4127,18 @@ $('combo-list').addEventListener('click', function(e) {
 // Faculty panel close
 $('fac-panel-close').addEventListener('click', closeFacPanel);
 $('fac-overlay').addEventListener('click', closeFacPanel);
+
+// ── fsi-lock-btn: single permanent delegated listener (replaces per-openFacPanel stacking) ──
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.fsi-lock-btn');
+  if (!btn) return;
+  e.stopPropagation();
+  var k = btn.dataset.key, f = btn.dataset.fac;
+  if (!State.selCourses[k]) State.selCourses[k] = {facs:new Set(),locked:new Set()};
+  selFac(k, f);
+  openFacPanel(f);
+  buildGrid();
+});
 
 
 // ════════════════════════════════════════════════════════════════
@@ -3461,23 +4326,197 @@ function renderManualCourses() {
   }
 }
 
+// ── Preloaded course database (from Spring 2026 trimester sheet) ──
+var COURSE_DB = [
+  // Trimester 1
+  { code:'ENG 1011',  name:'English I',                                        type:'Theory' },
+  { code:'BDS 1201',  name:'History of the Emergence of Bangladesh',            type:'Theory' },
+  { code:'CSE 1110',  name:'Introduction to Computer Systems',                  type:'Theory' },
+  { code:'MATH 1151', name:'Fundamental Calculus',                              type:'Theory' },
+  // Trimester 2
+  { code:'ENG 1013',  name:'English II',                                        type:'Theory' },
+  { code:'CSE 1111',  name:'Structured Programming Language',                   type:'Theory' },
+  { code:'CSE 1112',  name:'Structured Programming Language Laboratory',        type:'Lab'    },
+  { code:'CSE 2213',  name:'Discrete Mathematics',                              type:'Theory' },
+  // Trimester 3
+  { code:'MATH 2183', name:'Calculus and Linear Algebra',                       type:'Theory' },
+  { code:'PHY 2105',  name:'Physics',                                           type:'Theory' },
+  { code:'PHY 2106',  name:'Physics Lab',                                       type:'Lab'    },
+  { code:'CSE 2215',  name:'Data Structure and Algorithms I',                   type:'Theory' },
+  { code:'CSE 2216',  name:'Data Structure and Algorithms I Laboratory',        type:'Lab'    },
+  // Trimester 4
+  { code:'MATH 2201', name:'Coordinate Geometry and Vector Analysis',           type:'Theory' },
+  { code:'CSE 1325',  name:'Digital Logic Design',                              type:'Theory' },
+  { code:'CSE 1326',  name:'Digital Logic Design Lab',                          type:'Lab'    },
+  { code:'CSE 1115',  name:'Object Oriented Programming',                       type:'Theory' },
+  { code:'CSE 1116',  name:'Object Oriented Programming Lab',                   type:'Lab'    },
+  // Trimester 5
+  { code:'MATH 2205', name:'Probability and Statistics',                        type:'Theory' },
+  { code:'SOC 2101',  name:'Society, Technology and Engineering Ethics',        type:'Theory' },
+  { code:'CSE 2217',  name:'Data Structure and Algorithms II',                  type:'Theory' },
+  { code:'CSE 2218',  name:'Data Structure and Algorithms II Laboratory',       type:'Lab'    },
+  { code:'EEE 2113',  name:'Electrical Circuits',                               type:'Theory' },
+  // Trimester 6
+  { code:'CSE 3521',  name:'Database Management Systems',                       type:'Theory' },
+  { code:'CSE 3522',  name:'Database Management Systems Lab',                   type:'Lab'    },
+  { code:'EEE 2123',  name:'Electronics',                                       type:'Theory' },
+  { code:'EEE 2124',  name:'Electronics Lab',                                   type:'Lab'    },
+  { code:'CSE 4165',  name:'Web Programming',                                   type:'Theory' },
+  // Trimester 7
+  { code:'CSE 3313',  name:'Computer Architecture',                             type:'Theory' },
+  { code:'CSE 2118',  name:'Advanced Object Oriented Programming Lab',          type:'Lab'    },
+  { code:'BIO 3105',  name:'Biology for Engineers',                             type:'Theory' },
+  { code:'CSE 3411',  name:'System Analysis and Design',                        type:'Theory' },
+  { code:'CSE 3412',  name:'System Analysis and Design Lab',                    type:'Lab'    },
+  // Trimester 8
+  { code:'CSE 4325',  name:'Microprocessors and Microcontrollers',              type:'Theory' },
+  { code:'CSE 4326',  name:'Microprocessors and Microcontrollers Lab.',         type:'Lab'    },
+  { code:'CSE 3421',  name:'Software Engineering',                              type:'Theory' },
+  { code:'CSE 3422',  name:'Software Engineering Lab',                          type:'Lab'    },
+  { code:'CSE 3811',  name:'Artificial Intelligence',                           type:'Theory' },
+  // Trimester 9 (continued from page 2)
+  { code:'CSE 3812',  name:'Artificial Intelligence Lab',                       type:'Lab'    },
+  { code:'CSE 2233',  name:'Theory of Computation',                             type:'Theory' },
+  { code:'GED OPT1',  name:'General Education Optional-I',                      type:'Theory' },
+  { code:'PMG 4101',  name:'Project Management',                                type:'Theory' },
+  { code:'CSE 3711',  name:'Computer Networks',                                 type:'Theory' },
+  { code:'CSE 3712',  name:'Computer Networks Lab',                             type:'Lab'    },
+  // Trimester 10
+  { code:'GED OPT2',  name:'General Education Optional-II',                     type:'Theory' },
+  { code:'CSE 4000A', name:'Final Year Design Project - I',                     type:'Theory' },
+  { code:'CSE 4509',  name:'Operating Systems',                                 type:'Theory' },
+  { code:'CSE 4510',  name:'Operating Systems Laboratory',                      type:'Lab'    },
+  // Trimester 11
+  { code:'GED OPT3',  name:'General Education Optional-III',                    type:'Theory' },
+  { code:'CSE 4000B', name:'Final Year Design Project - II',                    type:'Theory' },
+  { code:'CSE 4531',  name:'Computer Security',                                 type:'Theory' },
+  // Trimester 12
+  { code:'CSE 4000C', name:'Final Year Design Project - III',                   type:'Theory' },
+  { code:'EEE 4261',  name:'Green Computing',                                   type:'Theory' },
+  // GED Optional courses
+  { code:'ECO 4101',  name:'Economics',                                         type:'Theory' },
+  { code:'ACT 2111',  name:'Financial and Managerial Accounting',               type:'Theory' },
+  { code:'IPE 3401',  name:'Industrial and Operational Management',             type:'Theory' },
+  { code:'TEC 2499',  name:'Technology Entrepreneurship',                       type:'Theory' },
+  // Electives — Computational Theory
+  { code:'CSE 4611',  name:'Compiler Design',                                   type:'Theory' },
+  { code:'CSE 4621',  name:'Computer Graphics',                                 type:'Theory' },
+  // Electives — Network and Communications
+  { code:'CSE 4783',  name:'Cryptography',                                      type:'Theory' },
+  { code:'CSE 4777',  name:'Network Security',                                  type:'Theory' },
+  // Electives — Systems
+  { code:'CSE 4587',  name:'Cloud Computing',                                   type:'Theory' },
+  // Electives — Data Science
+  { code:'CSE 4889',  name:'Machine Learning',                                  type:'Theory' },
+  { code:'CSE 4891',  name:'Data Mining',                                       type:'Theory' },
+  { code:'CSE 4893',  name:'Introduction to Bioinformatics',                    type:'Theory' },
+];
+
+// ── Course search state ───────────────────────────────────────────
+var _mcSelectedCourse = null; // {code, name, type}
+var _mcDropdownFocusIdx = -1;
+var _mcLastResults = []; // module-level, survives DOM resets
+
+// Highlight matched text
+function _mcHighlight(text, query) {
+  if (!query) return esc(text);
+  var idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return esc(text);
+  return esc(text.slice(0, idx)) +
+    '<span class="course-dd-highlight">' + esc(text.slice(idx, idx + query.length)) + '</span>' +
+    esc(text.slice(idx + query.length));
+}
+
+// Filter courses by query
+function _mcFilterCourses(query) {
+  if (!query || query.length < 1) return [];
+  var q = query.toLowerCase().trim();
+  return COURSE_DB.filter(function(c) {
+    return c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q);
+  }).slice(0, 12);
+}
+
+// Render dropdown
+function _mcRenderDropdown(query) {
+  var dd = $('mc-dropdown');
+  var results = _mcFilterCourses(query);
+  _mcDropdownFocusIdx = -1;
+
+  if (!results.length) {
+    dd.innerHTML = '<div class="course-dd-empty">No courses found for "' + esc(query) + '"</div>';
+    dd.classList.add('open');
+    return;
+  }
+
+  dd.innerHTML = results.map(function(c, i) {
+    var typeLabel = c.type === 'Lab' ? '🔬 Lab' : '📖 Theory';
+    return '<div class="course-dropdown-item" data-idx="' + i + '">' +
+      '<div>' +
+        '<div class="course-dd-name">' + _mcHighlight(c.name, query) + '</div>' +
+        '<div class="course-dd-type">' + typeLabel + '</div>' +
+      '</div>' +
+      '<div class="course-dd-code">' + esc(c.code) + '</div>' +
+    '</div>';
+  }).join('');
+
+  // Store filtered results in module-level var (not as DOM property)
+  _mcLastResults = results;
+  dd.classList.add('open');
+}
+
+// Select a course from dropdown
+function _mcSelectCourse(course) {
+  _mcSelectedCourse = course;
+
+  // Hide dropdown, clear search input
+  var dd = $('mc-dropdown');
+  dd.classList.remove('open');
+  $('mc-search').value = '';
+  $('mc-search-clear').style.display = 'none';
+
+  // Show pill
+  $('mc-pill-name').textContent = course.name;
+  $('mc-pill-meta').textContent = course.code + '  ·  ' + (course.type === 'Lab' ? '🔬 Lab' : '📖 Theory');
+  $('mc-selected-pill').classList.remove('hidden');
+}
+
+// Reset search state
+function _mcResetSearch() {
+  _mcSelectedCourse = null;
+  $('mc-search').value = '';
+  $('mc-search-clear').style.display = 'none';
+  $('mc-dropdown').classList.remove('open');
+  $('mc-selected-pill').classList.add('hidden');
+  // Only focus if panel is visible to avoid scroll-jumping
+  var panel = $('manual-panel');
+  if (panel && panel.style.display !== 'none') {
+    $('mc-search').focus();
+  }
+}
+
 // ── Add a course ─────────────────────────────────────────────────
 function mcAddCourse() {
-  var code = $('mc-code').value.trim();
-  var name = $('mc-name').value.trim();
-  var type = $('mc-type').value;
-  if (!code && !name) { toast('Enter course code or name','error'); return; }
+  if (!_mcSelectedCourse) { toast('Please search and select a course first','error'); return; }
+
+  var c = _mcSelectedCourse;
+
+  // Check duplicate
+  var dup = ManualState.courses.some(function(existing) {
+    return existing.code === c.code;
+  });
+  if (dup) { toast(c.code + ' is already added','error'); return; }
+
   ManualState.courses.push({
-    id: ManualState._nextCourseId++,
-    code: code || 'COURSE',
-    name: name || 'Unnamed Course',
-    type: type,
+    id:       ManualState._nextCourseId++,
+    code:     c.code,
+    name:     c.name,
+    type:     c.type,
     sections: []
   });
-  $('mc-code').value = '';
-  $('mc-name').value = '';
+
+  _mcResetSearch();
   renderManualCourses();
-  toast('Course added!');
+  toast('✅ ' + c.code + ' added!');
 }
 
 // ── Add a section to a course ─────────────────────────────────────
@@ -3600,30 +4639,139 @@ function mcClear() {
   State.rows = [];
   State.selCourses = {};
   State.combos = [];
+  _mcLastResults = [];
+  _mcSelectedCourse = null;
   renderManualCourses();
   lsClear();
   toast('🗑 Cleared all courses','info');
 }
 
 // ── Mode toggle (Upload vs Manual) ───────────────────────────────
-var _currentMode = 'upload';
+var _currentMode = 'none'; // nothing expanded by default
 var _sourceMode  = 'upload'; // tracks which mode was used to reach prefs/results
 
+// ── Preloaded Data ────────────────────────────────────────────────
+// Set this to a parsed rows array (same format as State.rows from Excel upload)
+// to enable the "Use Preloaded Data" option. Keep null to disable.
+var PRELOADED_DATA = null;
+
+function usePreloadedData() {
+  if (!PRELOADED_DATA || !PRELOADED_DATA.length) {
+    toast('⚠ Preloaded file not added yet', 'error');
+    return;
+  }
+  // Load into main state exactly as a file upload would
+  State.rows = PRELOADED_DATA.slice(); // shallow copy — don't mutate original
+  buildMap();
+  markDone('upload');
+  _sourceMode = 'preloaded';
+  // Skip Review & manual Select — go straight to course selection
+  go('select');
+  toast('✅ Using latest department data', 'success');
+}
+
 function setMode(mode) {
+  // Toggle: clicking the active mode card collapses it
+  if (_currentMode === mode && mode !== 'preloaded') {
+    _currentMode = 'none';
+    $('mode-card-preloaded').classList.remove('active');
+    $('mode-card-upload').classList.remove('active');
+    $('mode-card-manual').classList.remove('active');
+    $('upload-panel').style.display = 'none';
+    $('manual-panel').style.display = 'none';
+    return;
+  }
   _currentMode = mode;
-  $('mode-card-upload').classList.toggle('active', mode === 'upload');
-  $('mode-card-manual').classList.toggle('active', mode === 'manual');
+  $('mode-card-preloaded').classList.toggle('active', mode === 'preloaded');
+  $('mode-card-upload').classList.toggle('active',    mode === 'upload');
+  $('mode-card-manual').classList.toggle('active',    mode === 'manual');
   $('upload-panel').style.display  = mode === 'upload' ? 'block' : 'none';
   $('manual-panel').style.display  = mode === 'manual' ? 'block' : 'none';
 }
+
+$('mode-card-preloaded').addEventListener('click', function() {
+  setMode('preloaded');
+  usePreloadedData();
+});
+// Keyboard accessibility
+$('mode-card-preloaded').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+});
 
 // ── Manual page event delegation ─────────────────────────────────
 $('mode-card-upload').addEventListener('click', function() { setMode('upload'); });
 $('mode-card-manual').addEventListener('click', function() { setMode('manual'); });
 
 $('btn-mc-add').addEventListener('click', mcAddCourse);
-$('mc-code').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); $('mc-name').focus(); } });
-$('mc-name').addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); mcAddCourse(); } });
+
+// ── Search input events ──────────────────────────────────────────
+var _mcSearchDebounce = null;
+$('mc-search').addEventListener('input', function() {
+  var q = this.value.trim();
+  $('mc-search-clear').style.display = q ? 'inline' : 'none';
+  clearTimeout(_mcSearchDebounce);
+  _mcSearchDebounce = setTimeout(function() {
+    if (q.length >= 1) {
+      _mcRenderDropdown(q);
+    } else {
+      $('mc-dropdown').classList.remove('open');
+    }
+  }, 120);
+});
+
+$('mc-search').addEventListener('keydown', function(e) {
+  var dd = $('mc-dropdown');
+  var items = dd.querySelectorAll('.course-dropdown-item');
+  if (!items.length) return;
+
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    _mcDropdownFocusIdx = Math.min(_mcDropdownFocusIdx + 1, items.length - 1);
+    items.forEach(function(el, i) { el.classList.toggle('focused', i === _mcDropdownFocusIdx); });
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    _mcDropdownFocusIdx = Math.max(_mcDropdownFocusIdx - 1, 0);
+    items.forEach(function(el, i) { el.classList.toggle('focused', i === _mcDropdownFocusIdx); });
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (_mcDropdownFocusIdx >= 0 && _mcLastResults[_mcDropdownFocusIdx]) {
+      _mcSelectCourse(_mcLastResults[_mcDropdownFocusIdx]);
+    } else if (_mcLastResults.length === 1) {
+      _mcSelectCourse(_mcLastResults[0]);
+    } else if (_mcSelectedCourse) {
+      mcAddCourse();
+    }
+  } else if (e.key === 'Escape') {
+    dd.classList.remove('open');
+  }
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#course-search-wrap')) {
+    $('mc-dropdown').classList.remove('open');
+  }
+});
+
+// Dropdown item click
+$('mc-dropdown').addEventListener('click', function(e) {
+  var item = e.target.closest('.course-dropdown-item');
+  if (!item) return;
+  var idx = parseInt(item.dataset.idx);
+  if (!isNaN(idx) && _mcLastResults[idx]) {
+    _mcSelectCourse(_mcLastResults[idx]);
+  }
+});
+
+// Clear button
+$('mc-search-clear').addEventListener('click', function() {
+  _mcResetSearch();
+});
+
+// Change course pill button
+$('mc-pill-change').addEventListener('click', function() {
+  _mcResetSearch();
+});
 
 // Also support Enter on section name input via delegation
 $('mc-list').addEventListener('keydown', function(e) {
@@ -3690,6 +4838,54 @@ $('btn-clear-saved').addEventListener('click', function() {
 // ── INIT ──────────────────────────────────────────────────────────
 lsLoad(); // restore persisted state
 
+// FIX #1: Onboarding banner — show unless previously dismissed
+(function initOnboarding() {
+  var banner = $('onboard-banner');
+  if (!banner) return;
+  if (State._onboardDismissed) {
+    banner.style.display = 'none';
+    return;
+  }
+  var dismissBtn = $('onboard-dismiss');
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', function() {
+      banner.style.display = 'none';
+      State._onboardDismissed = true;
+      lsSave();
+    });
+  }
+})();
+
+// FIX #16: Restore shared state from URL hash (if someone opened a share link)
+(function restoreShareLink() {
+  try {
+    var hash = window.location.hash;
+    if (!hash || hash.indexOf('#share=') !== 0) return;
+    var encoded = hash.replace('#share=', '');
+    var shareData = JSON.parse(decodeURIComponent(atob(encoded)));
+    if (!shareData || shareData.v !== 1) return;
+    if (shareData.P) {
+      State.P.time = shareData.P.time || 'any';
+      State.P.days = shareData.P.days || '0';
+      State.P.sort = shareData.P.sort || 'gap';
+      State.P.theoryLim = shareData.P.theoryLim || 0;
+      State.P.labLim    = shareData.P.labLim    || 0;
+      State.P.blockedSlots = new Set(shareData.P.blockedSlots || []);
+    }
+    if (shareData.courses && shareData.courses.length) {
+      shareData.courses.forEach(function(item) {
+        State.selCourses[item.k] = {
+          facs:   new Set(item.facs   || []),
+          locked: new Set(item.locked || [])
+        };
+      });
+    }
+    // Clear hash after restoring
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    toast('🔗 Shared preferences loaded! Upload your file to continue.', 'info');
+  } catch(e) { /* bad share hash — ignore silently */ }
+})();
+
 // Restore pref card active states from loaded State.P
 (function restorePrefs() {
   var timeCards = document.querySelectorAll('#time-pref-grid .pref-card');
@@ -3708,7 +4904,324 @@ lsLoad(); // restore persisted state
 applyTheme(State.theme);
 go('upload');
 
-})(); // end IIFE
-</script>
+// After lsLoad: if selCourses were restored, show count in pref button
+// Note: rows are NOT restored from localStorage (FIX #13) — user must re-upload.
+// But we still show the restored course selection count for context.
+if (Object.keys(State.selCourses).length) {
+  updatePrefBtn();
+}
+
+// Note: rows are NOT restored from localStorage (FIX #13) — user must re-upload.
+// But we still show the restored course selection count for context.
+if (Object.keys(State.selCourses).length) {
+  updatePrefBtn();
+}
+
+// ══════════════════════════════════════════════════════════════════
+// ── COMPARE FEATURE ───────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+var _comparePicks = []; // array of combo indices (max 2)
+
+function _updateCompareBar() {
+  var bar   = $('compare-bar');
+  var slot1 = $('compare-slot-1');
+  var slot2 = $('compare-slot-2');
+  var btn   = $('btn-compare-now');
+
+  // Update slots display
+  [slot1, slot2].forEach(function(slot, i) {
+    var idx = _comparePicks[i];
+    if (idx !== undefined) {
+      slot.className = 'compare-slot filled';
+      slot.innerHTML =
+        '<span class="compare-slot-label">Combo #'+(idx+1)+'</span>' +
+        '<button class="compare-slot-x" data-pick-idx="'+idx+'" title="Remove">✕</button>';
+    } else {
+      slot.className = 'compare-slot';
+      slot.innerHTML = '<span class="compare-bar-hint">'+(i===0?'Select a combination':'Select another')+'</span>';
+    }
+  });
+
+  // Show bar if at least 1 picked
+  if (_comparePicks.length > 0) {
+    bar.classList.add('show');
+    document.body.classList.add('compare-active'); // FIX mobile: adds bottom padding to .main
+  } else {
+    bar.classList.remove('show');
+    document.body.classList.remove('compare-active');
+  }
+
+  // Enable Compare Now only when exactly 2 picked
+  if (_comparePicks.length === 2) {
+    btn.classList.add('ready');
+  } else {
+    btn.classList.remove('ready');
+  }
+
+  // Update card visual state
+  document.querySelectorAll('.btn-compare-pick').forEach(function(b) {
+    var cardIdx = parseInt(b.dataset.idx);
+    var isPicked = _comparePicks.indexOf(cardIdx) !== -1;
+    b.classList.toggle('picked', isPicked);
+    b.textContent = isPicked ? '✓ Selected' : '⚡ Compare';
+    var card = b.closest('.combo-card');
+    if (card) card.classList.toggle('compare-picked', isPicked);
+  });
+}
+
+// Toggle a combo into/out of compare picks
+function _toggleComparePick(idx) {
+  var pos = _comparePicks.indexOf(idx);
+  if (pos !== -1) {
+    // Already picked — remove
+    _comparePicks.splice(pos, 1);
+  } else {
+    if (_comparePicks.length >= 2) {
+      toast('সর্বোচ্চ ২টা combination compare করা যাবে। আগেরটা সরাও।', 'info');
+      return;
+    }
+    _comparePicks.push(idx);
+  }
+  _updateCompareBar();
+}
+
+// Build the compare modal content
+function _buildCompareModal(idxA, idxB) {
+  var comboA = State.combos[idxA];
+  var comboB = State.combos[idxB];
+  if (!comboA || !comboB) return;
+
+  var cm  = buildCM();
+  var anA = calcAn(comboA);
+  var anB = calcAn(comboB);
+
+  var ghA = anA.tGap ? Math.round(anA.tGap/6)/10+'h' : 'None';
+  var ghB = anB.tGap ? Math.round(anB.tGap/6)/10+'h' : 'None';
+  var lhA = anA.lGap ? Math.round(anA.lGap/6)/10+'h' : 'None';
+  var lhB = anB.lGap ? Math.round(anB.lGap/6)/10+'h' : 'None';
+
+  // Determine winners (lower gap = better, more morning = better)
+  var gapWinA = anA.tGap <= anB.tGap;
+  var gapWinB = anB.tGap <= anA.tGap;
+  var mornWinA = anA.morn >= anB.morn;
+  var mornWinB = anB.morn >= anA.morn;
+  var daysWinA = anA.days <= anB.days;
+  var daysWinB = anB.days <= anA.days;
+
+  var body = $('compare-modal-body');
+
+  // Stats comparison
+  body.innerHTML =
+    // Stat rows header
+    '<div class="compare-stat-row" style="background:var(--surface2)">' +
+      '<div class="compare-stat-cell" style="font-weight:700;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Combo #'+(idxA+1)+'</div>' +
+      '<div class="compare-stat-cell" style="font-weight:700;color:var(--text3);font-size:11px;text-transform:uppercase;letter-spacing:.5px">Combo #'+(idxB+1)+'</div>' +
+    '</div>' +
+    // Gap
+    '<div class="compare-stat-row">' +
+      '<div class="compare-stat-cell'+(gapWinA?' better':'')+'">' +
+        '<div class="compare-stat-label">⚡ Total Gap</div>' +
+        '<div class="compare-stat-val">'+ghA+'</div>' +
+      '</div>' +
+      '<div class="compare-stat-cell'+(gapWinB?' better':'')+'">' +
+        '<div class="compare-stat-label">⚡ Total Gap</div>' +
+        '<div class="compare-stat-val">'+ghB+'</div>' +
+      '</div>' +
+    '</div>' +
+    // Days
+    '<div class="compare-stat-row">' +
+      '<div class="compare-stat-cell'+(daysWinA?' better':'')+'">' +
+        '<div class="compare-stat-label">📅 Class Days</div>' +
+        '<div class="compare-stat-val">'+anA.days+'</div>' +
+      '</div>' +
+      '<div class="compare-stat-cell'+(daysWinB?' better':'')+'">' +
+        '<div class="compare-stat-label">📅 Class Days</div>' +
+        '<div class="compare-stat-val">'+anB.days+'</div>' +
+      '</div>' +
+    '</div>' +
+    // Morning
+    '<div class="compare-stat-row">' +
+      '<div class="compare-stat-cell'+(mornWinA?' better':'')+'">' +
+        '<div class="compare-stat-label">🌅 Morning Classes</div>' +
+        '<div class="compare-stat-val">'+anA.morn+'</div>' +
+      '</div>' +
+      '<div class="compare-stat-cell'+(mornWinB?' better':'')+'">' +
+        '<div class="compare-stat-label">🌅 Morning Classes</div>' +
+        '<div class="compare-stat-val">'+anB.morn+'</div>' +
+      '</div>' +
+    '</div>' +
+    // Longest break
+    '<div class="compare-stat-row">' +
+      '<div class="compare-stat-cell'+(anA.lGap<=anB.lGap?' better':'')+'">' +
+        '<div class="compare-stat-label">💤 Longest Break</div>' +
+        '<div class="compare-stat-val">'+lhA+'</div>' +
+      '</div>' +
+      '<div class="compare-stat-cell'+(anB.lGap<=anA.lGap?' better':'')+'">' +
+        '<div class="compare-stat-label">💤 Longest Break</div>' +
+        '<div class="compare-stat-val">'+lhB+'</div>' +
+      '</div>' +
+    '</div>';
+
+  // Course lists side by side
+  var courseHtml = '<div class="compare-cols">';
+
+  [
+    {combo: comboA, idx: idxA},
+    {combo: comboB, idx: idxB}
+  ].forEach(function(item) {
+    courseHtml +=
+      '<div class="compare-col">' +
+        '<div class="compare-col-hd">Combo #'+(item.idx+1)+' <span class="compare-col-badge">'+item.combo.length+' courses</span></div>' +
+        '<div class="compare-section">' +
+          '<div class="compare-section-label">Courses &amp; Faculty</div>';
+    item.combo.forEach(function(r) {
+      var k = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+      var col = cm[k] || COLORS[0];
+      courseHtml +=
+        '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">' +
+          '<div style="width:9px;height:9px;border-radius:50%;background:'+col.bg+';border:2px solid '+col.bd+';flex-shrink:0"></div>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div style="font-size:12px;font-weight:700;color:var(--text)">'+esc(r.course_code||'—')+' · Sec '+esc(r.section||'—')+'</div>' +
+            '<div style="font-size:11px;color:var(--text2);margin-top:1px">'+esc(r.faculty||'—')+'</div>' +
+            '<div style="font-size:10px;color:var(--text3);margin-top:1px">'+esc(r.day||'—')+' · '+esc(r.time||'—')+'</div>' +
+          '</div>' +
+        '</div>';
+    });
+    courseHtml += '</div></div>';
+  });
+  courseHtml += '</div>';
+
+  // Timetables side by side
+  var ttHtml = '<div class="compare-cols">';
+  [{combo: comboA, idx: idxA}, {combo: comboB, idx: idxB}].forEach(function(item) {
+    ttHtml +=
+      '<div class="compare-col">' +
+        '<div class="compare-col-hd">Combo #'+(item.idx+1)+' Timetable</div>' +
+        '<div class="tt-wrap" style="overflow-x:auto;padding:12px 8px">' +
+          buildTT(item.combo, cm) +
+        '</div>' +
+      '</div>';
+  });
+  ttHtml += '</div>';
+
+  body.innerHTML += courseHtml + ttHtml;
+  $('compare-modal-overlay').classList.add('open');
+}
+
+// ── Compare event listeners ────────────────────────────────────────
+// Delegate compare-pick clicks on combo-list
+document.addEventListener('click', function(e) {
+  // Compare pick button
+  var pickBtn = e.target.closest('.btn-compare-pick');
+  if (pickBtn) {
+    var idx = parseInt(pickBtn.dataset.idx);
+    _toggleComparePick(idx);
+    return;
+  }
+  // Remove slot X button
+  var slotX = e.target.closest('.compare-slot-x');
+  if (slotX) {
+    var idx = parseInt(slotX.dataset.pickIdx);
+    var pos = _comparePicks.indexOf(idx);
+    if (pos !== -1) _comparePicks.splice(pos, 1);
+    _updateCompareBar();
+    return;
+  }
+});
+
+$('btn-compare-now').addEventListener('click', function() {
+  if (_comparePicks.length !== 2) return;
+  _buildCompareModal(_comparePicks[0], _comparePicks[1]);
+});
+
+$('btn-compare-cancel').addEventListener('click', function() {
+  _comparePicks = [];
+  _updateCompareBar();
+});
+
+$('compare-modal-close').addEventListener('click', function() {
+  $('compare-modal-overlay').classList.remove('open');
+});
+$('compare-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+// ══════════════════════════════════════════════════════════════════
+// ── SHARE COMBO FEATURE (WhatsApp / Messenger / Copy) ─────────────
+// ══════════════════════════════════════════════════════════════════
+var _shareComboIdx = -1;
+
+function _openShareModal(idx) {
+  _shareComboIdx = idx;
+  var combo = State.combos[idx]; if (!combo) return;
+
+  $('share-modal-sub').textContent = 'Combination #'+(idx+1)+' — '+combo.length+' courses';
+
+  // Build share text
+  var lines = ['📅 My UIU CSE Routine — Combo #'+(idx+1), ''];
+  combo.forEach(function(r) {
+    lines.push('• '+esc(r.course_code)+' Sec '+esc(r.section)+' — '+esc(r.faculty||'—'));
+    lines.push('  '+esc(r.day||'—')+' · '+esc(r.time||'—'));
+  });
+  lines.push('');
+  lines.push('🔗 Generated via Section Lagbe? — github.com/TaohidBhuiyan');
+  var text = lines.join('\n');
+
+  var waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
+  var msUrl = 'https://www.facebook.com/dialog/send?link='+encodeURIComponent(window.location.href)+'&app_id=291494419107518&redirect_uri='+encodeURIComponent(window.location.href);
+
+  $('share-wa').href = waUrl;
+  $('share-ms').href = msUrl;
+
+  // Copy link handler
+  $('share-cp').onclick = function() {
+    var toCopy = text;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(toCopy).then(function() {
+        toast('✅ Routine copied to clipboard!', 'success');
+        $('share-modal-overlay').classList.remove('open');
+      });
+    } else {
+      var el = document.createElement('textarea');
+      el.value = toCopy;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      toast('✅ Routine copied!', 'success');
+      $('share-modal-overlay').classList.remove('open');
+    }
+  };
+
+  $('share-modal-overlay').classList.add('open');
+}
+
+// Share combo button click (delegated)
+document.addEventListener('click', function(e) {
+  var shareBtn = e.target.closest('.share-combo-btn');
+  if (!shareBtn) return;
+  var idx = parseInt(shareBtn.dataset.idx);
+  _openShareModal(idx);
+});
+
+$('share-modal-cancel').addEventListener('click', function() {
+  $('share-modal-overlay').classList.remove('open');
+});
+$('share-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+
+// Reset compare picks when starting over
+(function patchStartOver() {
+  var btn = $('btn-start-over');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      _comparePicks = [];
+      _updateCompareBar();
+    });
+  }
+})();
+
+})(); // end IIFE</script>
 </body>
 </html>
