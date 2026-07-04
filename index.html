@@ -2506,6 +2506,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
           <div class="flex mt-8" style="flex-direction:column;gap:16px">
             <div><div class="sec-label mb-8">📖 Theory per day</div><div class="stepper"><button class="stepper-btn" id="theory-dec">−</button><div class="stepper-val" id="theory-lv">∞</div><button class="stepper-btn" id="theory-inc">+</button></div></div>
             <div><div class="sec-label mb-8">🔬 Lab per day</div><div class="stepper"><button class="stepper-btn" id="lab-dec">−</button><div class="stepper-val" id="lab-lv">∞</div><button class="stepper-btn" id="lab-inc">+</button></div></div>
+            <div><div class="sec-label mb-8">🎯 Total per day (theory + lab)</div><div class="stepper"><button class="stepper-btn" id="total-dec">−</button><div class="stepper-val" id="total-lv">∞</div><button class="stepper-btn" id="total-inc">+</button></div></div>
           </div>
         </div>
 
@@ -2760,9 +2761,10 @@ var State = {
   theme: (function() { try { return localStorage.getItem('scht') || 'light'; } catch(e) { return 'light'; } })(),
 
   // Preferences
-  P: { time:'any', days:'0', sort:'gap', theoryLim:0, labLim:0, blockedSlots: new Set() },
+  P: { time:'any', days:'0', sort:'gap', theoryLim:0, labLim:0, totalLim:0, blockedSlots: new Set() },
   thLimV: 0,
   labLimV: 0,
+  totalLimV: 0,
 
   // Generation
   _genGroups: [],
@@ -2802,10 +2804,12 @@ function lsSave() {
         sort: State.P.sort,
         theoryLim: State.P.theoryLim,
         labLim: State.P.labLim,
+        totalLim: State.P.totalLim,
         blockedSlots: Array.from(State.P.blockedSlots)
       },
       thLimV: State.thLimV,
       labLimV: State.labLimV,
+      totalLimV: State.totalLimV,
       theme: State.theme,
       onboardDismissed: false
     };
@@ -2838,11 +2842,13 @@ function lsLoad() {
       State.P.time = snap.P.time || 'any';
       State.P.days = snap.P.days || '0';
       State.P.sort = snap.P.sort || 'gap';
-      State.P.theoryLim = snap.P.theoryLim || 0;
-      State.P.labLim    = snap.P.labLim    || 0;
+      State.P.theoryLim = Math.min(6, snap.P.theoryLim || 0);
+      State.P.labLim    = Math.min(3, snap.P.labLim    || 0);
+      State.P.totalLim  = Math.min(6, snap.P.totalLim  || 0);
       State.P.blockedSlots = new Set(snap.P.blockedSlots || []);
-      State.thLimV = snap.thLimV || 0;
-      State.labLimV = snap.labLimV || 0;
+      State.thLimV = State.P.theoryLim;
+      State.labLimV = State.P.labLim;
+      State.totalLimV = State.P.totalLim;
     }
     if (snap.selCourses) {
       Object.keys(snap.selCourses).forEach(function(k) {
@@ -3777,13 +3783,17 @@ function _showUndoToast(saved) {
 
 function chgLimit(type, d) {
   if (type === 'theory') {
-    State.thLimV = Math.max(0, State.thLimV + d);
+    State.thLimV = Math.max(0, Math.min(6, State.thLimV + d));
     $('theory-lv').textContent = State.thLimV === 0 ? '∞' : State.thLimV;
     State.P.theoryLim = State.thLimV;
-  } else {
-    State.labLimV = Math.max(0, State.labLimV + d);
+  } else if (type === 'lab') {
+    State.labLimV = Math.max(0, Math.min(3, State.labLimV + d));
     $('lab-lv').textContent = State.labLimV === 0 ? '∞' : State.labLimV;
     State.P.labLim = State.labLimV;
+  } else {
+    State.totalLimV = Math.max(0, Math.min(6, State.totalLimV + d));
+    $('total-lv').textContent = State.totalLimV === 0 ? '∞' : State.totalLimV;
+    State.P.totalLim = State.totalLimV;
   }
   lsSave();
 }
@@ -3840,6 +3850,8 @@ $('theory-dec').addEventListener('click', function() { chgLimit('theory',-1); })
 $('theory-inc').addEventListener('click', function() { chgLimit('theory', 1); });
 $('lab-dec').addEventListener('click', function() { chgLimit('lab',-1); });
 $('lab-inc').addEventListener('click', function() { chgLimit('lab', 1); });
+$('total-dec').addEventListener('click', function() { chgLimit('total',-1); });
+$('total-inc').addEventListener('click', function() { chgLimit('total', 1); });
 
 var _timeCache = {};
 function parseTR(str) {
@@ -3910,7 +3922,7 @@ function violatesSlot(row) {
 }
 
 function violatesDaily(combo) {
-  if (!State.P.theoryLim && !State.P.labLim) return false;
+  if (!State.P.theoryLim && !State.P.labLim && !State.P.totalLim) return false;
   var byD = {};
   combo.forEach(function(r) {
     normD(r.day).forEach(function(d) {
@@ -3920,7 +3932,8 @@ function violatesDaily(combo) {
   });
   return Object.values(byD).some(function(c) {
     return (State.P.theoryLim && c.Theory > State.P.theoryLim) ||
-           (State.P.labLim    && c.Lab    > State.P.labLim);
+           (State.P.labLim    && c.Lab    > State.P.labLim) ||
+           (State.P.totalLim  && (c.Theory + c.Lab) > State.P.totalLim);
   });
 }
 
@@ -4084,6 +4097,12 @@ function validatePrefs() {
   // Most faculty locked
   if (lockedFacCount > 0 && lockedFacCount >= ks.length)
     restricted.push(lockedFacCount + ' faculty locked — this significantly narrows your combinations');
+
+  // Very tight daily class limit vs number of courses
+  if (State.P.totalLim === 1 && ks.length > 3)
+    restricted.push('Total per day is set to 1 — with ' + ks.length + ' courses selected, most combinations will be ruled out');
+  if (State.P.theoryLim === 1 && ks.length > 3)
+    restricted.push('Theory per day is set to 1 — with ' + ks.length + ' courses selected, most combinations will be ruled out');
 
   var conflicting = [];
 
@@ -4368,7 +4387,15 @@ function _showConflictExplanation(groups) {
   }
 
   if (!items.length) {
-    items.push('Two or more courses have sections at the same time — they cannot all be scheduled together');
+    var limitActive = State.P.theoryLim || State.P.labLim || State.P.totalLim;
+    if (limitActive) {
+      if (State.P.totalLim) items.push('Your <strong>Total per day</strong> limit (' + State.P.totalLim + ') may be too strict for these courses\' section timings');
+      if (State.P.theoryLim) items.push('Your <strong>Theory per day</strong> limit (' + State.P.theoryLim + ') may be too strict for these courses\' section timings');
+      if (State.P.labLim) items.push('Your <strong>Lab per day</strong> limit (' + State.P.labLim + ') may be too strict for these courses\' section timings');
+      suggestions.push('Raise or remove the daily class limit(s) in Preferences');
+    } else {
+      items.push('Two or more courses have sections at the same time — they cannot all be scheduled together');
+    }
     if (State.P.blockedSlots.size > 0)
       suggestions.push('Remove some of your ' + State.P.blockedSlots.size + ' blocked time slots');
     if (State.P.days !== '0')
@@ -5421,6 +5448,7 @@ $('btn-share-link').addEventListener('click', function() {
         sort: State.P.sort,
         theoryLim: State.P.theoryLim,
         labLim: State.P.labLim,
+        totalLim: State.P.totalLim,
         blockedSlots: Array.from(State.P.blockedSlots)
       },
       courses: Object.keys(State.selCourses).map(function(k) {
@@ -6148,8 +6176,8 @@ $('mc-list').addEventListener('click', function(e) {
 // Clear saved data button
 $('btn-clear-saved').addEventListener('click', function() {
   lsClear();
-  State.P = { time:'any', days:'0', sort:'gap', theoryLim:0, labLim:0, blockedSlots: new Set() };
-  State.thLimV = 0; State.labLimV = 0;
+  State.P = { time:'any', days:'0', sort:'gap', theoryLim:0, labLim:0, totalLim:0, blockedSlots: new Set() };
+  State.thLimV = 0; State.labLimV = 0; State.totalLimV = 0;
   State.selCourses = {}; State.pinnedSections = {};
   document.querySelectorAll('.pref-card').forEach(function(c) { c.classList.remove('active'); });
   document.querySelector('[data-type="time"][data-val="any"]').classList.add('active');
@@ -6157,6 +6185,7 @@ $('btn-clear-saved').addEventListener('click', function() {
   document.querySelector('[data-type="sort"][data-val="gap"]').classList.add('active');
   var tl = $('theory-lv'); if (tl) tl.textContent = '∞';
   var ll = $('lab-lv');    if (ll) ll.textContent = '∞';
+  var tol = $('total-lv'); if (tol) tol.textContent = '∞';
   syncSlotChips();
   toast('Saved data cleared','info');
 });
@@ -6175,9 +6204,13 @@ lsLoad(); // restore persisted state
       State.P.time = shareData.P.time || 'any';
       State.P.days = shareData.P.days || '0';
       State.P.sort = shareData.P.sort || 'gap';
-      State.P.theoryLim = shareData.P.theoryLim || 0;
-      State.P.labLim    = shareData.P.labLim    || 0;
+      State.P.theoryLim = Math.min(6, shareData.P.theoryLim || 0);
+      State.P.labLim    = Math.min(3, shareData.P.labLim    || 0);
+      State.P.totalLim  = Math.min(6, shareData.P.totalLim  || 0);
       State.P.blockedSlots = new Set(shareData.P.blockedSlots || []);
+      State.thLimV = State.P.theoryLim;
+      State.labLimV = State.P.labLim;
+      State.totalLimV = State.P.totalLim;
     }
     if (shareData.courses && shareData.courses.length) {
       shareData.courses.forEach(function(item) {
@@ -6205,6 +6238,8 @@ lsLoad(); // restore persisted state
   if (tl) tl.textContent = State.thLimV === 0 ? '∞' : State.thLimV;
   var ll = $('lab-lv');
   if (ll) ll.textContent = State.labLimV === 0 ? '∞' : State.labLimV;
+  var tol = $('total-lv');
+  if (tol) tol.textContent = State.totalLimV === 0 ? '∞' : State.totalLimV;
 })();
 
 applyTheme(State.theme);
@@ -6467,22 +6502,33 @@ var _shareComboIdx = -1;
   function _encodeRoutineURL(idx) {
     var combo = State.combos[idx]; if (!combo) return null;
     var an = calcAn(combo);
+    // Dedupe course code+name into a legend so multi-section courses (theory+lab)
+    // don't repeat the (often long) course name on every row. Rows reference the
+    // legend by index and use plain arrays (no key names) to keep the URL short.
+    var legend = [];   // [cc, cn]
+    var legendIdx = {}; // cc -> index in legend
+    var rows = combo.map(function(r) {
+      var cc = r.course_code || '';
+      if (!(cc in legendIdx)) {
+        legendIdx[cc] = legend.length;
+        legend.push([cc, r.course_name || '']);
+      }
+      return [
+        legendIdx[cc],
+        r.section || '',
+        r.faculty || '',
+        r.day || '',
+        r.time || '',
+        (r.type === 'Theory' ? 'T' : r.type === 'Lab' ? 'L' : (r.type || '')),
+        r.room || ''
+      ];
+    });
     var data = {
-      v: 2,
-      idx: idx + 1,
-      combo: combo.map(function(r) {
-        return {
-          cc: r.course_code || '',
-          cn: r.course_name || '',
-          sec: r.section || '',
-          fac: r.faculty || '',
-          day: r.day || '',
-          time: r.time || '',
-          type: r.type || '',
-          room: r.room || ''
-        };
-      }),
-      an: { gap: an.tGap, days: an.days, morn: an.morn, brk: an.lGap }
+      v: 3,
+      i: idx + 1,
+      c: legend,
+      r: rows,
+      a: [an.tGap, an.days, an.morn, an.lGap]
     };
     try {
       var json = JSON.stringify(data);
@@ -6499,8 +6545,36 @@ var _shareComboIdx = -1;
     if (!raw) return false;
     try {
       var json = decodeURIComponent(atob(raw).split('').map(function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);}).join(''));
-      var data = JSON.parse(json);
-      if (!data || !data.combo) return false;
+      var raw2 = JSON.parse(json);
+      if (!raw2) return false;
+
+      // Normalize v2 (verbose keyed) and v3 (compact legend+array) formats into
+      // a common shape: { idx, combo:[{cc,cn,sec,fac,day,time,type,room}], an:{gap,days,morn,brk} }
+      var data;
+      if (raw2.v === 3) {
+        if (!raw2.r) return false;
+        var legend = raw2.c || [];
+        data = {
+          idx: raw2.i,
+          combo: raw2.r.map(function(row) {
+            var lg = legend[row[0]] || ['',''];
+            return {
+              cc: lg[0], cn: lg[1],
+              sec: row[1], fac: row[2], day: row[3], time: row[4],
+              type: row[5] === 'T' ? 'Theory' : row[5] === 'L' ? 'Lab' : row[5],
+              room: row[6]
+            };
+          }),
+          an: { gap: raw2.a[0], days: raw2.a[1], morn: raw2.a[2], brk: raw2.a[3] }
+        };
+      } else {
+        if (!raw2.combo) return false;
+        data = {
+          idx: raw2.idx,
+          combo: raw2.combo,
+          an: raw2.an || {}
+        };
+      }
 
       // Hide main app, show shared view
       var shell = document.querySelector('.shell');
@@ -6763,7 +6837,7 @@ function _hookLiveCountUpdates() {
     });
   });
   // Stepper buttons
-  ['theory-dec','theory-inc','lab-dec','lab-inc'].forEach(function(id) {
+  ['theory-dec','theory-inc','lab-dec','lab-inc','total-dec','total-inc'].forEach(function(id) {
     var btn = $(id);
     if (btn) btn.addEventListener('click', function() { setTimeout(updateLiveCount, 50); });
   });
