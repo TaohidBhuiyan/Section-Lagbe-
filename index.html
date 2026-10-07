@@ -2292,6 +2292,409 @@ td input:focus,td select:focus{border-color:var(--accent)}
     transition:none!important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   PREMIUM RESULTS PAGE — TOP-NOTCH UI UPGRADE
+   Smooth, premium, responsive — dark + light theme support
+══════════════════════════════════════════════════════════════════ */
+
+/* Loading spinner */
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* Course-list dot */
+.csl-dot{
+  width:9px;height:9px;border-radius:50%;flex-shrink:0;
+  transition:transform .15s;
+}
+.csl-row:hover .csl-dot{transform:scale(1.35)}
+
+/* ── Combo Card — premium glass card ── */
+.combo-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+  transition:border-color .3s cubic-bezier(.4,0,.2,1),
+             box-shadow .3s cubic-bezier(.4,0,.2,1),
+             transform .3s cubic-bezier(.4,0,.2,1);
+  margin-bottom:20px;
+  position:relative;
+  box-shadow:0 1px 4px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.04);
+}
+.combo-card:hover{
+  border-color:rgba(34,197,94,0.4);
+  box-shadow:0 12px 40px rgba(0,0,0,.18),0 0 0 1px rgba(34,197,94,.15),inset 0 1px 0 rgba(255,255,255,.06);
+  transform:translateY(-3px);
+}
+[data-theme="light"] .combo-card{
+  box-shadow:0 2px 12px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.8);
+}
+[data-theme="light"] .combo-card:hover{
+  box-shadow:0 12px 40px rgba(0,0,0,.1),0 0 0 1px rgba(46,125,56,.15);
+}
+
+/* Best pick — gold animated shimmer */
+.combo-card.best-pick{
+  border-color:rgba(255,209,102,0.65);
+  box-shadow:0 0 0 2px rgba(255,209,102,.2),0 12px 40px rgba(255,209,102,.15),inset 0 1px 0 rgba(255,209,102,.1);
+  transform:translateY(-4px);
+}
+.combo-card.best-pick::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#ffd166,#ff9f43,#ffd166);
+  background-size:200% 100%;
+  animation:shimmerGold 2.5s linear infinite;
+  border-radius:20px 20px 0 0;pointer-events:none;z-index:2;
+}
+@keyframes shimmerGold{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Accent line on hover for regular cards */
+.combo-card:not(.best-pick)::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2),var(--neon2));
+  border-radius:20px 20px 0 0;pointer-events:none;z-index:2;
+  opacity:0;transition:opacity .25s ease;
+}
+.combo-card:not(.best-pick):hover::after{opacity:1}
+
+/* ── Combo Header ── */
+.combo-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 22px;border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,var(--surface2) 0%,var(--surface) 100%);
+  flex-wrap:wrap;gap:10px;
+}
+.combo-num{
+  font-family:'Inter',sans-serif;font-size:11px;font-weight:800;
+  color:var(--text3);letter-spacing:.8px;text-transform:uppercase;
+  background:var(--surface3);padding:5px 12px;border-radius:8px;
+  border:1px solid var(--border2);
+}
+.best-crown{
+  background:linear-gradient(135deg,#ffd166,#ff9f43);color:#fff;
+  padding:5px 14px;border-radius:999px;
+  font-size:11px;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:.3px;
+  box-shadow:0 4px 12px rgba(255,209,102,.35);
+  display:inline-flex;align-items:center;gap:5px;
+}
+.combo-badges{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.cbadge{
+  padding:4px 11px;border-radius:8px;font-size:10.5px;font-weight:700;
+  font-family:'Inter',sans-serif;letter-spacing:.1px;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.cb-v{background:rgba(34,197,94,0.12);color:var(--accent3);border:1px solid rgba(34,197,94,0.25)}
+.cb-g{background:rgba(16,185,129,0.12);color:var(--neon2);border:1px solid rgba(16,185,129,0.25)}
+.cb-w{background:rgba(245,158,11,0.12);color:#d97706;border:1px solid rgba(245,158,11,0.25)}
+.cb-m{background:rgba(244,114,182,0.12);color:var(--neon3);border:1px solid rgba(244,114,182,0.25)}
+
+/* ── Analytics Row — premium stats ── */
+.analytics-row{
+  display:flex;border-bottom:1px solid var(--border);overflow-x:auto;
+  background:var(--surface);scrollbar-width:none;
+}
+.analytics-row::-webkit-scrollbar{display:none}
+.analytic{
+  flex:1;padding:16px 14px;text-align:center;border-right:1px solid var(--border);
+  min-width:90px;transition:background .2s;position:relative;cursor:default;
+}
+.analytic:hover{background:var(--surface2)}
+.analytic:last-child{border-right:none}
+.analytic-val{
+  font-family:'Inter',sans-serif;font-size:20px;font-weight:800;
+  color:var(--text);margin-bottom:3px;letter-spacing:-.5px;line-height:1.1;
+}
+.analytic-label{
+  font-size:9.5px;color:var(--text3);font-weight:700;
+  text-transform:uppercase;letter-spacing:.8px;font-family:'Inter',sans-serif;
+}
+.analytic:first-child .analytic-val{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+[data-theme="light"] .analytic:first-child .analytic-val{
+  background:linear-gradient(135deg,#22863a,var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── Course Summary List ── */
+.course-summary-list{
+  padding:14px 20px 10px;
+  background:linear-gradient(135deg,var(--surface2) 0%,var(--surface) 100%);
+  border-bottom:1px solid var(--border);
+}
+.csl-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+.csl-row:last-child{border-bottom:none}
+.csl-code{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--accent3);background:rgba(34,197,94,0.12);
+  padding:3px 9px;border-radius:6px;flex-shrink:0;border:1px solid rgba(34,197,94,0.18);
+}
+.csl-name{flex:1;font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.csl-fac{font-size:11px;color:var(--text2);min-width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.csl-time{font-size:10px;color:var(--text3);background:var(--surface);padding:2px 7px;border-radius:5px;border:1px solid var(--border2);white-space:nowrap;flex-shrink:0;}
+
+/* ── Timetable Wrapper ── */
+.tt-wrap{
+  padding:20px 22px 24px;overflow-x:auto;-webkit-overflow-scrolling:touch;cursor:grab;
+  background:linear-gradient(160deg,var(--bg2) 0%,var(--bg) 100%);
+  border-top:1px solid var(--border);margin-top:0;position:relative;
+  border-radius:0;border:none;border-top:1px solid var(--border);
+}
+.tt-wrap:active{cursor:grabbing}
+.ht-grid{
+  position:relative;min-width:720px;background:var(--surface);
+  border-radius:14px;border:1px solid var(--border2);overflow:hidden;
+  box-shadow:0 2px 16px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.04);
+}
+[data-theme="light"] .ht-grid{background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.06);}
+
+.ht-header-wrap{
+  display:flex;align-items:center;
+  background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.04));
+  border-bottom:1.5px solid var(--border2);position:sticky;top:0;z-index:5;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+[data-theme="light"] .ht-header-wrap{
+  background:linear-gradient(135deg,rgba(46,125,56,0.07),rgba(46,125,56,0.02));
+}
+.ht-corner{width:108px;flex-shrink:0;padding:13px 14px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);}
+.ht-tick{position:absolute;top:50%;transform:translate(-50%,-50%);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--text3);white-space:nowrap;opacity:.7;}
+.ht-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border);min-height:72px}
+.ht-row:last-child{border-bottom:none}
+.ht-day{
+  width:108px;flex-shrink:0;font-family:'Inter',sans-serif;font-size:11.5px;font-weight:700;
+  color:var(--text2);display:flex;align-items:center;
+  padding:8px 14px;border-right:1.5px solid var(--border2);
+  background:linear-gradient(135deg,rgba(34,197,94,0.04),rgba(34,197,94,0.01));letter-spacing:.2px;
+}
+.ht-day.has-class{
+  color:var(--accent);font-weight:800;
+  background:linear-gradient(135deg,rgba(34,197,94,0.12),rgba(34,197,94,0.05));
+}
+[data-theme="light"] .ht-day.has-class{
+  color:var(--accent);background:linear-gradient(135deg,rgba(46,125,56,0.1),rgba(46,125,56,0.03));
+}
+.ht-timeline{flex:1;position:relative;min-height:72px}
+.ht-gl{position:absolute;top:0;bottom:0;width:1px;background:var(--border);opacity:.35}
+.ht-gl.hour{opacity:.22}
+
+/* ── Timetable Blocks — premium ── */
+.ht-block{
+  position:absolute;top:7px;bottom:7px;border-radius:10px;
+  padding:9px 13px;font-size:11px;line-height:1.4;cursor:pointer;overflow:hidden;
+  transition:transform .22s cubic-bezier(.34,1.5,.64,1),box-shadow .2s ease,filter .15s ease;
+  display:flex;flex-direction:column;justify-content:center;
+  border:1.5px solid rgba(255,255,255,0.25);
+  box-shadow:0 3px 10px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.22);
+}
+.ht-block::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:38%;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),transparent);
+  pointer-events:none;border-radius:9px 9px 0 0;
+}
+.ht-block:hover{
+  transform:scaleY(1.07) translateY(-2px) scale(1.025);
+  z-index:10;
+  box-shadow:0 8px 24px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.25);
+  filter:brightness(1.08);
+}
+.hb-name{
+  font-family:'Inter',sans-serif;font-weight:800;font-size:11.5px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom:3px;line-height:1.25;letter-spacing:-.2px;
+  text-shadow:0 1px 2px rgba(0,0,0,.15);
+}
+.hb-meta{font-size:10px;opacity:.92;display:flex;align-items:center;gap:4px;margin-bottom:2px;line-height:1.2;font-weight:600;}
+.hb-fac{font-size:10px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2;font-weight:600;font-style:italic;}
+
+/* ── Combo Actions ── */
+.combo-actions{
+  display:flex;gap:8px;padding:14px 20px;
+  border-top:1px solid var(--border);flex-wrap:wrap;
+  background:linear-gradient(135deg,var(--surface2) 0%,var(--surface) 100%);
+  align-items:center;
+}
+.combo-actions .btn-primary{
+  background:rgba(34,197,94,.16);border:1.5px solid rgba(34,197,94,.4);
+  color:var(--accent2);font-weight:700;transition:all .2s cubic-bezier(.4,0,.2,1);
+}
+.combo-actions .btn-primary:hover{
+  background:rgba(34,197,94,.25);border-color:rgba(34,197,94,.6);
+  transform:translateY(-1px);box-shadow:0 4px 12px rgba(34,197,94,.2);
+}
+[data-theme="light"] .combo-actions .btn-primary{background:rgba(46,125,56,.1);border-color:rgba(46,125,56,.35);color:var(--accent);}
+[data-theme="light"] .combo-actions .btn-primary:hover{background:rgba(46,125,56,.16);border-color:rgba(46,125,56,.5);}
+
+/* ── Results Page Header ── */
+#page-results .page-title{
+  font-size:26px;font-weight:800;letter-spacing:-.6px;
+  background:linear-gradient(135deg,var(--text) 20%,var(--text2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#page-results .page-sub{font-size:13.5px;color:var(--text2);margin-top:4px;font-weight:500;opacity:.85;}
+
+/* ── Best Pick Banner ── */
+.results-best-wrap{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px 26px;
+  background:linear-gradient(135deg,rgba(34,197,94,0.1) 0%,rgba(34,197,94,0.04) 100%);
+  border:1.5px solid rgba(34,197,94,0.28);border-radius:18px;margin-bottom:22px;flex-wrap:wrap;
+  box-shadow:0 4px 24px rgba(34,197,94,.1),inset 0 1px 0 rgba(255,255,255,.04);
+  position:relative;overflow:hidden;
+}
+.results-best-wrap::before{
+  content:'';position:absolute;top:-40%;right:-5%;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,197,94,0.07) 0%,transparent 70%);pointer-events:none;
+}
+[data-theme="light"] .results-best-wrap{
+  background:linear-gradient(135deg,rgba(46,125,56,0.07),rgba(46,125,56,0.02));
+  border-color:rgba(46,125,56,.2);box-shadow:0 4px 20px rgba(46,125,56,.08);
+}
+.results-best-hint-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px;font-family:'Inter',sans-serif;letter-spacing:-.3px;}
+.results-best-hint-sub{font-size:12.5px;color:var(--text3);line-height:1.5;}
+
+.btn-best{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-family:'Inter',sans-serif;font-weight:800;
+  font-size:14px;padding:13px 28px;letter-spacing:-.2px;
+  border:none;border-radius:14px;cursor:pointer;
+  box-shadow:0 6px 24px rgba(34,197,94,.4),0 2px 8px rgba(34,197,94,.2);
+  transition:all .28s cubic-bezier(.34,1.4,.64,1);white-space:nowrap;flex-shrink:0;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-best:hover:not(:disabled){
+  box-shadow:0 10px 36px rgba(34,197,94,.55),0 4px 12px rgba(34,197,94,.3);
+  transform:translateY(-3px) scale(1.02);
+}
+.btn-best:active:not(:disabled){transform:translateY(-1px) scale(.99)}
+.btn-best:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+
+/* ── Filter Bar ── */
+.rf-bar{
+  display:flex;align-items:center;gap:0;padding:0;background:var(--surface);
+  border:1.5px solid var(--border2);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);flex-wrap:wrap;
+  border-top:3px solid var(--accent);
+}
+[data-theme="light"] .rf-bar{
+  background:#fff;border-color:#d8ddd3;border-top-color:rgba(46,125,56,.5);
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.rf-chip{
+  display:inline-flex;align-items:center;gap:4px;padding:7px 14px;border-radius:8px;
+  font-size:12px;font-weight:600;border:1px solid transparent;
+  color:var(--text3);cursor:pointer;background:transparent;
+  font-family:'Inter',sans-serif;transition:all .18s cubic-bezier(.4,0,.2,1);
+  white-space:nowrap;user-select:none;letter-spacing:-.1px;min-height:34px;
+}
+.rf-chip:hover{color:var(--text);background:var(--surface2);border-color:var(--border2);transform:translateY(-1px);}
+.rf-chip.active:not([data-val="all"]){
+  background:rgba(34,197,94,.18);border-color:rgba(34,197,94,.55);color:var(--accent2);
+  box-shadow:0 2px 8px rgba(34,197,94,.18),inset 0 1px 0 rgba(255,255,255,.08);
+  transform:translateY(-1px);
+}
+[data-theme="light"] .rf-chip.active:not([data-val="all"]){
+  background:rgba(46,125,56,.12);border-color:rgba(46,125,56,.45);color:var(--accent);
+}
+
+/* ── Load More Button ── */
+#load-more-btn{
+  min-width:220px;font-weight:700;font-size:13px;padding:12px 24px;
+  border:1.5px solid var(--border2);color:var(--text2);border-radius:12px;
+  background:var(--surface2);transition:all .2s cubic-bezier(.4,0,.2,1);
+  display:inline-flex;align-items:center;gap:8px;justify-content:center;
+}
+#load-more-btn:hover{
+  border-color:var(--accent);color:var(--accent);background:rgba(34,197,94,.06);
+  transform:translateY(-2px);box-shadow:0 4px 16px rgba(34,197,94,.12);
+}
+
+/* ── Floating Best Button ── */
+.floating-best-btn{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);z-index:400;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-family:'Inter',sans-serif;font-weight:800;
+  font-size:15px;padding:15px 34px;border:none;border-radius:999px;cursor:pointer;
+  box-shadow:0 8px 32px rgba(34,197,94,.5),0 3px 12px rgba(34,197,94,.3);
+  white-space:nowrap;
+  transition:transform .35s cubic-bezier(.34,1.4,.64,1),opacity .3s,box-shadow .2s;
+  opacity:0;pointer-events:none;display:flex;align-items:center;gap:10px;letter-spacing:-.2px;
+}
+.floating-best-btn.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
+.floating-best-btn:hover{
+  box-shadow:0 12px 44px rgba(34,197,94,.65),0 4px 16px rgba(34,197,94,.3);
+  transform:translateX(-50%) translateY(-3px);
+}
+.floating-best-btn:active{transform:translateX(-50%) scale(.97)!important}
+
+/* ── Rich Tooltip ── */
+.rich-tip{
+  position:fixed;background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:16px;padding:0;
+  box-shadow:0 16px 48px rgba(0,0,0,.28),0 4px 16px rgba(0,0,0,.12);
+  pointer-events:none;z-index:9999;min-width:250px;max-width:290px;
+  display:none;overflow:hidden;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+[data-theme="light"] .rich-tip{box-shadow:0 10px 32px rgba(0,0,0,.14);background:#ffffff;}
+.rt-header{
+  padding:15px 18px 13px;border-bottom:1px solid var(--border);
+  background:linear-gradient(135deg,var(--surface2),var(--surface));
+}
+.rt-course-name{font-family:'Inter',sans-serif;font-size:14.5px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:6px;letter-spacing:-.2px;}
+.rt-code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent3);font-weight:700;padding:3px 9px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.25);border-radius:6px;}
+.rt-body{padding:13px 18px 16px;display:flex;flex-direction:column;gap:9px}
+.rt-row{display:flex;align-items:flex-start;gap:11px}
+.rt-icon{font-size:14px;flex-shrink:0;margin-top:1px;opacity:.8}
+.rt-label{font-size:9.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;font-weight:700;line-height:1}
+.rt-val{font-size:12.5px;font-weight:600;color:var(--text);margin-top:2px;line-height:1.4}
+
+/* ══ MOBILE PREMIUM OVERRIDES ═══════════════════════════════════ */
+@media(max-width:768px){
+  .combo-card{
+    border-radius:14px!important;margin-bottom:14px!important;
+    transform:none!important;
+    box-shadow:0 1px 6px rgba(0,0,0,.08)!important;
+  }
+  .combo-card:hover,.combo-card.best-pick{transform:none!important;}
+  .combo-card::after,.combo-card.best-pick::before{display:none!important}
+  .ht-block:hover{transform:none!important;filter:none!important;}
+  .ht-block{
+    border-radius:6px!important;padding:4px 6px!important;
+    top:4px!important;bottom:4px!important;
+    box-shadow:0 2px 6px rgba(0,0,0,.2)!important;
+    backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  }
+  .ht-block::before{display:none!important}
+  .results-best-wrap{border-radius:14px!important;padding:16px!important;overflow:hidden!important}
+  .results-best-wrap::before{display:none!important}
+  .btn-best{border-radius:10px!important;padding:12px 20px!important;font-size:13px!important}
+  .btn-best:hover{transform:none!important;}
+  .analytic-val{font-size:15px!important}
+  .analytic{padding:10px 8px!important;min-width:72px!important}
+  .combo-header{padding:10px 14px!important}
+  .combo-actions{padding:10px 14px!important;gap:7px!important}
+  .tt-wrap{padding:8px 0 12px!important;border-top:1px solid var(--border)!important;}
+  .ht-grid{border-radius:0!important;border-left:none!important;border-right:none!important;min-width:unset!important;width:100%!important;}
+  .floating-best-btn{bottom:76px!important;font-size:13px!important;padding:12px 24px!important}
+  .rf-bar{border-top-width:2px!important}
+  .rich-tip{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  .course-summary-list{padding:10px 14px 6px!important}
+  .csl-row{flex-wrap:wrap!important;gap:7px!important;padding:7px 0!important}
+  .csl-name{min-width:100%!important;font-size:12px!important}
+  .csl-fac{font-size:10.5px!important;min-width:100%!important}
+  .ht-corner{width:42px!important;font-size:8px!important;padding:4px 2px!important}
+  .ht-day{width:42px!important;min-width:42px!important;flex-shrink:0!important;font-size:0!important;padding:3px 2px!important;text-align:center!important;}
+  .ht-day::before{content:attr(data-short);font-size:9px;font-weight:700;color:inherit}
+  .ht-row{min-height:58px!important}
+  .ht-timeline{min-height:58px!important}
+  .ht-tick{font-size:8px!important}
+  .hb-name{font-size:10px!important;margin-bottom:1px!important}
+  .hb-meta{font-size:9px!important}
+  .hb-fac{display:none!important}
+}
+
 </style>
 </head>
 <body data-theme="light">
@@ -2853,10 +3256,14 @@ td input:focus,td select:focus{border-color:var(--accent)}
 (function() {
 'use strict';
 
-var ALL_DAYS = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'];
-var DAY_FULL = {Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday'};
+var ALL_DAYS = ['Sat','Sun','Mon','Tue','Wed','Thu']; // UIU CSE — no Friday classes
+var DAY_FULL = {Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday'};
 var DAY_MAP  = {sat:'Sat',saturday:'Sat',sun:'Sun',sunday:'Sun',tue:'Tue',tuesday:'Tue',
                 wed:'Wed',wednesday:'Wed',mon:'Mon',monday:'Mon',thu:'Thu',thursday:'Thu',fri:'Fri',friday:'Fri'};
+
+// Update this for each new semester — used in export headers, footers, and page titles
+var SEMESTER = 'Fall 2026';
+var UNIVERSITY = 'UIU · CSE';
 
 var TLS = 8*60, TLE = 16*60+30, TLSP = TLE-TLS;
 
@@ -3055,12 +3462,14 @@ function $(id) {
 function toast(msg, type) {
   type = type || 'success';
   var wrap = $('toasts');
-  if (!wrap) return; // artifact viewer / headless — skip silently
+  if (!wrap) return;
   var el = document.createElement('div');
   el.className = 'toast toast-' + type;
   el.textContent = msg;
   wrap.appendChild(el);
-  setTimeout(function() { el.remove(); }, 3000);
+  // Errors stay longer so users can read them
+  var duration = (type === 'error') ? 5000 : 3000;
+  setTimeout(function() { el.remove(); }, duration);
 }
 
 function applyTheme(t) {
@@ -3190,6 +3599,13 @@ function procFile(file) {
     return;
   }
 
+  // File size guard — files > 20MB will freeze the browser
+  var maxBytes = 20 * 1024 * 1024; // 20 MB
+  if (capturedFile.size > maxBytes) {
+    toast('⚠ File too large (' + Math.round(capturedFile.size/1024/1024) + 'MB). Max 20MB supported.', 'error');
+    return;
+  }
+
   // Show feedback immediately — XLSX load can take 1-2s on first upload
   if (!State._xlsxLoaded) {
     toast('📦 Loading Excel reader...','info');
@@ -3286,9 +3702,20 @@ function pRow(r, i) {
   var d1t  = (d1||'').trim(), d2t = (d2||'').trim();
   var day  = d1t === d2t ? d1t : [d1t,d2t].filter(Boolean).join(',');
   var room = [rm1,rm2].filter(Boolean).join(', ');
-  var isLab = (room+name+code).toLowerCase().includes('lab');
-  return {id:i,type:isLab?'Lab':'Theory',course_code:code,course_name:name,
-          section:sec,faculty:fac||fi,day:day,time:t1||t2,room:room};
+
+  // BUG 5 FIX: check explicit type/category column first — only fall back to
+  // keyword detection if no type column found (avoids "Database Lab Systems" → Lab)
+  var typeCol = fCol(r,['type','category','classtype','class type','coursetype']);
+  var isLab;
+  if (typeCol) {
+    isLab = typeCol.toLowerCase().includes('lab');
+  } else {
+    // Fallback: keyword in name or code, but NOT in room alone (room can have 'LAB' prefix)
+    isLab = (name + code).toLowerCase().includes('lab');
+  }
+
+  return {id:i, type:isLab?'Lab':'Theory', course_code:code, course_name:name,
+          section:sec, faculty:fac||fi, day:day, time:t1||t2, room:room};
 }
 
 function buildMap() {
@@ -4376,7 +4803,35 @@ function generate() {
   if (!ks.length) { toast('Select at least one course','error'); return; }
   validatePrefs();
   var groups = buildGroups();
-  if (!groups.length) { toast('No valid sections after filters','error'); return; }
+
+  // BUG 2 FIX: identify which course(s) caused empty groups and explain why
+  if (!groups.length) {
+    var blockedCourses = [];
+    ks.forEach(function(k) {
+      var c = State.cMap[k]; if (!c) return;
+      var sc = State.selCourses[k];
+      var sf = sc.facs, lk = sc.locked;
+      var rs = c.rows;
+      if (State.pinnedSections[k] && State.pinnedSections[k].size > 0) {
+        rs = rs.filter(function(r) { return State.pinnedSections[k].has(r.id); });
+      } else if (lk && lk.size > 0) {
+        rs = rs.filter(function(r) { return lk.has(r.faculty); });
+      } else if (sf && sf.size > 0) {
+        rs = rs.filter(function(r) { return sf.has(r.faculty); });
+      }
+      var afterSlot = rs.filter(function(r) { return !violatesSlot(r); });
+      if (afterSlot.length === 0) {
+        var reason = rs.length === 0 ? '(no matching faculty)' : '(all sections in blocked slots)';
+        blockedCourses.push(esc(c.code || c.name) + ' ' + reason);
+      }
+    });
+    if (blockedCourses.length) {
+      toast('❌ No valid sections for: ' + blockedCourses.join(', '), 'error');
+    } else {
+      toast('No valid sections after filters — check blocked slots or faculty locks', 'error');
+    }
+    return;
+  }
 
   State._genGroups = groups;
   State._genStack  = [];
@@ -4392,18 +4847,33 @@ function generate() {
   // Loading state on button
   var genBtn = $('btn-generate');
   if (genBtn) { genBtn.disabled = true; genBtn.textContent = '⏳ Generating...'; }
-  showProgress('Generating...', 30, '');
+  showProgress('Finding combinations…', 20, '');
 
   setTimeout(function() {
     try {
+      showProgress('Searching sections…', 55, '');
       var batch = findNextN(State._genGroups, FIRST_BATCH, State._genStack);
+      showProgress('Sorting results…', 90, '');
       State.combos = batch;
       State.combos.sort(function(a,b) { return score(a)-score(b); });
       State._genDone = State._genStack.length === 0;
       if (!State.combos.length) {
-
+        // BUG FIX: don't call go('results') — its guard blocks when combos=[]
+        // Instead directly switch to results page and show conflict explanation
+        PAGES.forEach(function(x) {
+          var pg  = $('page-'+x);
+          var nav = $('nav-'+x);
+          var show = (x === 'results');
+          pg.style.display = show ? 'block' : 'none';
+          nav.classList.toggle('active', show);
+          if (!show) { pg.classList.remove('page-enter'); return; }
+          pg.classList.remove('page-enter');
+          requestAnimationFrame(function() { pg.classList.add('page-enter'); });
+        });
+        $('main').scrollTop = 0;
+        try { history.pushState({page:'results'},'',window.location.pathname+'?pg=results'); } catch(e) {}
+        try { document.dispatchEvent(new CustomEvent('pageChanged',{detail:'results'})); } catch(e) {}
         _showConflictExplanation(groups);
-        go('results');
         return;
       }
       markDone('prefs');
@@ -4713,6 +5183,26 @@ function makeCard(combo, idx, cm, isBest) {
   div.dataset.cmVals = JSON.stringify(Object.values(cm));
   div.dataset.ttBuilt = '0';
 
+  // Build a premium course summary list with color-coded dots
+  var cmKeys = Object.keys(cm);
+  var cslHtml = '<div class="course-summary-list">';
+  combo.forEach(function(r) {
+    var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+    var col = cm[k] || COLORS[0];
+    var t   = parseTR(r.time);
+    var sl  = t ? snapSlot(t) : null;
+    var timeStr = sl ? (fmtM(sl.s)+' – '+fmtM(sl.e)) : (r.time || '—');
+    cslHtml +=
+      '<div class="csl-row">' +
+        '<span class="csl-dot" style="background:'+col.bd+';box-shadow:0 0 0 2px '+col.bg+'"></span>' +
+        '<span class="csl-code">'+esc(r.course_code||'?')+'</span>' +
+        '<span class="csl-name">'+esc(r.course_name||r.course_code||'?')+'</span>' +
+        '<span class="csl-fac">'+esc(r.faculty||'—')+'</span>' +
+        '<span class="csl-time">'+esc(timeStr)+'</span>' +
+      '</div>';
+  });
+  cslHtml += '</div>';
+
   div.innerHTML =
     '<div class="combo-header">' +
       '<span class="combo-num">'+(isBest?'<span class="best-crown">🏆 Best Pick</span>':'#'+(idx+1))+'</span>' +
@@ -4729,16 +5219,17 @@ function makeCard(combo, idx, cm, isBest) {
       '<div class="analytic" role="listitem"><div class="analytic-val">'+lh+'</div><div class="analytic-label">Longest Break</div></div>' +
       '<div class="analytic" role="listitem"><div class="analytic-val">'+an.morn+'</div><div class="analytic-label">Morning</div></div>' +
     '</div>' +
-    '<div class="tt-wrap tt-lazy" id="tt-'+idx+'" style="min-height:180px;display:flex;align-items:center;justify-content:center">' +
-      '<span style="font-size:12px;color:var(--text3);opacity:.5">Loading timetable…</span>' +
+    cslHtml +
+    '<div class="tt-wrap tt-lazy" id="tt-'+idx+'" style="min-height:188px;display:flex;align-items:center;justify-content:center">' +
+      '<div style="display:flex;flex-direction:column;align-items:center;gap:10px">' +
+        '<div style="width:32px;height:32px;border-radius:50%;border:2px solid var(--border2);border-top-color:var(--accent);animation:spin .8s linear infinite"></div>' +
+        '<span style="font-size:11px;color:var(--text3);opacity:.6;font-weight:500">Building timetable…</span>' +
+      '</div>' +
     '</div>' +
     '<div class="combo-actions">' +
-      // Primary action — Download PNG (most common)
       '<button class="btn btn-primary btn-sm dl-png-btn" data-idx="'+idx+'" title="Download as image">📷 Save PNG</button>' +
-      // Secondary actions
       '<button class="btn btn-ghost btn-sm dl-pdf-btn" data-idx="'+idx+'" title="Download as PDF">📄 PDF</button>' +
       '<button class="btn btn-ghost btn-sm share-combo-btn" data-idx="'+idx+'" title="Share this routine">📤 Share</button>' +
-      // Compare — visually separated
       '<button class="btn-compare-pick" data-idx="'+idx+'" title="Select to compare side-by-side">⚡ Compare</button>' +
     '</div>';
   return div;
@@ -4940,228 +5431,434 @@ function loadExportLibs(cb) {
   });
 }
 
-// Build export element — contains header stats + course table + visual timetable
+// Build export element — premium A4-ready routine card
 function buildExportEl(combo, idx) {
   var cm    = buildCM();
   var an    = calcAn(combo);
   var isDark = State.theme === 'dark';
-  var bg    = isDark ? '#0d1210' : '#ffffff';
-  var bg2   = isDark ? '#121a14' : '#f5f7f2';
-  var text  = isDark ? '#e6ede8' : '#1a2018';
-  var text2 = isDark ? '#7d9c84' : '#2e5235';
-  var text3 = isDark ? '#6b8f72' : '#5a7a5e';
-  var bdr   = isDark ? '#263028' : '#dde3d8';
-  var accent= isDark ? '#22c55e' : '#2e7d38';
 
-  var wrap = document.createElement('div');
-  wrap.style.cssText = [
-    'width:860px',
-    'min-height:1px',
-    'background:'+bg,
-    'padding:24px 28px',
-    'font-family:Inter,sans-serif',
-    'color:'+text,
-    'box-sizing:border-box',
-    'display:block'
-  ].join(';');
+  // ── Color palette ──
+  var bg      = isDark ? '#0d1210' : '#ffffff';
+  var bg2     = isDark ? '#121a14' : '#f4f7f2';
+  var bg3     = isDark ? '#161f18' : '#eaf0e6';
+  var text    = isDark ? '#e6ede8' : '#1a2018';
+  var text2   = isDark ? '#7d9c84' : '#2e5235';
+  var text3   = isDark ? '#5a7a5e' : '#6b8770';
+  var bdr     = isDark ? '#263028' : '#dde4d8';
+  var bdr2    = isDark ? '#2f3d32' : '#cdd6c7';
+  var accent  = isDark ? '#22c55e' : '#22863a';
+  var accentL = isDark ? 'rgba(34,197,94,0.15)' : 'rgba(34,197,94,0.1)';
+  var accentB = isDark ? 'rgba(34,197,94,0.35)' : 'rgba(34,197,94,0.3)';
 
   var gh = an.tGap ? Math.round(an.tGap/6)/10+'h' : 'None';
   var lh = an.lGap ? Math.round(an.lGap/6)/10+'h' : 'None';
 
-  var statBox = function(val, label) {
-    return '<div style="text-align:center;padding:8px 14px;background:'+bg2+';border-radius:8px;border:1px solid '+bdr+'">' +
-      '<div style="font-size:18px;font-weight:800;color:'+accent+'">'+val+'</div>' +
-      '<div style="font-size:9px;color:'+text3+';text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-weight:600">'+label+'</div>' +
-    '</div>';
-  };
+  // ── Outer wrapper ──
+  var wrap = document.createElement('div');
+  wrap.style.cssText = [
+    'width:860px',
+    'background:'+bg,
+    'padding:0',
+    'font-family:Inter,Arial,sans-serif',
+    'color:'+text,
+    'box-sizing:border-box',
+    'display:block',
+    'border-radius:0',
+    'overflow:hidden'
+  ].join(';');
 
-  wrap.innerHTML =
-    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid '+bdr+'">' +
+  // ══ 1. HEADER BAND ══
+  var headerBand = document.createElement('div');
+  headerBand.style.cssText = [
+    'background:'+( isDark
+      ? 'linear-gradient(135deg,#0f1e13 0%,#0d1210 100%)'
+      : 'linear-gradient(135deg,#f0f7ec 0%,#e6f0e2 100%)'),
+    'border-bottom:3px solid '+accent,
+    'padding:22px 28px 18px',
+    'display:flex',
+    'align-items:center',
+    'justify-content:space-between',
+    'gap:16px'
+  ].join(';');
+
+  // Left: branding
+  var brandDiv = document.createElement('div');
+  brandDiv.innerHTML =
+    '<div style="display:flex;align-items:center;gap:10px">' +
+      '<div style="width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#22c55e,#4ade80);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 12px rgba(34,197,94,.35)">📅</div>' +
       '<div>' +
-        '<div style="font-size:18px;font-weight:800;color:'+text+';letter-spacing:-.5px">📅 Section Lagbe?</div>' +
-        '<div style="font-size:11px;color:'+text2+';margin-top:3px;font-weight:500">UIU · CSE · Fall 2026 &nbsp;·&nbsp; Combination #'+(idx+1)+'</div>' +
-      '</div>' +
-      '<div style="display:flex;gap:8px">' +
-        statBox(gh, 'Total Gap') +
-        statBox(an.days, 'Class Days') +
-        statBox(an.morn, 'Morning') +
-        statBox(lh, 'Max Break') +
+        '<div style="font-size:17px;font-weight:800;color:'+text+';letter-spacing:-.4px;line-height:1.2">Section Lagbe?</div>' +
+        '<div style="font-size:11px;color:'+text2+';margin-top:2px;font-weight:500">'+UNIVERSITY+' · '+SEMESTER+' &nbsp;·&nbsp; Routine #'+(idx+1)+'</div>' +
       '</div>' +
     '</div>';
 
-  var secLabel = '<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:'+text3+';margin-bottom:10px">Course Details</div>';
+  // Right: 4 stat pills
+  var statsDiv = document.createElement('div');
+  statsDiv.style.cssText = 'display:flex;gap:8px;flex-shrink:0';
+
+  var statItems = [
+    {icon:'⚡', val: gh,       lbl:'Total Gap',     c: accent},
+    {icon:'📅', val: an.days,  lbl:'Class Days',    c: isDark?'#38bdf8':'#0369a1'},
+    {icon:'🌅', val: an.morn,  lbl:'Morning',       c: isDark?'#fb923c':'#c2410c'},
+    {icon:'💤', val: lh,       lbl:'Max Break',     c: isDark?'#a78bfa':'#7c3aed'},
+  ];
+  statItems.forEach(function(s) {
+    var pill = document.createElement('div');
+    pill.style.cssText = [
+      'text-align:center',
+      'padding:10px 16px',
+      'background:'+bg,
+      'border-radius:10px',
+      'border:1.5px solid '+bdr2,
+      'min-width:72px',
+      'box-shadow:0 2px 8px rgba(0,0,0,.06)'
+    ].join(';');
+    pill.innerHTML =
+      '<div style="font-size:16px;line-height:1">' + s.icon + '</div>' +
+      '<div style="font-size:16px;font-weight:800;color:'+s.c+';margin-top:5px;letter-spacing:-.4px;line-height:1">' + s.val + '</div>' +
+      '<div style="font-size:8.5px;color:'+text3+';text-transform:uppercase;letter-spacing:.7px;margin-top:3px;font-weight:700">' + s.lbl + '</div>';
+    statsDiv.appendChild(pill);
+  });
+
+  headerBand.appendChild(brandDiv);
+  headerBand.appendChild(statsDiv);
+  wrap.appendChild(headerBand);
+
+  // ══ 2. COURSE TABLE ══
+  var bodyPad = document.createElement('div');
+  bodyPad.style.cssText = 'padding:20px 28px 0';
+
+  var secLbl = document.createElement('div');
+  secLbl.style.cssText = [
+    'font-size:9.5px;font-weight:800;text-transform:uppercase',
+    'letter-spacing:1px;color:'+text3+';margin-bottom:9px',
+    'display:flex;align-items:center;gap:6px'
+  ].join(';');
+  secLbl.innerHTML = '<span style="width:3px;height:14px;background:'+accent+';border-radius:2px;display:inline-block"></span> Course Details';
+  bodyPad.appendChild(secLbl);
 
   var tbl = document.createElement('table');
-  tbl.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;margin-bottom:16px';
+  tbl.style.cssText = 'width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid '+bdr;
 
-  var cols = ['Course Name','Code','Sec','Faculty','Day','Time','Room','Type'];
-  var thHtml = '<tr>';
-  cols.forEach(function(c) {
-    thHtml += '<th style="padding:8px 10px;text-align:left;font-size:9.5px;font-weight:700;color:'+text3+';text-transform:uppercase;letter-spacing:.5px;background:'+bg2+';border-bottom:1.5px solid '+bdr+';border-top:1px solid '+bdr+'">'+c+'</th>';
+  // Table header
+  var cols = ['Course Name','Code','Sec','Faculty','Day(s)','Time','Room','Type'];
+  var colWidths = ['25%','8%','5%','17%','10%','12%','10%','8%'];
+  var thRow = '<tr style="background:'+bg3+'">';
+  cols.forEach(function(c, ci) {
+    thRow += '<th style="padding:9px 10px;text-align:left;font-size:9px;font-weight:800;color:'+text2+';text-transform:uppercase;letter-spacing:.6px;border-bottom:1.5px solid '+bdr2+';width:'+colWidths[ci]+'">'+c+'</th>';
   });
-  thHtml += '</tr>';
-  tbl.innerHTML = '<thead>'+thHtml+'</thead>';
+  thRow += '</tr>';
+  tbl.innerHTML = '<thead>'+thRow+'</thead>';
 
   var tbody = document.createElement('tbody');
   combo.forEach(function(r, ri) {
     var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
     var col = cm[k] || COLORS[0];
     var tr  = document.createElement('tr');
-    tr.style.background = ri % 2 === 0 ? bg : bg2;
+    var rowBg = ri % 2 === 0 ? bg : bg2;
+    tr.style.background = rowBg;
 
-    // Color dot cell
-    var dotTd = document.createElement('td');
-    dotTd.style.cssText = 'padding:10px 10px;border-bottom:1px solid '+bdr+';vertical-align:middle;font-weight:500;color:'+text;
-    dotTd.innerHTML = '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+col.bg+';border:2px solid '+col.bd+';margin-right:7px;vertical-align:middle;flex-shrink:0"></span>' + esc(r.course_name||'—');
+    // Course name with color dot
+    var nameTd = document.createElement('td');
+    nameTd.style.cssText = 'padding:9px 10px;border-bottom:1px solid '+bdr+';vertical-align:middle';
+    nameTd.innerHTML =
+      '<div style="display:flex;align-items:center;gap:7px">' +
+        '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+col.bd+';flex-shrink:0;box-shadow:0 0 0 2px '+col.bg+'"></span>' +
+        '<span style="font-weight:700;color:'+text+';line-height:1.3;font-size:11px">' + esc(r.course_name||'—') + '</span>' +
+      '</div>';
 
-    var cells = [
+    var vals = [
       r.course_code || '—',
       r.section     || '—',
       r.faculty     || '—',
-      (r.day||'—').replace(/,/g,' & '),
+      (r.day||'—').replace(/,/g,' / '),
       r.time        || '—',
       r.room        || '—',
       r.type        || '—'
     ];
-    tr.appendChild(dotTd);
-    cells.forEach(function(val) {
+
+    tr.appendChild(nameTd);
+    vals.forEach(function(val, vi) {
       var td = document.createElement('td');
-      td.style.cssText = 'padding:10px 10px;border-bottom:1px solid '+bdr+';color:'+text+';vertical-align:middle';
-      td.textContent = val;
+      td.style.cssText = 'padding:9px 10px;border-bottom:1px solid '+bdr+';color:'+(vi===0?text:text2)+';vertical-align:middle;font-size:11px';
+      // Type badge styling
+      if (vi === 6) {
+        var isLab = (val === 'Lab');
+        td.innerHTML = '<span style="display:inline-block;padding:2px 7px;border-radius:4px;font-size:9px;font-weight:700;background:'+(isLab?'rgba(16,185,129,0.12)':'rgba(34,197,94,0.1)')+';color:'+(isLab?(isDark?'#10b981':'#047857'):(isDark?'#22c55e':'#15803d'))+';border:1px solid '+(isLab?'rgba(16,185,129,0.3)':'rgba(34,197,94,0.25)')+'">'+esc(val)+'</span>';
+      } else {
+        td.textContent = val;
+      }
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
   });
   tbl.appendChild(tbody);
+  bodyPad.appendChild(tbl);
+  wrap.appendChild(bodyPad);
 
-  var tableWrap = document.createElement('div');
-  tableWrap.innerHTML = secLabel;
-  tableWrap.appendChild(tbl);
-  wrap.appendChild(tableWrap);
+  // ══ 3. TIMETABLE ══
+  var ttPad = document.createElement('div');
+  ttPad.style.cssText = 'padding:0 28px 20px';
 
-  // Build a self-contained timetable using inline styles (no CSS classes needed)
-  // so html2canvas can render it correctly without page stylesheets
-  var ttLabel = document.createElement('div');
-  ttLabel.style.cssText = 'font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:'+text3+';margin-bottom:10px';
-  ttLabel.textContent = 'Visual Timetable';
-  wrap.appendChild(ttLabel);
+  var ttLbl = document.createElement('div');
+  ttLbl.style.cssText = [
+    'font-size:9.5px;font-weight:800;text-transform:uppercase',
+    'letter-spacing:1px;color:'+text3+';margin-bottom:9px',
+    'display:flex;align-items:center;gap:6px'
+  ].join(';');
+  ttLbl.innerHTML = '<span style="width:3px;height:14px;background:'+accent+';border-radius:2px;display:inline-block"></span> Visual Timetable';
+  ttPad.appendChild(ttLbl);
 
   var ttWrap = document.createElement('div');
-  ttWrap.style.cssText = 'width:100%;overflow:hidden;border-radius:10px;border:1px solid '+bdr+';background:'+bg2;
+  ttWrap.style.cssText = [
+    'width:100%;overflow:hidden',
+    'border-radius:12px',
+    'border:1.5px solid '+bdr2,
+    'background:'+( isDark ? '#0d1210' : '#fff'),
+    'box-shadow:0 2px 12px rgba(0,0,0,.07)'
+  ].join(';');
 
-  // Time range: TLS to TLE
-  var rangeMin = TLSP; // total minutes span
-  var DAY_LIST = ['Sat','Sun','Mon','Tue','Wed','Thu'];
+  var rangeMin = TLSP;
+  var DAY_LIST   = ['Sat','Sun','Mon','Tue','Wed','Thu'];
   var DAY_LABELS = {Sat:'Saturday',Sun:'Sunday',Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday'};
-  var rowH = 56; // px per day row
-  var labelW = 80; // px for day label column
+  var rowH  = 72;   // ← taller rows so text fits comfortably
+  var labelW = 86;
+  var headerH = 28;
 
-  // Header row with time ticks
-  var headerHtml = '<div style="display:flex;margin-left:'+labelW+'px;border-bottom:1px solid '+bdr+';background:'+bg2+';position:relative;height:24px">';
+  // Time header
+  var hdrEl = document.createElement('div');
+  hdrEl.style.cssText = [
+    'display:flex',
+    'border-bottom:1.5px solid '+bdr2,
+    'background:'+( isDark
+      ? 'linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.04))'
+      : 'linear-gradient(135deg,rgba(34,197,94,0.08),rgba(34,197,94,0.02))'),
+    'height:'+headerH+'px'
+  ].join(';');
+
+  var cornerEl = document.createElement('div');
+  cornerEl.style.cssText = 'width:'+labelW+'px;flex-shrink:0;display:flex;align-items:center;padding:0 12px;font-size:8.5px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:'+text3+';border-right:1.5px solid '+bdr2;
+  cornerEl.textContent = 'Day';
+  hdrEl.appendChild(cornerEl);
+
+  var tickArea = document.createElement('div');
+  tickArea.style.cssText = 'flex:1;position:relative';
   for (var m = TLS; m <= TLE; m += 60) {
-    var pct = ((m - TLS) / rangeMin * 100).toFixed(2);
-    var h = Math.floor(m/60), ap = h>=12?'PM':'AM', hh = h%12||12;
-    headerHtml += '<div style="position:absolute;left:'+pct+'%;font-size:9px;color:'+text3+';font-weight:600;transform:translateX(-50%);top:5px">'+hh+ap+'</div>';
+    var pctTick = ((m - TLS) / rangeMin * 100).toFixed(2);
+    var hh = Math.floor(m/60), ap = hh >= 12 ? 'PM' : 'AM', hDisp = hh%12||12;
+    var tick = document.createElement('div');
+    tick.style.cssText = 'position:absolute;top:50%;left:'+pctTick+'%;transform:translate(-50%,-50%);font-size:9px;color:'+text3+';font-weight:700;white-space:nowrap;font-family:monospace';
+    tick.textContent = hDisp + ap;
+    tickArea.appendChild(tick);
   }
-  headerHtml += '</div>';
-  ttWrap.innerHTML = headerHtml;
+  hdrEl.appendChild(tickArea);
+  ttWrap.appendChild(hdrEl);
 
   // Day rows
   DAY_LIST.forEach(function(day, di) {
     var dayRows = combo.filter(function(r) { return normD(r.day).indexOf(day) !== -1; });
-    var rowBg = di % 2 === 0 ? bg : bg2;
+    var hasCls  = dayRows.length > 0;
+    var isLast  = di === DAY_LIST.length - 1;
 
     var rowEl = document.createElement('div');
-    rowEl.style.cssText = 'display:flex;border-bottom:1px solid '+bdr+';min-height:'+rowH+'px;background:'+rowBg;
+    rowEl.style.cssText = [
+      'display:flex',
+      'border-bottom:'+(isLast?'none':('1px solid '+bdr)),
+      'min-height:'+rowH+'px',
+      'background:'+(hasCls
+        ? (isDark ? 'rgba(34,197,94,0.03)' : 'rgba(34,197,94,0.02)')
+        : (di%2===0 ? bg : bg2))
+    ].join(';');
 
     // Day label
-    var dayLabel = document.createElement('div');
-    dayLabel.style.cssText = 'width:'+labelW+'px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:'+(dayRows.length?accent:text3)+';border-right:1px solid '+bdr+';padding:4px;text-align:center;letter-spacing:.2px';
-    dayLabel.textContent = DAY_LABELS[day] || day;
-    rowEl.appendChild(dayLabel);
+    var dayLbl = document.createElement('div');
+    dayLbl.style.cssText = [
+      'width:'+labelW+'px;flex-shrink:0',
+      'display:flex;align-items:center;justify-content:center',
+      'font-size:10px;font-weight:'+(hasCls?'800':'600'),
+      'color:'+(hasCls?accent:text3),
+      'border-right:1.5px solid '+bdr2,
+      'padding:4px;text-align:center;letter-spacing:.2px',
+      'background:'+(hasCls
+        ? (isDark?'rgba(34,197,94,0.08)':'rgba(34,197,94,0.06)')
+        : 'transparent')
+    ].join(';');
+    dayLbl.textContent = DAY_LABELS[day] || day;
+    rowEl.appendChild(dayLbl);
 
-    // Timeline area
-    var timeline = document.createElement('div');
-    timeline.style.cssText = 'flex:1;position:relative;min-height:'+rowH+'px';
+    // Timeline
+    var tl = document.createElement('div');
+    tl.style.cssText = 'flex:1;position:relative;min-height:'+rowH+'px';
 
-    // Hour gridlines
-    for (var m = TLS; m <= TLE; m += 60) {
-      var pct = ((m - TLS) / rangeMin * 100).toFixed(2);
+    // Gridlines
+    for (var mg = TLS; mg <= TLE; mg += 60) {
+      var pgl = ((mg - TLS) / rangeMin * 100).toFixed(2);
       var gl = document.createElement('div');
-      gl.style.cssText = 'position:absolute;top:0;bottom:0;left:'+pct+'%;width:1px;background:'+bdr+';opacity:.5';
-      timeline.appendChild(gl);
+      gl.style.cssText = 'position:absolute;top:0;bottom:0;left:'+pgl+'%;width:1px;background:'+bdr+';opacity:.4';
+      tl.appendChild(gl);
+    }
+    // Half-hour marks
+    for (var mh = TLS+30; mh < TLE; mh += 60) {
+      var phl = ((mh - TLS) / rangeMin * 100).toFixed(2);
+      var hl = document.createElement('div');
+      hl.style.cssText = 'position:absolute;top:0;bottom:0;left:'+phl+'%;width:1px;background:'+bdr+';opacity:.2';
+      tl.appendChild(hl);
     }
 
     // Course blocks
     dayRows.forEach(function(r) {
-      var t = parseTR(r.time); if (!t) return;
-      var sl = snapSlot(t);    if (!sl) return;
-      var k  = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+      var t  = parseTR(r.time); if (!t) return;
+      var sl = snapSlot(t);     if (!sl) return;
+      var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
       var col = cm[k] || COLORS[0];
 
       var leftPct  = ((sl.s - TLS) / rangeMin * 100).toFixed(2);
       var widthPct = ((sl.e - sl.s) / rangeMin * 100).toFixed(2);
-      var isNarrow = (sl.e - sl.s) < 80; // < ~1h20m
+      var blockW   = (sl.e - sl.s) / rangeMin * 100;
+      var isNarrow = blockW < 12;  // only truly narrow lab-sized blocks
 
-      var block = document.createElement('div');
-      block.style.cssText = [
+      // Smart faculty abbreviation: "Md. Abdul Rahman" → "Md. Rahman"
+      var facName = r.faculty || '—';
+      var facParts = facName.trim().split(/\s+/);
+      var facShort = facParts.length > 2
+        ? (facParts[0] + ' ' + facParts[facParts.length - 1])
+        : facName;
+
+      // Course name: use code if name is very long and block is medium
+      var displayName = (r.course_name || r.course_code || '?');
+      var nameShort   = displayName.length > 30
+        ? (r.course_code || displayName.substring(0,28) + '…')
+        : displayName;
+
+      var blk = document.createElement('div');
+      blk.style.cssText = [
         'position:absolute',
         'left:'+leftPct+'%',
         'width:'+widthPct+'%',
         'top:6px','bottom:6px',
-        'border-radius:8px',
+        'border-radius:9px',
         'background:'+col.bg,
         'border:1.5px solid '+col.bd,
-        'padding:'+(isNarrow?'4px 5px':'6px 10px'),
+        'padding:'+(isNarrow?'3px 4px':'6px 10px'),
         'overflow:hidden',
         'box-sizing:border-box',
-        'display:flex','flex-direction:column','justify-content:center'
+        'display:flex','flex-direction:column','justify-content:center',
+        'box-shadow:0 3px 10px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.2)'
       ].join(';');
 
-      var nameEl = document.createElement('div');
-      nameEl.style.cssText = 'font-size:'+(isNarrow?'9px':'10.5px')+';font-weight:700;color:'+col.tx+';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3';
-      nameEl.textContent = isNarrow ? (r.course_code||'?') : (r.course_name || r.course_code || '?');
-      block.appendChild(nameEl);
+      // Shimmer highlight
+      var shine = document.createElement('div');
+      shine.style.cssText = 'position:absolute;top:0;left:0;right:0;height:35%;background:linear-gradient(180deg,rgba(255,255,255,.16),transparent);border-radius:8px 8px 0 0;pointer-events:none';
+      blk.appendChild(shine);
+
+      var nameDiv = document.createElement('div');
+      nameDiv.style.cssText = [
+        'font-size:'+(isNarrow?'8.5px':'10px'),
+        'font-weight:800',
+        'color:'+col.tx,
+        'line-height:1.25',
+        'text-shadow:0 1px 2px rgba(0,0,0,.15)',
+        'position:relative',
+        // Allow 2-line wrap, then ellipsis — much better readability
+        'display:-webkit-box',
+        '-webkit-line-clamp:2',
+        '-webkit-box-orient:vertical',
+        'overflow:hidden',
+        'word-break:break-word'
+      ].join(';');
+      nameDiv.textContent = isNarrow ? (r.course_code||'?') : nameShort;
+      blk.appendChild(nameDiv);
 
       if (!isNarrow) {
-        var metaEl = document.createElement('div');
-        metaEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px';
-        metaEl.textContent = 'Sec ' + (r.section||'?') + ' · ' + (r.faculty||'—');
-        block.appendChild(metaEl);
+        var metaDiv = document.createElement('div');
+        metaDiv.style.cssText = [
+          'font-size:8.5px',
+          'color:'+col.tx,
+          'opacity:.9',
+          'margin-top:3px',
+          'white-space:nowrap',
+          'overflow:hidden',
+          'text-overflow:ellipsis',
+          'position:relative',
+          'font-weight:600'
+        ].join(';');
+        metaDiv.textContent = 'Sec ' + (r.section||'?') + ' · ' + facShort;
+        blk.appendChild(metaDiv);
 
-        var timeEl = document.createElement('div');
-        timeEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.7;white-space:nowrap;overflow:hidden;margin-top:1px';
-        timeEl.textContent = fmtM(sl.s) + ' – ' + fmtM(sl.e);
-        block.appendChild(timeEl);
+        var timeDiv = document.createElement('div');
+        timeDiv.style.cssText = [
+          'font-size:8px',
+          'color:'+col.tx,
+          'opacity:.75',
+          'margin-top:2px',
+          'white-space:nowrap',
+          'font-family:monospace',
+          'position:relative'
+        ].join(';');
+        timeDiv.textContent = fmtM(sl.s) + ' – ' + fmtM(sl.e);
+        blk.appendChild(timeDiv);
       } else {
-        var secEl = document.createElement('div');
-        secEl.style.cssText = 'font-size:9px;color:'+col.tx+';opacity:.8;margin-top:2px';
-        secEl.textContent = 'S'+r.section;
-        block.appendChild(secEl);
+        var secDiv = document.createElement('div');
+        secDiv.style.cssText = 'font-size:8px;color:'+col.tx+';opacity:.85;margin-top:2px;position:relative';
+        secDiv.textContent = 'S' + (r.section||'');
+        blk.appendChild(secDiv);
       }
-      timeline.appendChild(block);
+      tl.appendChild(blk);
     });
 
     if (!dayRows.length) {
-      var noClass = document.createElement('div');
-      noClass.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:'+text3+';opacity:.4;font-style:italic';
-      noClass.textContent = 'No class';
-      timeline.appendChild(noClass);
+      var noCls = document.createElement('div');
+      noCls.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:'+text3+';opacity:.35;font-style:italic;letter-spacing:.2px';
+      noCls.textContent = 'No class';
+      tl.appendChild(noCls);
     }
 
-    rowEl.appendChild(timeline);
+    rowEl.appendChild(tl);
     ttWrap.appendChild(rowEl);
   });
 
-  wrap.appendChild(ttWrap);
+  ttPad.appendChild(ttWrap);
+  wrap.appendChild(ttPad);
 
+  // ══ 4. COLOR LEGEND ══
+  var legendPad = document.createElement('div');
+  legendPad.style.cssText = 'padding:0 28px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center';
+
+  var legTitle = document.createElement('span');
+  legTitle.style.cssText = 'font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:'+text3+';margin-right:4px';
+  legTitle.textContent = 'Legend:';
+  legendPad.appendChild(legTitle);
+
+  combo.forEach(function(r) {
+    var k   = (r.course_code||'?')+'||'+(r.course_name||'?')+'||'+r.type;
+    var col = cm[k] || COLORS[0];
+    var leg = document.createElement('div');
+    leg.style.cssText = 'display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 6px;border-radius:6px;background:'+col.bg+';border:1px solid '+col.bd;
+    leg.innerHTML =
+      '<span style="width:7px;height:7px;border-radius:50%;background:'+col.bd+';flex-shrink:0"></span>' +
+      '<span style="font-size:9px;font-weight:700;color:'+col.tx+';white-space:nowrap">' + esc(r.course_code||'?') + '</span>';
+    legendPad.appendChild(leg);
+  });
+
+  wrap.appendChild(legendPad);
+
+  // ══ 5. FOOTER ══
   var foot = document.createElement('div');
-  foot.style.cssText = 'margin-top:14px;padding-top:10px;border-top:1px solid '+bdr+';display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px';
+  foot.style.cssText = [
+    'padding:12px 28px 16px',
+    'border-top:1px solid '+bdr,
+    'display:flex',
+    'justify-content:space-between',
+    'align-items:center',
+    'background:'+bg2,
+    'flex-wrap:wrap',
+    'gap:6px'
+  ].join(';');
   foot.innerHTML =
-    '<div style="font-size:10px;color:'+text3+'">Generated by <span style="font-weight:700;color:'+text2+'">Section Lagbe?</span> · UIU CSE Fall 2026</div>' +
-    '<div style="display:flex;gap:12px;align-items:center">' +
-      '<div style="font-size:10px;color:'+text3+'">Built by <span style="font-weight:600;color:'+text2+'">Taohid Bhuiyan</span></div>' +
-      '<div style="font-size:10px;color:'+text3+'">github.com/TaohidBhuiyan</div>' +
+    '<div style="font-size:10px;color:'+text3+'">Generated with <span style="font-weight:800;color:'+accent+'">Section Lagbe?</span> · UIU CSE Routine Planner</div>' +
+    '<div style="display:flex;gap:14px;align-items:center">' +
+      '<div style="font-size:10px;color:'+text3+'">Built by <span style="font-weight:700;color:'+text2+'">Taohid Bhuiyan</span></div>' +
+      '<div style="font-size:10px;color:'+text3+';opacity:.7">github.com/TaohidBhuiyan</div>' +
     '</div>';
   wrap.appendChild(foot);
 
@@ -5169,6 +5866,7 @@ function buildExportEl(combo, idx) {
 }
 
 // Show a full-screen overlay while capturing so html2canvas can render
+
 // the element properly (must be in viewport at a visible position)
 function _captureExportEl(el, cb) {
   // Overlay — user sees "Generating..." while we capture
@@ -6358,7 +7056,14 @@ lsLoad(); // restore persisted state
     }
     history.replaceState(null, '', window.location.pathname);
     toast('🔗 Shared preferences loaded! Upload your file to continue.', 'info');
-  } catch(e) { /* bad prefs param — ignore silently */ }
+  } catch(e) {
+    // Bad/corrupted prefs param — show helpful message instead of silent fail
+    var params2 = new URLSearchParams(window.location.search);
+    if (params2.get('prefs')) {
+      toast('⚠ Invalid or expired share link — could not load preferences.', 'error');
+      try { history.replaceState(null, '', window.location.pathname); } catch(e2) {}
+    }
+  }
 })();
 
 // Restore pref card active states from loaded State.P
