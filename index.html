@@ -2810,13 +2810,13 @@ td input:focus,td select:focus{border-color:var(--accent)}
   }
   .nav-item{font-size:10px!important;line-height:1.1!important}
 
-  /* Keep the primary action pinned above the mobile navigation while browsing courses. */
-  #page-select .mobile-select-cta{
-    display:flex!important;position:fixed!important;left:12px!important;right:12px!important;
-    bottom:calc(64px + env(safe-area-inset-bottom))!important;z-index:290!important;
-    min-height:48px!important;justify-content:center!important;align-items:center!important;
-    border-radius:12px!important;box-shadow:0 8px 24px rgba(34,197,94,.24)!important;
+  /* Put the next step beside Back so it is visible as soon as this page opens. */
+  #page-select .review-actions{display:flex!important;width:100%;align-items:center;justify-content:flex-start;gap:8px;padding-top:0}
+  #page-select .review-actions #btn-back-review{flex:0 0 auto}
+  #page-select .review-actions #to-prefs-btn{
+    display:inline-flex!important;flex:1;min-height:44px;justify-content:center;align-items:center;
   }
+  #page-select .mobile-select-cta{display:none!important}
 
   /* Let the faculty instructions take a full row instead of shrinking into a column. */
   #page-select .fac-guide-chips{display:flex;flex-wrap:wrap;align-items:center;width:100%}
