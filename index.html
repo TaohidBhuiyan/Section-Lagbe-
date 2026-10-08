@@ -360,7 +360,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 .sel-item:hover{border-color:var(--border2)}
 .si-info{flex:1;min-width:0}
 .si-code{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent3);font-weight:600}
-.si-name{font-size:12px;font-weight:650;color:var(--text);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px;line-height:1.4}
+.si-name{font-size:12px;font-weight:650;color:var(--text);display:-webkit-box;line-clamp:2;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:3px;line-height:1.4}
 .si-fac{font-size:10.5px;color:var(--text3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .course-search-card{padding:13px 15px!important;margin-bottom:14px!important;border-radius:13px}
 .course-search-card .search-input{height:44px;padding-left:44px;border-radius:10px;background:var(--surface2)}
@@ -2794,6 +2794,94 @@ td input:focus,td select:focus{border-color:var(--accent)}
 @media(max-width:640px){
   #page-results .tt-wrap{padding:8px 0 12px}
   #page-results .ht-row,#page-results .ht-timeline{min-height:58px}
+}
+
+/* Mobile-only usability fixes. Keep desktop layout and exports unchanged. */
+.gap-zero-mobile{display:none}
+@media(max-width:768px){
+  .main{
+    overflow-x:hidden!important;
+    padding-bottom:calc(88px + env(safe-area-inset-bottom))!important;
+    bottom:calc(58px + env(safe-area-inset-bottom))!important;
+  }
+  .sidebar{
+    height:calc(58px + env(safe-area-inset-bottom))!important;
+    padding-bottom:env(safe-area-inset-bottom)!important;
+  }
+  .nav-item{font-size:10px!important;line-height:1.1!important}
+
+  /* Keep the primary action pinned above the mobile navigation while browsing courses. */
+  #page-select .mobile-select-cta{
+    display:flex!important;position:fixed!important;left:12px!important;right:12px!important;
+    bottom:calc(64px + env(safe-area-inset-bottom))!important;z-index:290!important;
+    min-height:48px!important;justify-content:center!important;align-items:center!important;
+    border-radius:12px!important;box-shadow:0 8px 24px rgba(34,197,94,.24)!important;
+  }
+
+  /* Let the faculty instructions take a full row instead of shrinking into a column. */
+  #page-select .fac-guide-chips{display:flex;flex-wrap:wrap;align-items:center;width:100%}
+  #page-select .fac-guide-note{
+    flex:1 0 100%;width:100%;min-width:0;box-sizing:border-box;margin-top:2px;
+    font-size:11px;line-height:1.45;
+  }
+
+  /* Keep Generate available at the top and make the second action bar non-obstructive. */
+  #page-prefs .sticky-gen-bar{
+    position:static!important;left:auto;right:auto;bottom:auto;z-index:auto;
+    margin:14px 0 4px!important;border-radius:12px;
+  }
+  #page-prefs .card > .pref-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #page-prefs .slot-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+  /* Use compact, wrapping filter rows so every control stays visible. */
+  #page-results .rf-bar{
+    display:flex;flex-direction:column;align-items:stretch;flex-wrap:nowrap;
+    overflow:visible;gap:0;
+  }
+  #page-results .rf-group{
+    display:flex;flex-wrap:wrap;align-items:center;gap:4px;
+    padding:7px 9px;border-right:0;border-bottom:1px solid var(--border);
+  }
+  #page-results .rf-group-label{font-size:9px;margin-right:3px}
+  #page-results .rf-chip{font-size:11px;min-height:36px;padding:5px 8px}
+  #page-results .rf-sort-wrap{
+    width:100%;box-sizing:border-box;margin:0;padding:8px 10px;
+    border-left:0;border-top:1px solid var(--border);justify-content:space-between;
+  }
+  #page-results .rf-sort-sel{flex:1;min-width:0}
+
+  /* Preserve timetable readability; scroll the timetable itself, not the whole page. */
+  #page-results .tt-wrap{
+    display:block!important;min-height:0!important;align-items:initial!important;justify-content:initial!important;
+    overflow-x:auto!important;overflow-y:hidden!important;
+    padding:8px 0 12px!important;scrollbar-width:thin;overscroll-behavior-x:contain;
+  }
+  #page-results .tt-wrap.tt-lazy{display:flex!important;min-height:188px!important}
+  #page-results .tt-wrap:not(.tt-lazy)::before{
+    content:'↔ Swipe to view full timetable';position:sticky;left:8px;z-index:6;
+    display:inline-flex;width:max-content;max-width:calc(100% - 16px);box-sizing:border-box;
+    margin:0 8px 8px;padding:4px 8px;border:1px solid var(--border);
+    border-radius:999px;background:var(--surface);color:var(--text3);
+    font-size:10px;font-weight:600;line-height:1.3;
+  }
+  #page-results .tt-wrap:not(.tt-lazy) .ht-grid,
+  .compare-modal .tt-wrap .ht-grid,
+  .shared-view-tt .tt-wrap .ht-grid{
+    width:760px!important;min-width:760px!important;max-width:none!important;flex:0 0 760px;
+  }
+  .compare-modal .tt-wrap,.shared-view-tt .tt-wrap{
+    overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior-x:contain;
+  }
+  #page-results .tt-wrap:not(.tt-lazy) .ht-grid{border-radius:10px!important}
+  #page-results .ht-day{width:48px!important;min-width:48px!important}
+  #page-results .ht-corner{width:48px!important}
+  #page-results .hb-name{font-size:11px!important;line-height:1.2!important}
+  #page-results .hb-meta{font-size:10px!important;line-height:1.2!important}
+  #floating-best-btn{display:none!important}
+
+  /* Show a numeric zero for zero-gap routines on phones; desktop wording stays as-is. */
+  .gap-zero-desktop{display:none!important}
+  .gap-zero-mobile{display:inline!important}
 }
 
 </style>
@@ -5490,8 +5578,9 @@ function appendCombos(newCs, startIdx, noMore) {
 
 function makeCard(combo, idx, cm, isBest) {
   var an = calcAn(combo);
-  var gh = an.tGap ? Math.round(an.tGap/6)/10+'h' : 'None';
-  var lh = an.lGap ? Math.round(an.lGap/6)/10+'h' : 'None';
+  var zeroGap = '<span class="gap-zero"><span class="gap-zero-desktop">None</span><span class="gap-zero-mobile">0h</span></span>';
+  var gh = an.tGap ? Math.round(an.tGap/6)/10+'h' : zeroGap;
+  var lh = an.lGap ? Math.round(an.lGap/6)/10+'h' : zeroGap;
 
   // Count classes by time so the results filters have precise "has class" semantics.
   var mornCount = 0, aftCount = 0;

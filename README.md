@@ -2,6 +2,8 @@
 
 **Build a class routine that fits your semester.** Section Lagbe helps students compare course sections, set schedule preferences, and generate conflict-free routine options.
 
+🌐 **Live app:** [sectionlagbe.netlify.app](https://sectionlagbe.netlify.app/)
+
 ## Features
 
 - Load the bundled department schedule, upload a spreadsheet, or enter sections manually.
