@@ -2979,12 +2979,12 @@ td input:focus,td select:focus{border-color:var(--accent)}
         <div class="page-sub">Build your conflict-free class routine in seconds</div>
       </div>
 
-      <div class="upload-hero" id="mode-card-preloaded" role="button" tabindex="0" aria-label="Use preloaded UIU CSE Fall 2026 data">
+      <div class="upload-hero" id="mode-card-preloaded" role="button" tabindex="0" aria-label="Use preloaded UIU CSE and BSDS Fall 2026 data">
         <div class="upload-hero-glow"></div>
         <div class="upload-hero-left">
           <div class="upload-hero-badge" id="preloaded-badge">⚡ Ready to use</div>
-          <div class="upload-hero-title">UIU · CSE · Fall 2026</div>
-          <div class="upload-hero-desc">Data already loaded — jump straight in. No file needed.</div>
+          <div class="upload-hero-title">UIU · CSE &amp; BSDS · Fall 2026</div>
+          <div class="upload-hero-desc">Data already loaded (BSCSE &amp; BSDS) — jump straight in. No file needed.</div>
           <div id="preloaded-updated" style="font-size:11px;color:var(--text3);margin-top:4px;opacity:0.75">🕐 Data updated: <span id="preloaded-updated-time">—</span> · Source: UCAM Cloud</div>
           <div class="upload-hero-steps">
             <span class="uhs-step">① Pick courses</span>
@@ -3238,7 +3238,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
         </div>
 
         <div class="card" style="grid-column:1/-1">
-          <div class="card-title">🚫 Unavailable time slots</div>
+          <div class="card-title">🚫 Block Time Slots</div>
           <div class="card-sub">Hard constraint: blocked slots are excluded from every routine. Select again to unblock.</div>
           <div class="grid-2col">
             <div>
@@ -3461,7 +3461,7 @@ var DAY_MAP  = {sat:'Sat',saturday:'Sat',sun:'Sun',sunday:'Sun',tue:'Tue',tuesda
 
 // Update this for each new semester — used in export headers, footers, and page titles
 var SEMESTER = 'Fall 2026';
-var UNIVERSITY = 'UIU · CSE';
+var UNIVERSITY = 'UIU · CSE & BSDS';
 
 var TLS = 8*60, TLE = 16*60+30, TLSP = TLE-TLS;
 
@@ -3912,9 +3912,14 @@ function fCol(row, keys) {
 }
 
 function pRow(r, i) {
+  var prog = fCol(r,['program','prog','dept','department']);
   var code = fCol(r,['coursecode','course code','code','ccode']);
   var name = fCol(r,['coursetitle','course title','title','coursename','course name']);
+  if ((prog.toUpperCase().includes('BSDS') || prog.toUpperCase() === 'DS') && !name.includes('(BSDS)')) {
+    name = name ? (name + ' (BSDS)') : name;
+  }
   var sec  = fCol(r,['section','sec','batch']);
+  if (sec) sec = sec.replace(/\s*\([Ii]f [Rr]equired\)/i, '').trim();
   var fac  = fCol(r,['facultyname','faculty name','faculty','teacher','instructor']);
   var d1   = fCol(r,['day1','day 1','dayone']), d2 = fCol(r,['day2','day 2','daytwo']);
   var t1   = fCol(r,['time1','time 1','timeone']), t2 = fCol(r,['time2','time 2','timetwo']);
@@ -4244,6 +4249,7 @@ function buildGrid(append) {
             '<span class="cc-code">'+esc(c.code)+'</span>' +
             '<span class="badge '+(c.type==='Lab'?'badge-lab':'badge-theory')+'">'+(c.type==='Lab'?'🔬':'📖')+' '+c.type+'</span>' +
             '<span class="badge" style="background:rgba(99,102,241,0.12);color:#818cf8;border:1px solid rgba(99,102,241,0.25);font-size:9.5px">'+(getCourseCredit(c.code,c.type) == null ? '? cr' : getCourseCredit(c.code,c.type)+' cr')+'</span>' +
+            (c.name.includes('(BSDS)') ? '<span class="badge" style="background:rgba(236,72,153,0.15);color:#f472b6;border:1px solid rgba(236,72,153,0.3);font-size:9.5px;font-weight:700">BSDS</span>' : '') +
           '</div>' +
           '<div class="cc-name">'+esc(c.name||'Unnamed')+'</div>' +
         '</div>' +
@@ -4414,7 +4420,12 @@ var COURSE_CREDITS = {
   'CSE 4587':3,'CSE 4889':3,'CSE 4817':3,'CSE 4893':3,'CSE 4883':3,
   'CSE 4451':3,'CSE 4435':3,'CSE 4181':3,'CSE 4495':3,
   'CSE 4379':3,'CSE 4327':3,'CSE 4945':3,
-  'CSE 3715':3,'CSE 4891':3
+  'CSE 3715':3,'CSE 4891':3,
+  'BIO 3107':3,'CSE 4000A':2,'CSE 4125':3,'CSE 4133':3,'CSE 4399':3,'CSE 4811':3,'CSE 4813':3,
+  'DS 1101':3,'DS 1115':3,'DS 1116':1,'DS 1501':3,'DS 1502':1,'DS 2251':3,'DS 3101':3,'DS 3120':2,
+  'DS 3521':3,'DS 3522':1,'DS 3881':3,'DS 3885':3,'DS 4000A':2,'DS 4115':3,'DS 4123':3,'DS 4211':3,
+  'DS 4213':3,'DS 4217':3,'DS 4229':3,'DS 4491':3,'DS 4523':3,'DS 4817':3,'DS 4889':3,'DS 4891':3,
+  'DS 4892':1,'GED 1005':3,'MATH 1153':3,'MATH 2107':3,
 };
 var MAX_CREDITS = 18;
 
