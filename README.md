@@ -26,7 +26,7 @@
 | ⚡ **Preloaded Schedule** | Bundled with official **UIU Fall 2026** course offering (790+ sections across **BSCSE** and **BSDS**). |
 | 🎯 **Instant Conflict Resolution** | Real-time combinatorial search engine tests thousands of permutations to find clash-free routine options. |
 | 🧬 **BSDS & BSCSE Separation** | Data Science courses and specialized sections (`BA`, `BB`, etc.) are clearly tagged and segregated from CSE sections. |
-| 🔒 **Faculty & Section Locking** | Prefer specific faculty or lock ("pin") must-have sections into every generated combination. |
+| 🔒 **Faculty Preference, Lock & Avoid** | Prefer (✓), must-have lock (🔒), or completely avoid/exclude (🚫) unwanted faculty sections from routines. |
 | ⏳ **Personalized Routine Preferences** | Specify max days per week, early morning vs afternoon classes, gap minimization, and blocked slots (prayer/break times). |
 | 📊 **18-Credit Limit Guard** | Real-time credit summation based on verified course catalog values to avoid over/under advising. |
 | 📱 **Responsive & Themed** | Fluid mobile and desktop layout with modern Light and Dark Forest themes. |

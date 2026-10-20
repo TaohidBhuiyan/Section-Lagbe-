@@ -351,6 +351,44 @@ td input:focus,td select:focus{border-color:var(--accent)}
 }
 [data-theme="light"] .faculty-chip.locked::after{color:#b45309}
 
+/* EXCLUDED — red/danger, strike-through or avoid indicator */
+.faculty-chip.excluded{
+  background:rgba(239,68,68,0.12);
+  border-color:rgba(239,68,68,0.65);
+  border-width:1.5px;
+  color:var(--danger);
+  font-weight:600;
+}
+[data-theme="light"] .faculty-chip.excluded{
+  color:#dc2626;
+  background:rgba(239,68,68,0.08);
+  border-color:rgba(239,68,68,0.5);
+}
+.faculty-chip.excluded:hover{
+  background:rgba(239,68,68,0.2);
+  border-color:rgba(239,68,68,0.9);
+  color:var(--danger);
+}
+.faculty-chip.excluded::after{
+  content:'Avoid';
+  font-size:9px;font-weight:600;
+  background:rgba(239,68,68,0.2);
+  border:1px solid rgba(239,68,68,0.4);
+  border-radius:4px;
+  padding:1px 5px;
+  margin-left:4px;
+  color:var(--danger);
+  letter-spacing:.2px;
+}
+[data-theme="light"] .faculty-chip.excluded::after{
+  color:#b91c1c;
+  background:rgba(239,68,68,0.15);
+}
+.sec-row-item.sec-row-excluded{
+  opacity:0.4;
+  background:rgba(239,68,68,0.03);
+}
+
 .selected-panel{display:flex;flex-direction:column;gap:8px;max-height:min(48vh,520px);overflow-y:auto;overscroll-behavior:contain;padding:1px 3px 1px 1px}
 .sel-panel-wrap{width:285px;flex-shrink:0;position:sticky;top:12px;align-self:flex-start}
 .sel-panel-wrap>.card{border-radius:15px;border-color:var(--border2)}
@@ -2329,7 +2367,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   /* IMPORTANT: only reset non-state hover styles, preserve .active/.blocked/.selected/.picked */
   .chip:hover:not(.sel),.course-card:hover:not(.selected),.btn:hover,
   .nav-item:hover:not(.active),.sel-item:hover,.pref-card:hover:not(.active),
-  .slot-chip:hover:not(.blocked),.faculty-chip:hover:not(.selected):not(.locked),
+  .slot-chip:hover:not(.blocked),.faculty-chip:hover:not(.selected):not(.locked):not(.excluded),
   .faculty-chip.dimmed:hover,
   .sec-row-item:hover,.fac-sec-item:hover,.fac-panel-close:hover,
   .fsi-lock-btn:hover,.sri-pin-btn:hover,.sec-toggle-btn:hover,
@@ -3560,7 +3598,8 @@ function lsSave() {
     Object.keys(State.selCourses).forEach(function(k) {
       snap.selCourses[k] = {
         facs: Array.from(State.selCourses[k].facs),
-        locked: Array.from(State.selCourses[k].locked)
+        locked: Array.from(State.selCourses[k].locked),
+        excluded: Array.from(State.selCourses[k].excluded || [])
       };
     });
     // Serialize pinnedSections
@@ -3596,8 +3635,9 @@ function lsLoad() {
     if (snap.selCourses) {
       Object.keys(snap.selCourses).forEach(function(k) {
         State.selCourses[k] = {
-          facs:   new Set(snap.selCourses[k].facs   || []),
-          locked: new Set(snap.selCourses[k].locked || [])
+          facs:     new Set(snap.selCourses[k].facs     || []),
+          locked:   new Set(snap.selCourses[k].locked   || []),
+          excluded: new Set(snap.selCourses[k].excluded || [])
         };
       });
     }
@@ -3976,6 +4016,7 @@ function buildMap() {
     var saved = State.selCourses[k];
     saved.facs = new Set(Array.from(saved.facs || []).filter(function(f) { return course.facs.has(f); }));
     saved.locked = new Set(Array.from(saved.locked || []).filter(function(f) { return course.facs.has(f) && saved.facs.has(f); }));
+    saved.excluded = new Set(Array.from(saved.excluded || []).filter(function(f) { return course.facs.has(f); }));
   });
   Object.keys(State.pinnedSections).forEach(function(k) {
     var course = State.cMap[k];
@@ -4122,27 +4163,39 @@ function buildGrid(append) {
     var facs    = Array.from(c.facs);
     var selF    = isSel ? State.selCourses[key].facs   : new Set();
     var locF    = isSel ? State.selCourses[key].locked : new Set();
+    var exclF   = isSel ? (State.selCourses[key].excluded || new Set()) : new Set();
     var isExpanded = State.expandedCards.has(key);
 
-    // Faculty chips — 3 states: unselected / selected (✓) / locked (🔒 Must have)
+    // Faculty chips — 4 states: unselected / preferred (✓) / locked (🔒 Must have) / excluded (🚫 Avoid)
     var facHtml;
     if (isSel) {
+      var summaryParts = [];
+      if (selF.size) summaryParts.push(selF.size + (locF.size ? ' (' + locF.size + ' locked)' : '') + ' preferred');
+      if (exclF.size) summaryParts.push(exclF.size + ' avoided');
+      var summaryText = summaryParts.length ? summaryParts.join(' · ') : 'Any faculty';
+      var anyActive = (selF.size === 0 && exclF.size === 0);
+
       facHtml = '<details class="fac-pref-details"'+(_openFacultyCards.has(key)?' open':'')+'><summary>Faculty preference · '+
-        (selF.size ? selF.size+' selected' : 'Any faculty')+'</summary><div class="faculty-list">' +
-        '<button type="button" class="faculty-chip'+(selF.size===0?' selected':'')+
-        '" data-fac="__any__" aria-pressed="'+(selF.size===0)+'" title="Any faculty — no preference">' +
-        (selF.size===0?'✓ ':'')+'Any Faculty</button>' +
+        esc(summaryText)+'</summary>' +
+        '<div style="font-size:9.5px;color:var(--text3);margin-top:4px;margin-bottom:2px">💡 Click: <span style="color:var(--accent)">✓ Prefer</span> → <span style="color:#fbbf24">🔒 Must Have</span> → <span style="color:var(--danger)">🚫 Avoid</span></div>' +
+        '<div class="faculty-list">' +
+        '<button type="button" class="faculty-chip'+(anyActive?' selected':'')+
+        '" data-fac="__any__" aria-pressed="'+anyActive+'" title="Allow any faculty — clear preferences and exclusions">' +
+        (anyActive?'✓ ':'')+'Any Faculty</button>' +
         facs.map(function(f) {
           var isSelf = selF.has(f);
           var isLock = locF.has(f);
-          var cls = 'faculty-chip' + (isSelf?' selected':'') + (isLock?' locked':'');
-          var tip = isLock
-            ? 'LOCKED (must have) — click to deselect'
-            : isSelf
-              ? 'PREFERRED — click again to LOCK · one more click to deselect'
-              : 'Click to prefer this faculty';
-          var icon = isLock ? '🔒 ' : (isSelf ? '✓ ' : '');
-          return '<button type="button" class="'+cls+'" data-fac="'+esc(f)+'" data-fackey="'+esc(key)+'" aria-pressed="'+(isSelf)+'" title="'+tip+'">'+icon+esc(f)+'</button>';
+          var isExcl = exclF.has(f);
+          var cls = 'faculty-chip' + (isExcl ? ' excluded' : (isLock ? ' locked' : (isSelf ? ' selected' : '')));
+          var tip = isExcl
+            ? 'EXCLUDED (Avoid) — click to reset to unselected'
+            : isLock
+              ? 'LOCKED (Must have) — click to EXCLUDE / AVOID'
+              : isSelf
+                ? 'PREFERRED — click to LOCK · click again to EXCLUDE'
+                : 'Click to prefer (' + esc(f) + ')';
+          var icon = isExcl ? '🚫 ' : (isLock ? '🔒 ' : (isSelf ? '✓ ' : ''));
+          return '<button type="button" class="'+cls+'" data-fac="'+esc(f)+'" data-fackey="'+esc(key)+'" aria-pressed="'+(isSelf||isLock)+'" title="'+tip+'">'+icon+esc(f)+'</button>';
         }).join('') +
       '</div></details>';
     } else {
@@ -4179,6 +4232,9 @@ function buildGrid(append) {
     if (facFilterActive) {
       filteredRows = c.rows.filter(function(r) { return selF.has(r.faculty); });
     }
+    if (isSel && exclF.size > 0) {
+      filteredRows = filteredRows.filter(function(r) { return !exclF.has(r.faculty); });
+    }
     if (State.pinnedSections[key].size > 0) {
       var seenIds = new Set(filteredRows.map(function(r) { return r.id; }));
       c.rows.forEach(function(r) {
@@ -4188,8 +4244,11 @@ function buildGrid(append) {
       });
     }
 
-    var filterNoteHtml = (facFilterActive && isExpanded)
-      ? '<div class="sec-filter-note">🎯 '+filteredRows.length+' of '+c.rows.length+' sections match selected faculty</div>'
+    var filterNotes = [];
+    if (facFilterActive) filterNotes.push(filteredRows.length + ' of ' + c.rows.length + ' sections match preferred faculty');
+    if (isSel && exclF.size > 0) filterNotes.push(exclF.size + ' faculty avoided');
+    var filterNoteHtml = (filterNotes.length && isExpanded)
+      ? '<div class="sec-filter-note">🎯 ' + filterNotes.join(' · ') + '</div>'
       : '';
 
     var secRowsHtml = '<div class="sec-rows-wrap'+(isExpanded?' open':'')+'" id="sec-rows-'+idx+'">';
@@ -4462,7 +4521,7 @@ function ensureCourseSelected(k) {
     toast('⛔ Credit limit! ' + current + '/' + MAX_CREDITS + ' cr — deselect a course first', 'error');
     return false;
   }
-  State.selCourses[k] = {facs:new Set(), locked:new Set()};
+  State.selCourses[k] = {facs:new Set(), locked:new Set(), excluded:new Set()};
   return true;
 }
 
@@ -4525,12 +4584,32 @@ function toggleCourse(k) {
 function selFac(k, f) {
   if (!State.selCourses[k]) return;
   var sc = State.selCourses[k];
-  if (f === '__any__') { sc.facs.clear(); sc.locked.clear(); }
-  else {
-    if (sc.facs.has(f)) {
-      if (sc.locked.has(f)) { sc.facs.delete(f); sc.locked.delete(f); }
-      else sc.locked.add(f);
-    } else { sc.facs.add(f); }
+  if (!sc.excluded) sc.excluded = new Set();
+  if (f === '__any__') {
+    sc.facs.clear();
+    sc.locked.clear();
+    sc.excluded.clear();
+    toast('✓ All faculty allowed for this course', 'info');
+  } else {
+    if (sc.excluded.has(f)) {
+      // State 3 -> State 0: Excluded -> Unselected (Reset)
+      sc.excluded.delete(f);
+      toast('Reset preference for ' + f, 'info');
+    } else if (sc.locked.has(f)) {
+      // State 2 -> State 3: Locked -> Excluded
+      sc.facs.delete(f);
+      sc.locked.delete(f);
+      sc.excluded.add(f);
+      toast('🚫 ' + f + ' excluded — sections will be avoided in all routines', 'info');
+    } else if (sc.facs.has(f)) {
+      // State 1 -> State 2: Preferred -> Locked
+      sc.locked.add(f);
+      toast('🔒 ' + f + ' locked (Must have)', 'info');
+    } else {
+      // State 0 -> State 1: Default -> Preferred
+      sc.facs.add(f);
+      toast('✓ ' + f + ' preferred', 'success');
+    }
   }
   buildGrid(); updateSelPanel(); lsSave();
 }
@@ -4582,8 +4661,17 @@ function updateSelPanel() {
   }
   panel.innerHTML = ks.map(function(k, i) {
     var c  = State.cMap[k]; if (!c) return '';
-    var sf = State.selCourses[k].facs, lf = State.selCourses[k].locked;
-    var ft = sf.size ? Array.from(sf).map(function(f) { return (lf.has(f)?'🔒':'')+f; }).join(', ') : 'Any Faculty';
+    var sf = State.selCourses[k].facs, lf = State.selCourses[k].locked, ef = State.selCourses[k].excluded || new Set();
+    var parts = [];
+    if (sf.size) {
+      parts.push(Array.from(sf).map(function(f) { return (lf.has(f)?'🔒 ':'')+f; }).join(', '));
+    } else {
+      parts.push('Any Faculty');
+    }
+    if (ef.size) {
+      parts.push('🚫 Avoid: ' + Array.from(ef).join(', '));
+    }
+    var ft = parts.join(' · ');
 
     // when courses are deleted rapidly (Object.keys() order can shift mid-operation)
     return '<div class="sel-item" data-key="'+esc(k)+'">' +
@@ -4971,8 +5059,15 @@ function validatePrefs() {
   // candidate rules as the generator so warnings cannot disagree with results.
   ks.forEach(function(k) {
     var c = State.cMap[k];
-    if (!c || !getCandidateRows(k).length)
-      impossible.push('<strong>' + esc(c ? (c.code || c.name) : k) + '</strong> — no section matches the current faculty lock, pin and blocked-time settings');
+    if (!c || !getCandidateRows(k).length) {
+      var sc = State.selCourses[k];
+      var isAllExcl = sc && sc.excluded && c && c.facs && Array.from(c.facs).every(function(f){ return sc.excluded.has(f); });
+      if (isAllExcl) {
+        impossible.push('<strong>' + esc(c ? (c.code || c.name) : k) + '</strong> — all faculties for this course are marked as avoided (🚫). Allow at least one faculty.');
+      } else {
+        impossible.push('<strong>' + esc(c ? (c.code || c.name) : k) + '</strong> — no section matches the current faculty lock, pin and blocked-time settings');
+      }
+    }
   });
 
   var restricted = [];
@@ -5090,6 +5185,7 @@ function getCandidateRows(k) {
   var pins = State.pinnedSections[k];
   if (pins && pins.size) rows = rows.filter(function(r) { return pins.has(sectionPinKey(r)); });
   if (sc.locked && sc.locked.size) rows = rows.filter(function(r) { return sc.locked.has(r.faculty); });
+  if (sc.excluded && sc.excluded.size) rows = rows.filter(function(r) { return !sc.excluded.has(r.faculty); });
   return rows.filter(function(r) { return !violatesSlot(r); });
 }
 
@@ -5248,7 +5344,7 @@ function generate() {
   State._activeSearchSelections = {};
   Object.keys(State.selCourses).forEach(function(k) {
     var selected = State.selCourses[k];
-    State._activeSearchSelections[k] = {facs:new Set(selected.facs),locked:new Set(selected.locked)};
+    State._activeSearchSelections[k] = {facs:new Set(selected.facs),locked:new Set(selected.locked),excluded:new Set(selected.excluded || [])};
   });
   _timeCache = {};
   _dayCache  = {};
@@ -5511,6 +5607,8 @@ function renderResults(cs, hasMore) {
       reasons.push('Max ' + State.P.days + ' days per week limit is active');
     var lockedCount = Object.values(State.selCourses).filter(function(v){ return v.locked && v.locked.size > 0; }).length;
     if (lockedCount > 0) reasons.push(lockedCount + ' course(s) have a locked faculty — combos without that faculty are excluded');
+    var excludedCount = Object.values(State.selCourses).filter(function(v){ return v.excluded && v.excluded.size > 0; }).length;
+    if (excludedCount > 0) reasons.push(excludedCount + ' course(s) have avoided faculty (🚫) — sections with those faculty are omitted');
 
     var reasonHtml = reasons.length
       ? '<ul style="margin:8px 0 0 0;padding:0;list-style:none;font-size:12px;color:var(--text3)">' +
@@ -6752,7 +6850,8 @@ $('btn-share-link').addEventListener('click', function() {
         return {
           k: k,
           facs: Array.from(State.selCourses[k].facs),
-          locked: Array.from(State.selCourses[k].locked)
+          locked: Array.from(State.selCourses[k].locked),
+          excluded: Array.from(State.selCourses[k].excluded || [])
         };
       })
     };
@@ -7300,7 +7399,7 @@ function mcGenerate() {
   State.selCourses = {};
   ManualState.courses.forEach(function(course) {
     var k = course.code + '||' + course.name + '||' + course.type;
-    State.selCourses[k] = { facs: new Set(), locked: new Set() };
+    State.selCourses[k] = { facs: new Set(), locked: new Set(), excluded: new Set() };
     // If any section has a faculty, collect unique faculties and pre-select them
     var facSet = new Set();
     course.sections.forEach(function(sec) { if (sec.faculty) facSet.add(sec.faculty); });
@@ -7542,8 +7641,9 @@ lsLoad(); // restore persisted state
     if (shareData.courses && shareData.courses.length) {
       shareData.courses.forEach(function(item) {
         State.selCourses[item.k] = {
-          facs:   new Set(item.facs   || []),
-          locked: new Set(item.locked || [])
+          facs:     new Set(item.facs     || []),
+          locked:   new Set(item.locked   || []),
+          excluded: new Set(item.excluded || [])
         };
       });
     }
