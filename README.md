@@ -5,7 +5,7 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20App-sectionlagbe.netlify.app-22c55e?style=for-the-badge&logo=netlify&logoColor=white)](https://sectionlagbe.netlify.app/)
 [![UIU Semester](https://img.shields.io/badge/UIU-Fall%202026-10b981?style=for-the-badge)](https://sectionlagbe.netlify.app/)
-[![Department](https://img.shields.io/badge/Dept-BSCSE%20%7C%20BSDS-38bdf8?style=for-the-badge)](https://sectionlagbe.netlify.app/)
+[![Department](https://img.shields.io/badge/Dept-CSE%20%26%20DS-38bdf8?style=for-the-badge)](https://sectionlagbe.netlify.app/)
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20JS)-f59e0b?style=for-the-badge)](https://sectionlagbe.netlify.app/)
 [![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)](LICENSE)
 
@@ -23,9 +23,9 @@
 
 | Feature | Description |
 | :--- | :--- |
-| ⚡ **Preloaded Schedule** | Bundled with official **UIU Fall 2026** course offering (790+ sections across **BSCSE** and **BSDS**). |
+| ⚡ **Preloaded Schedule** | Bundled with official **UIU Fall 2026** course offering (790+ sections across **CSE** and **DS**). |
 | 🎯 **Instant Conflict Resolution** | Real-time combinatorial search engine tests thousands of permutations to find clash-free routine options. |
-| 🧬 **BSDS & BSCSE Separation** | Data Science courses and specialized sections (`BA`, `BB`, etc.) are clearly tagged and segregated from CSE sections. |
+| 🧬 **DS & CSE Separation** | Data Science courses and specialized sections (`BA`, `BB`, etc.) are clearly tagged and segregated from CSE sections. |
 | 🔒 **Faculty Preference, Lock & Avoid** | Prefer (✓), must-have lock (🔒), or completely avoid/exclude (🚫) unwanted faculty sections from routines. |
 | ⏳ **Personalized Routine Preferences** | Specify max days per week, early morning vs afternoon classes, gap minimization, and blocked slots (prayer/break times). |
 | 📊 **18-Credit Limit Guard** | Real-time credit summation based on verified course catalog values to avoid over/under advising. |

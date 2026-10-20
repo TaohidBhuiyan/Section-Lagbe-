@@ -3239,12 +3239,12 @@ td input:focus,td select:focus{border-color:var(--accent)}
         <div class="page-sub">Build your conflict-free class routine in seconds</div>
       </div>
 
-      <div class="upload-hero" id="mode-card-preloaded" role="button" tabindex="0" aria-label="Use preloaded UIU CSE and BSDS Fall 2026 data">
+      <div class="upload-hero" id="mode-card-preloaded" role="button" tabindex="0" aria-label="Use preloaded UIU CSE and DS Fall 2026 data">
         <div class="upload-hero-glow"></div>
         <div class="upload-hero-left">
           <div class="upload-hero-badge" id="preloaded-badge">⚡ Ready to use</div>
-          <div class="upload-hero-title">UIU · CSE &amp; BSDS · Fall 2026</div>
-          <div class="upload-hero-desc">Data already loaded (BSCSE &amp; BSDS) — jump straight in. No file needed.</div>
+          <div class="upload-hero-title">UIU · CSE &amp; DS · Fall 2026</div>
+          <div class="upload-hero-desc">Data already loaded (CSE &amp; DS) — jump straight in. No file needed.</div>
           <div id="preloaded-updated" style="font-size:11px;color:var(--text3);margin-top:4px;opacity:0.75">🕐 Data updated: <span id="preloaded-updated-time">—</span> · Source: Official Department Notice</div>
           <div class="upload-hero-steps">
             <span class="uhs-step">① Pick courses</span>
@@ -3391,7 +3391,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
 
           <h2 class="rpn-title">No Review Needed for Pre-loaded Data</h2>
           <p class="rpn-desc">
-            You are using the official verified course routine for <strong>UIU · CSE &amp; BSDS (Fall 2026)</strong>.
+            You are using the official verified course routine for <strong>UIU · CSE &amp; DS (Fall 2026)</strong>.
             All course codes, sections, class timings, faculties, and room numbers are already verified and conflict-free.
           </p>
 
@@ -3784,7 +3784,7 @@ var DAY_MAP  = {sat:'Sat',saturday:'Sat',sun:'Sun',sunday:'Sun',tue:'Tue',tuesda
 
 // Update this for each new semester — used in export headers, footers, and page titles
 var SEMESTER = 'Fall 2026';
-var UNIVERSITY = 'UIU · CSE & BSDS';
+var UNIVERSITY = 'UIU · CSE & DS';
 
 var TLS = 8*60, TLE = 16*60+30, TLSP = TLE-TLS;
 
@@ -4623,7 +4623,7 @@ function buildGrid(append) {
             '<span class="cc-code">'+esc(c.code)+'</span>' +
             '<span class="badge '+(c.type==='Lab'?'badge-lab':'badge-theory')+'">'+(c.type==='Lab'?'🔬':'📖')+' '+c.type+'</span>' +
             '<span class="badge" style="background:rgba(99,102,241,0.12);color:#818cf8;border:1px solid rgba(99,102,241,0.25);font-size:9.5px">'+(getCourseCredit(c.code,c.type) == null ? '? cr' : getCourseCredit(c.code,c.type)+' cr')+'</span>' +
-            (c.name.includes('(BSDS)') ? '<span class="badge" style="background:rgba(236,72,153,0.15);color:#f472b6;border:1px solid rgba(236,72,153,0.3);font-size:9.5px;font-weight:700">BSDS</span>' : '') +
+            (c.name.includes('(BSDS)') ? '<span class="badge" style="background:rgba(236,72,153,0.15);color:#f472b6;border:1px solid rgba(236,72,153,0.3);font-size:9.5px;font-weight:700">DS</span>' : '') +
           '</div>' +
           '<div class="cc-name">'+esc(c.name||'Unnamed')+'</div>' +
         '</div>' +
