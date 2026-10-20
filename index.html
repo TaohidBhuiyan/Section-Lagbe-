@@ -2805,34 +2805,42 @@ td input:focus,td select:focus{border-color:var(--accent)}
 /* Routine timetable polish: clearer hierarchy with paint-only, low-cost styles. */
 #page-results .tt-wrap{
   padding:16px 18px 20px;
-  background:linear-gradient(180deg,#f7faf7 0%,#f2f6f2 100%);
   border-top:1px solid var(--border);
 }
 #page-results .ht-grid{
-  border:1px solid #d5dfd4;
   border-radius:15px;
-  background:#fff;
-  box-shadow:0 5px 18px rgba(23,55,32,.07);
 }
 #page-results .ht-header-wrap{
   min-height:44px;
-  background:linear-gradient(180deg,#f1f8f2 0%,#eaf3eb 100%);
-  border-bottom:1px solid #d5dfd4;
   box-shadow:none;
 }
-#page-results .ht-corner{color:#64806a}
-#page-results .ht-tick{color:#58745e;opacity:.92}
-#page-results .ht-row{min-height:76px;border-bottom-color:#e4ebe3}
-#page-results .ht-day{border-right-color:#dce6dc;background:#f7faf7}
-#page-results .ht-day.has-class{background:#edf6ee}
+#page-results .ht-row{min-height:76px}
 #page-results .ht-timeline{min-height:76px}
-#page-results .ht-gl{background:#dbe5dc;opacity:.42}
-#page-results .ht-gl.hour{opacity:.62}
-#page-results .ht-empty-msg{color:#718875;opacity:.72}
 @media(max-width:640px){
   #page-results .tt-wrap{padding:8px 0 12px}
   #page-results .ht-row,#page-results .ht-timeline{min-height:58px}
 }
+
+[data-theme="light"] #page-results .tt-wrap{
+  background:linear-gradient(180deg,#f7faf7 0%,#f2f6f2 100%);
+}
+[data-theme="light"] #page-results .ht-grid{
+  border:1px solid #d5dfd4;
+  background:#fff;
+  box-shadow:0 5px 18px rgba(23,55,32,.07);
+}
+[data-theme="light"] #page-results .ht-header-wrap{
+  background:linear-gradient(180deg,#f1f8f2 0%,#eaf3eb 100%);
+  border-bottom:1px solid #d5dfd4;
+}
+[data-theme="light"] #page-results .ht-corner{color:#64806a}
+[data-theme="light"] #page-results .ht-tick{color:#58745e;opacity:.92}
+[data-theme="light"] #page-results .ht-row{border-bottom-color:#e4ebe3}
+[data-theme="light"] #page-results .ht-day{border-right-color:#dce6dc;background:#f7faf7}
+[data-theme="light"] #page-results .ht-day.has-class{background:#edf6ee}
+[data-theme="light"] #page-results .ht-gl{background:#dbe5dc;opacity:.42}
+[data-theme="light"] #page-results .ht-gl.hour{opacity:.62}
+[data-theme="light"] #page-results .ht-empty-msg{color:#718875;opacity:.72}
 
 /* Mobile-only usability fixes. Keep desktop layout and exports unchanged. */
 .gap-zero-mobile{display:none}
@@ -2922,9 +2930,223 @@ td input:focus,td select:focus{border-color:var(--accent)}
   .gap-zero-mobile{display:inline!important}
 }
 
+
+/* Preloaded Notice State on Review Page */
+.review-preloaded-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0 24px;
+  width: 100%;
+}
+.rpn-card {
+  width: 100%;
+  max-width: 720px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  transition: border-color .2s, box-shadow .2s;
+}
+[data-theme="light"] .rpn-card {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border-color: var(--border2);
+}
+.rpn-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.rpn-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.rpn-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(34,197,94,0.12);
+  color: var(--accent);
+  border: 1px solid rgba(34,197,94,0.3);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.rpn-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: rpnPulse 2s infinite ease-in-out;
+}
+@keyframes rpnPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+.rpn-icon-box {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1.5px solid var(--border2);
+  margin-bottom: 18px;
+}
+.rpn-icon {
+  font-size: 32px;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+.rpn-glow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.rpn-title {
+  font-size: 23px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.4px;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+.rpn-desc {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 580px;
+  margin: 0 auto 22px;
+}
+.rpn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+  text-align: left;
+}
+.rpn-info-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: border-color .2s;
+}
+.rpn-info-card.highlight {
+  border-color: rgba(34,197,94,0.3);
+  background: linear-gradient(180deg, var(--surface2), rgba(34,197,94,0.04));
+}
+.rpn-info-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.rpn-info-icon {
+  font-size: 16px;
+}
+.rpn-info-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.rpn-info-text {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.55;
+  margin: 0;
+}
+.rpn-info-text strong {
+  color: var(--text2);
+}
+.rpn-bengali-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(34,197,94,0.07);
+  border: 1px solid rgba(34,197,94,0.22);
+  border-radius: 11px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+[data-theme="light"] .rpn-bengali-callout {
+  background: rgba(46,125,56,0.06);
+  border-color: rgba(46,125,56,0.2);
+}
+.rpn-bn-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rpn-bn-text {
+  font-size: 12.5px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.rpn-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rpn-btn-primary {
+  padding: 11px 24px !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 12px rgba(34,197,94,0.25) !important;
+}
+.rpn-btn-secondary {
+  padding: 11px 20px !important;
+  font-size: 13px !important;
+}
+@media (max-width: 680px) {
+  .rpn-card {
+    padding: 24px 16px;
+  }
+  .rpn-title {
+    font-size: 19px;
+  }
+  .rpn-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .rpn-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .rpn-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 </style>
 </head>
 <body data-theme="light">
+<script>try{var t=localStorage.getItem('scht');if(t){document.body.setAttribute('data-theme',t);document.documentElement.setAttribute('data-theme',t);}}catch(e){}</script>
 
 <div class="mob-topbar" id="mob-topbar">
   <div class="mob-logo">
@@ -3143,7 +3365,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
       <div class="review-header">
         <div>
           <div class="page-title">Review &amp; Edit ✏️</div>
-          <div class="page-sub">Check your data before continuing — edit inline if anything looks off</div>
+          <div class="page-sub" id="review-sub">Check your data before continuing — edit inline if anything looks off</div>
         </div>
         <div class="review-actions">
           <button class="btn btn-ghost btn-sm" id="btn-reupload">← Re-upload</button>
@@ -3151,7 +3373,70 @@ td input:focus,td select:focus{border-color:var(--accent)}
           <button class="btn btn-primary btn-sm" id="btn-to-select">Continue to Courses →</button>
         </div>
       </div>
-      <div class="card table-card" style="padding:0;overflow:hidden">
+
+      <!-- Preloaded Notice State: Shown when using official preloaded data -->
+      <div id="review-preloaded-notice" class="review-preloaded-container" style="display:none">
+        <div class="rpn-card">
+          <div class="rpn-badge-wrap">
+            <span class="rpn-badge">
+              <span class="rpn-badge-dot"></span>
+              Pre-loaded Dataset Active · UIU Fall 2026
+            </span>
+          </div>
+
+          <div class="rpn-icon-box">
+            <div class="rpn-icon">🛡️</div>
+            <div class="rpn-glow"></div>
+          </div>
+
+          <h2 class="rpn-title">No Review Needed for Pre-loaded Data</h2>
+          <p class="rpn-desc">
+            You are using the official verified course routine for <strong>UIU · CSE &amp; BSDS (Fall 2026)</strong>.
+            All course codes, sections, class timings, faculties, and room numbers are already verified and conflict-free.
+          </p>
+
+          <div class="rpn-grid">
+            <div class="rpn-info-card">
+              <div class="rpn-info-header">
+                <span class="rpn-info-icon">📋</span>
+                <span class="rpn-info-title">What is this page for?</span>
+              </div>
+              <p class="rpn-info-text">
+                This <strong>Review &amp; Edit</strong> table is designed specifically for <strong>custom uploaded files</strong> (Excel/CSV). It lets students edit columns, rename sections, or fix errors before generating routines.
+              </p>
+            </div>
+
+            <div class="rpn-info-card highlight">
+              <div class="rpn-info-header">
+                <span class="rpn-info-icon">⚡</span>
+                <span class="rpn-info-title">Want to edit custom data?</span>
+              </div>
+              <p class="rpn-info-text">
+                If you have a custom schedule file or a routine from another department, upload it from the <strong>Upload / Entry</strong> tab to view and edit every row here.
+              </p>
+            </div>
+          </div>
+
+          <div class="rpn-bengali-callout">
+            <div class="rpn-bn-tag">💡 সহজে মনে রাখুন</div>
+            <div class="rpn-bn-text">
+              প্রি-লোডেড ডেটা ইতোমধ্যে সম্পূর্ণ রেডি ও ভেরিফাইড করা আছে, তাই এখানে কোনো তথ্য ম্যানুয়ালি এডিট করার প্রয়োজন নেই। আলাদাভাবে নিজস্ব <strong>Excel বা CSV ফাইল আপলোড করলে</strong> কেবল এই পেইজে ডেটা পরিবর্তন করতে পারবেন।
+            </div>
+          </div>
+
+          <div class="rpn-actions">
+            <button class="btn btn-primary rpn-btn-primary" id="btn-preloaded-to-select">
+              Continue to Select Courses →
+            </button>
+            <button class="btn btn-ghost rpn-btn-secondary" id="btn-preloaded-to-upload">
+              📁 Upload Custom File (Excel / CSV)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Upload Table: Shown when user uploads a custom file -->
+      <div class="card table-card" id="review-table-card" style="padding:0;overflow:hidden">
         <div class="table-wrap" style="max-height:65vh;overflow-y:auto">
           <table><thead><tr><th>Type</th><th>Course Code</th><th>Course Title</th><th>Section</th><th>Day(s)</th><th>Time</th><th>Faculty</th><th>Room</th><th></th></tr></thead>
           <tbody id="review-tbody"></tbody></table>
@@ -3738,6 +4023,33 @@ function applyTheme(t) {
 }
 function toggleTheme() { applyTheme(State.theme === 'dark' ? 'light' : 'dark'); }
 
+function updateReviewPageState() {
+  var isPreloaded = (_sourceMode === 'preloaded');
+  var preloadedNotice = $('review-preloaded-notice');
+  var tableCard = $('review-table-card');
+  var sub = $('review-sub');
+  var btnAddRow = $('btn-addrow');
+  var btnReupload = $('btn-reupload');
+
+  if (isPreloaded) {
+    if (preloadedNotice) preloadedNotice.style.display = 'flex';
+    if (tableCard) tableCard.style.display = 'none';
+    if (sub) sub.textContent = 'Pre-loaded university dataset is active — no manual review or edits needed.';
+    if (btnAddRow) btnAddRow.style.display = 'none';
+    if (btnReupload) btnReupload.textContent = '← Upload Custom File';
+  } else {
+    if (preloadedNotice) preloadedNotice.style.display = 'none';
+    if (tableCard) tableCard.style.display = 'block';
+    if (sub) sub.textContent = 'Check your data before continuing — edit inline if anything looks off';
+    if (btnAddRow) btnAddRow.style.display = '';
+    if (btnReupload) btnReupload.textContent = '← Re-upload';
+    var tb = $('review-tbody');
+    if (tb && !tb.children.length && State.rows.length) {
+      renderTable();
+    }
+  }
+}
+
 function go(p, fromPopState) {
   if (State._isGenerating && p !== 'results') {
     toast('Routine generation is running. Cancel it before leaving this page.','info');
@@ -3775,6 +4087,7 @@ function go(p, fromPopState) {
   } catch(e) {}
 
   // Defer heavy work — let browser paint the page first
+  if (p === 'review') updateReviewPageState();
   if (p === 'select') setTimeout(function() { buildGrid(); }, 16);
   if (p === 'prefs')  setTimeout(function() { syncSlotChips(); validatePrefs(); updateLiveCount(); }, 16);
 }
@@ -3799,6 +4112,7 @@ window.addEventListener('popstate', function(e) {
   });
   $('main').scrollTop = 0;
   try { document.dispatchEvent(new CustomEvent('pageChanged', {detail: page})); } catch(e) {}
+  if (page === 'review') updateReviewPageState();
   if (page === 'select') setTimeout(function() { buildGrid(); }, 16);
   if (page === 'prefs')  setTimeout(function() { syncSlotChips(); validatePrefs(); updateLiveCount(); }, 16);
 });
@@ -3903,6 +4217,7 @@ function procFile(file) {
                 throw new Error('Could not read a day or time in ' + badRows.length + ' row(s) (Excel row(s): ' + examples + '). Use Day + Time columns, Day 1/Time 1 columns, or a Schedule column such as “Sat 8:30 AM - 9:50 AM”.');
               }
               resetResultsForDatasetChange();
+              _sourceMode = 'upload';
               State.rows = parsedRows;
               buildMap();
               updatePrefBtn(); updateCreditBar();
@@ -6776,9 +7091,36 @@ $('file-input').addEventListener('click', function() { this.value = ''; });
 $('file-input').addEventListener('change', handleFile);
 
 // Review page
-$('btn-reupload').addEventListener('click', function() { go('upload'); });
+$('btn-reupload').addEventListener('click', function() {
+  go('upload');
+  if (_sourceMode === 'preloaded') {
+    var card = $('upload-sec-card');
+    if (card) {
+      setTimeout(function() {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }
+});
 $('btn-addrow').addEventListener('click', addRow);
 $('btn-to-select').addEventListener('click', function() { go('select'); });
+
+var btnPreToSelect = $('btn-preloaded-to-select');
+if (btnPreToSelect) {
+  btnPreToSelect.addEventListener('click', function() { go('select'); });
+}
+var btnPreToUpload = $('btn-preloaded-to-upload');
+if (btnPreToUpload) {
+  btnPreToUpload.addEventListener('click', function() {
+    go('upload');
+    var card = $('upload-sec-card');
+    if (card) {
+      setTimeout(function() {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  });
+}
 
 // Select page
 $('btn-back-review').addEventListener('click', function() { go('review'); });
