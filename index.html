@@ -450,7 +450,7 @@ td input:focus,td select:focus{border-color:var(--accent)}
   font-size:9px;font-weight:700;color:var(--accent);
 }
 .pref-card:focus-visible,.slot-chip:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.pref-card:disabled,.pref-card.pref-unavailable{opacity:.7;cursor:not-allowed;box-shadow:none}
+.pref-card:disabled,.pref-card.pref-unavailable,.pref-card[aria-disabled="true"]{opacity:.7;cursor:not-allowed;box-shadow:none}
 .slot-chip{font:inherit;font-family:'JetBrains Mono',monospace}
 .slot-chip[aria-pressed="true"]{box-shadow:inset 0 0 0 1px rgba(239,68,68,.12)}
 .pref-emoji{font-size:25px;line-height:1.15;margin:0 0 3px;display:block}
@@ -5113,7 +5113,7 @@ function syncPrefCards() {
     var type = grid.id === 'time-pref-grid' ? 'time' : (grid.id === 'days-pref-grid' ? 'days' : 'sort');
     grid.querySelectorAll('.pref-card').forEach(function(card) {
       var unavailable = type === 'sort' && State.P.time === 'any' && card.dataset.val !== 'gap';
-      card.disabled = unavailable;
+      card.setAttribute('aria-disabled', String(unavailable));
       card.classList.toggle('pref-unavailable', unavailable);
       card.classList.toggle('active', card.dataset.val === selected[type]);
       card.setAttribute('aria-checked', String(card.dataset.val === selected[type]));
@@ -5140,12 +5140,35 @@ function choosePrefCard(card) {
 document.querySelectorAll('#time-pref-grid, #days-pref-grid, #sort-pref-grid').forEach(function(grid) {
   grid.addEventListener('click', function(e) {
     var card = e.target.closest('.pref-card');
-    if (!card || card.disabled || card.classList.contains('pref-invalid')) return;
+    if (!card) return;
+    if (card.disabled || card.classList.contains('pref-unavailable') || card.getAttribute('aria-disabled') === 'true') {
+      if (card.dataset.type === 'sort' && State.P.time === 'any') {
+        toast('Choose "Morning" or "Afternoon" under Preferred class time first', 'info');
+        var timeGrid = $('time-pref-grid');
+        if (timeGrid) {
+          timeGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          var timeCard = timeGrid.closest('.card');
+          if (timeCard) {
+            timeCard.style.transition = 'outline 0.2s, box-shadow 0.2s';
+            timeCard.style.outline = '2px solid var(--accent)';
+            timeCard.style.boxShadow = '0 0 16px var(--neon-glow)';
+            setTimeout(function() {
+              timeCard.style.outline = 'none';
+              timeCard.style.boxShadow = '';
+            }, 1800);
+          }
+        }
+      }
+      return;
+    }
+    if (card.classList.contains('pref-invalid')) return;
     choosePrefCard(card);
   });
   grid.addEventListener('keydown', function(e) {
     if (!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)) return;
-    var enabled = Array.prototype.filter.call(grid.querySelectorAll('.pref-card'), function(c) { return !c.disabled; });
+    var enabled = Array.prototype.filter.call(grid.querySelectorAll('.pref-card'), function(c) {
+      return !c.disabled && c.getAttribute('aria-disabled') !== 'true' && !c.classList.contains('pref-unavailable');
+    });
     if (!enabled.length) return;
     var idx = enabled.indexOf(document.activeElement);
     if (e.key === 'Home') idx = 0;
